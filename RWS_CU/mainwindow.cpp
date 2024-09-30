@@ -420,7 +420,6 @@ void MainWindow::processKeyBoardEvent(int key)
     }
     else if(key == Qt::Key_F2){
 
-
         this->on_bt_f_2_clicked();
         this->ui->frame_gui->show();
     }

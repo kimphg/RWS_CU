@@ -550,7 +550,7 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(frame_4->sizePolicy().hasHeightForWidth());
         frame_4->setSizePolicy(sizePolicy1);
-        frame_4->setStyleSheet(QString::fromUtf8("color:white; background-color: rgba(114,129,119,100);"));
+        frame_4->setStyleSheet(QString::fromUtf8("color:white; background-color: rgba(2,38,43,255);"));
         frame_4->setFrameShape(QFrame::NoFrame);
         verticalLayout_2 = new QVBoxLayout(frame_4);
         verticalLayout_2->setSpacing(3);
@@ -562,7 +562,7 @@ public:
         sizePolicy.setHeightForWidth(bt_f_1->sizePolicy().hasHeightForWidth());
         bt_f_1->setSizePolicy(sizePolicy);
         QIcon icon;
-        icon.addFile(QString::fromUtf8("icons/gun.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8("icons/m11.jpg"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_1->setIcon(icon);
         bt_f_1->setIconSize(QSize(64, 64));
         bt_f_1->setCheckable(true);
@@ -575,7 +575,7 @@ public:
         sizePolicy.setHeightForWidth(bt_f_2->sizePolicy().hasHeightForWidth());
         bt_f_2->setSizePolicy(sizePolicy);
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8("icons/camera-recorder.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8("icons/m12.jpg"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_2->setIcon(icon1);
         bt_f_2->setIconSize(QSize(64, 64));
         bt_f_2->setCheckable(true);
@@ -588,7 +588,7 @@ public:
         sizePolicy.setHeightForWidth(bt_f_3->sizePolicy().hasHeightForWidth());
         bt_f_3->setSizePolicy(sizePolicy);
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8("icons/target.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8("icons/m13.jpg"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_3->setIcon(icon2);
         bt_f_3->setIconSize(QSize(64, 64));
         bt_f_3->setCheckable(true);
@@ -601,7 +601,7 @@ public:
         sizePolicy.setHeightForWidth(bt_f_4->sizePolicy().hasHeightForWidth());
         bt_f_4->setSizePolicy(sizePolicy);
         QIcon icon3;
-        icon3.addFile(QString::fromUtf8("icons/control.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QString::fromUtf8("icons/m14.jpg"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_4->setIcon(icon3);
         bt_f_4->setIconSize(QSize(64, 64));
         bt_f_4->setCheckable(true);
@@ -614,7 +614,7 @@ public:
         sizePolicy.setHeightForWidth(bt_f_5->sizePolicy().hasHeightForWidth());
         bt_f_5->setSizePolicy(sizePolicy);
         QIcon icon4;
-        icon4.addFile(QString::fromUtf8("icons/tracker.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QString::fromUtf8("icons/m15.jpg"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_5->setIcon(icon4);
         bt_f_5->setIconSize(QSize(64, 64));
         bt_f_5->setCheckable(true);
@@ -627,7 +627,7 @@ public:
         sizePolicy.setHeightForWidth(bt_f_6->sizePolicy().hasHeightForWidth());
         bt_f_6->setSizePolicy(sizePolicy);
         QIcon icon5;
-        icon5.addFile(QString::fromUtf8("icons/application-settings.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon5.addFile(QString::fromUtf8("icons/m16.jpg"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_6->setIcon(icon5);
         bt_f_6->setIconSize(QSize(64, 64));
         bt_f_6->setCheckable(true);

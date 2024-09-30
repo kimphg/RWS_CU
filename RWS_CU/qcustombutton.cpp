@@ -1,7 +1,7 @@
 #include "qcustombutton.h"
 static QColor color1 = QColor(179,188,182);
 static QColor color2 = QColor(162,172,165);
-static QColor color3 = QColor(114,129,119);
+static QColor color3 = QColor(2,38,43);
 static QColor color4 = QColor(69,78,72);
 QCustomButton::QCustomButton(QWidget *parent) : QToolButton(parent)
 {
@@ -32,7 +32,7 @@ void QCustomButton::highLight(bool isHighLight)
 {
     if(isHighLight)setStyleSheet("\
                     QCustomButton {   \
-                        color:white; background-color: rgb(114,129,119);   \
+                        color:white; background-color: rgb(2,38,43);   \
                     }   \
                     QCustomButton:checked{\
                         color:white; background-color: rgb(179,188,182);\
@@ -50,7 +50,7 @@ void QCustomButton::resetView()
     //this->setStyleSheet("background-color: rgb(16, 32, 64);color:rgb(255, 255, 255);");
     setStyleSheet("\
                     QCustomButton {   \
-                        color:white; background-color: rgba(32, 72, 72,120);   \
+                        color:white; background-color: rgb(2,38,43);   \
                     }   \
                     QCustomButton:checked{\
                         color:white; background-color: rgba(69,78,72,150);\

@@ -631,7 +631,7 @@ p, li { white-space: pre-wrap; }
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">color:white; background-color: rgba(114,129,119,100);</string>
+      <string notr="true">color:white; background-color: rgba(2,38,43,255);</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
@@ -665,7 +665,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/gun.png</normaloff>icons/gun.png</iconset>
+          <normaloff>icons/m11.jpg</normaloff>icons/m11.jpg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -694,7 +694,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/camera-recorder.png</normaloff>icons/camera-recorder.png</iconset>
+          <normaloff>icons/m12.jpg</normaloff>icons/m12.jpg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -723,7 +723,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/target.png</normaloff>icons/target.png</iconset>
+          <normaloff>icons/m13.jpg</normaloff>icons/m13.jpg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -752,7 +752,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/control.png</normaloff>icons/control.png</iconset>
+          <normaloff>icons/m14.jpg</normaloff>icons/m14.jpg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -781,7 +781,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/tracker.png</normaloff>icons/tracker.png</iconset>
+          <normaloff>icons/m15.jpg</normaloff>icons/m15.jpg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -810,7 +810,7 @@ p, li { white-space: pre-wrap; }
         </property>
         <property name="icon">
          <iconset>
-          <normaloff>icons/application-settings.png</normaloff>icons/application-settings.png</iconset>
+          <normaloff>icons/m16.jpg</normaloff>icons/m16.jpg</iconset>
         </property>
         <property name="iconSize">
          <size>
