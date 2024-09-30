@@ -109,3 +109,10 @@ win32 {
 DESTDIR = $$PWD/bin
 QMAKE_POST_LINK =  "C:/Qt/Qt5.14.2/5.14.2/msvc2017_64/bin/windeployqt.exe" $$shell_path($$DESTDIR/$${TARGET}.exe)
 }
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64d
+else:unix: LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
+
+INCLUDEPATH += $$PWD/AverCap
+DEPENDPATH += $$PWD/AverCap
