@@ -1,6 +1,8 @@
 #include <windows.h>
 
-IDI_ICON1	ICON	DISCARDABLE	"C:\\Users\\HuynhPhanNgocKhang\\Documents\\GitHub\\RWS_CU\\RWS_CU\\icon.ico"
+HEAD:build-RWS_CU-Desktop_Qt_5_14_2_MSVC2017_32bit-Debug/VideoGrab_resource.rc
+
+IDI_ICON1	ICON	DISCARDABLE	"C:\\Users\\Phuong\\Documents\\GitHub\\RWS_CU\\RWS_CU\\icon.ico"
 
 VS_VERSION_INFO VERSIONINFO
 	FILEVERSION 0,0,0,0
