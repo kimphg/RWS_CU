@@ -1,0 +1,44 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/DAY SIGHT 1.png</file>
+        <file>images/DAY SIGHT 2.png</file>
+        <file>images/IR SIGHT 1.png</file>
+        <file>images/IR SIGHT 2.png</file>
+        <file>images/RANGING 1.png</file>
+        <file>images/RANGING 2.png</file>
+        <file>images/WEAPON 1.png</file>
+        <file>images/WEAPON 2.png</file>
+        <file>images/CALIBRATION 1.png</file>
+        <file>images/CALIBRATION 2.png</file>
+        <file>images/SYSTEM 1.png</file>
+        <file>images/SYSTEM 2.png</file>
+        <file>images/AUTO FOCUS 1.png</file>
+        <file>images/AUTO FOCUS 2.png</file>
+        <file>images/CONG 1.png</file>
+        <file>images/CONG 2.png</file>
+        <file>images/FOCUS FAR 1.png</file>
+        <file>images/FOCUS_FAR_2.png</file>
+        <file>images/NEXT 1.png</file>
+        <file>images/NEXT_2.png</file>
+        <file>images/TRU 1.png</file>
+        <file>images/TRU 2.png</file>
+        <file>images/FOCUS NEAR 1.png</file>
+        <file>images/FOCUS NEAR 2.png</file>
+        <file>images/BRIGHTNESS 1.png</file>
+        <file>images/BRIGHTNESS CONG 2.png</file>
+        <file>images/BRIGHTNESS TRU 1.png</file>
+        <file>images/BRIGHTNESS TRU 2.png</file>
+        <file>images/CONTRAST CONG  1.png</file>
+        <file>images/CONTRAST CONG 2.png</file>
+        <file>images/CONTRAST TRU 1.png</file>
+        <file>images/CONTRAST TRU 2.png</file>
+        <file>images/GAIN MODES 1.png</file>
+        <file>images/GAIN MODES 2.png</file>
+        <file>images/EDGE 1.png</file>
+        <file>images/EDGE 2.png</file>
+        <file>images/ON 1.png</file>
+        <file>images/ON 2.png</file>
+        <file>images/STABILIZATION 1.png</file>
+        <file>images/STABILIZATION 2.png</file>
+    </qresource>
+</RCC>
