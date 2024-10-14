@@ -36,6 +36,7 @@ SOURCES += main.cpp\
     UsbDevice.cpp \
     qcustombutton.cpp \
     qcustomslider.cpp \
+    video_window.cpp \
     videostab.cpp
 #LIBS += "AVerCapAPI.lib"
 LIBS += "AVerCapAPI_x64.lib"
@@ -58,6 +59,7 @@ HEADERS  += \
     UsbDevice.h \
     qcustombutton.h \
     qcustomslider.h \
+    video_window.h \
     videostab.h
 
 FORMS    += mainwindow.ui \

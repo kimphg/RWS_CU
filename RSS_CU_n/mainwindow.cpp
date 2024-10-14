@@ -1109,7 +1109,6 @@ void MainWindow::updateData()
             frame = cv::imdecode(cv::Mat(1, videoBuff.length(), CV_8UC1, videoBuff.data()), CV_LOAD_IMAGE_UNCHANGED);
             if(!frame.empty())
             {
-
                 frameCount++;
                 if(recorder.isOpened())
                     recorder.write(frame);

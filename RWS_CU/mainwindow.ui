@@ -1532,6 +1532,16 @@ p, li { white-space: pre-wrap; }
       </widget>
      </widget>
     </widget>
+    <widget class="video_window" name="widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>160</y>
+       <width>751</width>
+       <height>451</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="frame_5">
     <property name="geometry">
@@ -2027,6 +2037,12 @@ p, li { white-space: pre-wrap; }
    <class>QCustomSlider</class>
    <extends>QSlider</extends>
    <header location="global">qcustomslider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>video_window</class>
+   <extends>QWidget</extends>
+   <header location="global">video_window.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

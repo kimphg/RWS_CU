@@ -38,6 +38,7 @@ SOURCES += main.cpp\
 #    qcustombutton.cpp \
 #    qcustomslider.cpp \
     qcustomslider.cpp \
+    video_window.cpp \
     videostab.cpp
 LIBS += "AVerCapAPI_x64.lib"
 LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
@@ -60,6 +61,7 @@ HEADERS  += \
 #    qcustombutton.h \
 #    qcustomslider.h \
     qcustomslider.h \
+    video_window.h \
     videostab.h
 
 FORMS    += mainwindow.ui \

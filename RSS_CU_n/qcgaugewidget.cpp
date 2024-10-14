@@ -140,7 +140,6 @@ void QcGaugeWidget::initFigure()
     degreeItem->setColor(Qt::white);
 
 
-//    this->addColorBand(50);
 
     vlitem = this->addValues(75);
     vlitem->setValueRange(minAngle,maxAngle);
