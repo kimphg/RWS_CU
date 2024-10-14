@@ -234,6 +234,7 @@ Makefile: RSS_CU_n.pro C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\win32-msvc\qmak
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qt_config.prf \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\win32-msvc\qmake.conf \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\spec_post.prf \
+		.qmake.stash \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exclusive_builds.prf \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\msvc-version.conf \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\toolchain.prf \
@@ -267,7 +268,6 @@ Makefile: RSS_CU_n.pro C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\win32-msvc\qmak
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\Qt5SerialBus.prl \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\Qt5Core.prl \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\qtmain.prl \
-		.qmake.stash \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\build_pass.prf \
 		CalibResourcesFile.qrc \
 		IrSight_ResourcesFile.qrc \
@@ -434,6 +434,7 @@ C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qt_functions.prf:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\qt_config.prf:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\win32-msvc\qmake.conf:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\spec_post.prf:
+.qmake.stash:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\exclusive_builds.prf:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\common\msvc-version.conf:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\toolchain.prf:
@@ -467,7 +468,6 @@ C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\Qt5SerialPort.prl:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\Qt5SerialBus.prl:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\Qt5Core.prl:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\qtmain.prl:
-.qmake.stash:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\build_pass.prf:
 CalibResourcesFile.qrc:
 IrSight_ResourcesFile.qrc:

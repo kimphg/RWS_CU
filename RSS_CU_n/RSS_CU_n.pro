@@ -27,7 +27,6 @@ SOURCES += main.cpp\
     dialogconfig.cpp \
         mainwindow.cpp \
     c_gimbal_control.cpp \
-    c_aver_capture.cpp \
     c_config.cpp \
     kcf/gradientMex.cpp \
     kcf/kcf.cpp \
@@ -40,14 +39,13 @@ SOURCES += main.cpp\
     qcustomslider.cpp \
     video_window.cpp \
     videostab.cpp
-LIBS += "AVerCapAPI_x64.lib"
-LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
+#LIBS += "AVerCapAPI_x64.lib"
+#LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
 
 HEADERS  += \
     dialogconfig.h \
     mainwindow.h \
     c_gimbal_control.h \
-    c_aver_capture.h \
     c_config.h \
     kcf/fhog.hpp \
     kcf/gradientMex.h \
@@ -115,12 +113,12 @@ DESTDIR = $$PWD/bin
 QMAKE_POST_LINK =  "C:/Qt/Qt5.14.2/5.14.2/msvc2017_64/bin/windeployqt.exe" $$shell_path($$DESTDIR/$${TARGET}.exe)
 }
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64d
-else:unix: LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64d
+#else:unix: LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
 
-INCLUDEPATH += $$PWD/AverCap
-DEPENDPATH += $$PWD/AverCap
+#INCLUDEPATH += $$PWD/AverCap
+#DEPENDPATH += $$PWD/AverCap
 
 DISTFILES += \
     dialogconfig_ui.py
