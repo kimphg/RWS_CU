@@ -541,7 +541,7 @@ public:
         frame_gui = new QFrame(centralwidget);
         frame_gui->setObjectName(QString::fromUtf8("frame_gui"));
         frame_gui->setGeometry(QRect(5, 15, 1034, 771));
-        frame_gui->setStyleSheet(QString::fromUtf8("background-color: rgba(255, 255, 255,0);"));
+        frame_gui->setStyleSheet(QString::fromUtf8("background-color: rgb(3, 38, 44);"));
         frame_4 = new QFrame(frame_gui);
         frame_4->setObjectName(QString::fromUtf8("frame_4"));
         frame_4->setGeometry(QRect(0, 9, 120, 751));
@@ -562,7 +562,11 @@ public:
         sizePolicy.setHeightForWidth(bt_f_1->sizePolicy().hasHeightForWidth());
         bt_f_1->setSizePolicy(sizePolicy);
         QIcon icon;
+<<<<<<< Updated upstream:build-RWS_CU-Desktop_Qt_5_14_2_MSVC2017_32bit-Debug/ui_mainwindow.h
         icon.addFile(QString::fromUtf8("m11.jpg"), QSize(), QIcon::Normal, QIcon::Off);
+=======
+        icon.addFile(QString::fromUtf8("icons/m11.jpg"), QSize(), QIcon::Normal, QIcon::Off);
+>>>>>>> Stashed changes:build-RWS_CU-Desktop_Qt_5_14_2_MSVC2017_64bit-Debug/ui_mainwindow.h
         bt_f_1->setIcon(icon);
         bt_f_1->setIconSize(QSize(64, 64));
         bt_f_1->setCheckable(true);
@@ -641,7 +645,7 @@ public:
         sizePolicy1.setHeightForWidth(stackedWidget->sizePolicy().hasHeightForWidth());
         stackedWidget->setSizePolicy(sizePolicy1);
         stackedWidget->setMinimumSize(QSize(120, 600));
-        stackedWidget->setStyleSheet(QString::fromUtf8("color:white; background-color: rgba(114,129,119,100);"));
+        stackedWidget->setStyleSheet(QString::fromUtf8("background-color: rgb(3, 38, 44);"));
         page = new QWidget();
         page->setObjectName(QString::fromUtf8("page"));
         verticalLayout_7 = new QVBoxLayout(page);
@@ -976,7 +980,7 @@ public:
         frame_5->setGeometry(QRect(130, 20, 771, 141));
         sizePolicy1.setHeightForWidth(frame_5->sizePolicy().hasHeightForWidth());
         frame_5->setSizePolicy(sizePolicy1);
-        frame_5->setStyleSheet(QString::fromUtf8("color:white; background-color: rgba(114,129,119,100);"));
+        frame_5->setStyleSheet(QString::fromUtf8("color:white; background-color: rgb(3, 38, 44);"));
         horizontalLayout = new QHBoxLayout(frame_5);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
