@@ -35,7 +35,7 @@ void QCustomButton::highLight(bool isHighLight)
                         color:white; background-color: rgb(2,38,43);   \
                     }   \
                     QCustomButton:checked{\
-                        color:white; background-color: rgb(2,38,43);\
+                        color:white; background-color: rgb(179,188,182);\
                     }\
                     QCustomButton:hover{  \
                         color:white; background-color: rgb(69,78,72); \
@@ -53,7 +53,7 @@ void QCustomButton::resetView()
                         color:white; background-color: rgb(2,38,43);   \
                     }   \
                     QCustomButton:checked{\
-                        color:white; background-color: rgba(2,28,43,150);\
+                        color:white; background-color: rgba(69,78,72,150);\
                     }\
                     QCustomButton:hover{  \
                         color:white; background-color: rgba(69,78,72,150); \

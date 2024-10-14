@@ -8,7 +8,7 @@ QT       += core gui network serialport serialbus printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = RWS_Control
+TARGET = VideoGrab
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     c_gimbal_control.cpp \
+    c_aver_capture.cpp \
     c_config.cpp \
     kcf/gradientMex.cpp \
     kcf/kcf.cpp \
@@ -37,13 +38,14 @@ SOURCES += main.cpp\
     qcustomslider.cpp \
     videostab.cpp
 #LIBS += "AVerCapAPI.lib"
-#LIBS += "AVerCapAPI_x64.lib"
+LIBS += "AVerCapAPI_x64.lib"
 #LIBS += -L$$PWD/AverCap/ -lAVerCapAPI
-#LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
+LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
 
 HEADERS  += \
     mainwindow.h \
     c_gimbal_control.h \
+    c_aver_capture.h \
     c_config.h \
     kcf/fhog.hpp \
     kcf/gradientMex.h \
@@ -65,11 +67,11 @@ win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc1
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_highgui2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_imgproc2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_calib3d2413d
-win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_contrib2413d
+#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_contrib2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_core2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_features2d2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_flann2413d
-win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_gpu2413d
+#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_gpu2413d
 #win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_legacy2413d
 #win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_ml2413d
 #win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_nonfree2413d
@@ -86,11 +88,11 @@ win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/v
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_highgui2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_imgproc2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_calib3d2413
-win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_contrib2413
+#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_contrib2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_core2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_features2d2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_flann2413
-win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_gpu2413
+#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_gpu2413
 #win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_legacy2413
 #win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_ml2413
 #win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_nonfree2413
@@ -108,9 +110,9 @@ DESTDIR = $$PWD/bin
 QMAKE_POST_LINK =  "C:/Qt/Qt5.14.2/5.14.2/msvc2017_64/bin/windeployqt.exe" $$shell_path($$DESTDIR/$${TARGET}.exe)
 }
 
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64d
-#else:unix: LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64d
+else:unix: LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
 
-#INCLUDEPATH += $$PWD/AverCap
-#DEPENDPATH += $$PWD/AverCap
+INCLUDEPATH += $$PWD/AverCap
+DEPENDPATH += $$PWD/AverCap
