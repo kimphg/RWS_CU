@@ -150,7 +150,7 @@ MainWindow::MainWindow(QWidget *parent) :
     CConfig::setValue("param_vd",1.25);
 
     //====================> KHANG
-    resize(SCR_W, SCR_H);
+//    resize(SCR_W, SCR_H);
 
     ui->stackedWidget_dasight_2->setHidden(false);
     ui->stackedWidget_irsight_2->setHidden(true);
@@ -1966,6 +1966,18 @@ void MainWindow::on_bt_f_5_clicked()
     ui->stackedWidget_weapon_2->setHidden(true);
     ui->stackedWidget_calibration_2->setHidden(false);
     ui->stackedWidget_system_2->setHidden(true);
+
+    ui->stackedWidget_calibration_2->setCurrentIndex(0);
+
+    //bt_calib_weapon_alignment
+    setButtonStyle(ui->bt_calib_weapon_alignment, ":/new/calib_images/Calib_images/Calib_alignment_1.png", ":/new/calib_images/Calib_images/Calib_alignment_2.png");
+
+    //bt_broresight
+    setButtonStyle(ui->bt_broresight, ":/new/calib_images/Calib_images/Calib_boresight_1.png", ":/new/calib_images/Calib_images/Calib_boresight_2.png");
+
+    //bt_calib_drift
+    setButtonStyle(ui->bt_calib_drift, ":/new/calib_images/Calib_images/calib_drift_1.png", ":/new/calib_images/Calib_images/calib_drift_2.png");
+
     //==================>
 
 
@@ -1981,6 +1993,23 @@ void MainWindow::on_bt_f_6_clicked()
     ui->stackedWidget_weapon_2->setHidden(true);
     ui->stackedWidget_calibration_2->setHidden(true);
     ui->stackedWidget_system_2->setHidden(false);
+
+    ui->stackedWidget_system_2->setCurrentIndex(0);
+
+    //bt_system_diagnostic
+    setButtonStyle(ui->bt_system_diagnostic, ":/new/Sysyem_images/System_Images/Dianoistic 1.png", ":/new/Sysyem_images/System_Images/Dianoistic 2.png");
+
+    //bt_system_datetime
+    setButtonStyle(ui->bt_system_datetime, ":/new/Sysyem_images/System_Images/DATE TIME 1.png", ":/new/Sysyem_images/System_Images/DATE_TIME_2.png");
+
+    //bt_system_events
+    setButtonStyle(ui->bt_system_events, ":/new/Sysyem_images/System_Images/EVENTS_1.png", ":/new/Sysyem_images/System_Images/EVENTS_2.png");
+
+    //bt_system_trainer
+    setButtonStyle(ui->bt_system_trainer, ":/new/Sysyem_images/System_Images/TRAINER_1.png", ":/new/Sysyem_images/System_Images/TRAINER_2.png");
+
+    //bt_system_maintence
+    setButtonStyle(ui->bt_system_maintence, ":/new/Sysyem_images/System_Images/MANTENANCE_1.png", ":/new/Sysyem_images/System_Images/MANTENANCE_2.png");
     //==================>
 
 

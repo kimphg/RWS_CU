@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/new/Sysyem_images">
+        <file>System_Images/DATE TIME 1.png</file>
+        <file>System_Images/DATE_TIME_2.png</file>
+        <file>System_Images/Dianoistic 1.png</file>
+        <file>System_Images/Dianoistic 2.png</file>
+        <file>System_Images/EVENTS_1.png</file>
+        <file>System_Images/EVENTS_2.png</file>
+        <file>System_Images/MANTENANCE_1.png</file>
+        <file>System_Images/MANTENANCE_2.png</file>
+        <file>System_Images/TRAINER_1.png</file>
+        <file>System_Images/TRAINER_2.png</file>
+    </qresource>
+</RCC>

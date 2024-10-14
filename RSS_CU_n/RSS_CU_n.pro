@@ -124,7 +124,9 @@ DISTFILES += \
     dialogconfig_ui.py
 
 RESOURCES += \
+    CalibResourcesFile.qrc \
     IrSight_ResourcesFile.qrc \
     RangingsResourcesFile.qrc \
     ResourceFile.qrc \
+    SystemResourcesFile.qrc \
     WeaponResourcesFile.qrc

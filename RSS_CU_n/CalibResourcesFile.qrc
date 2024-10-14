@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/new/calib_images">
+        <file>Calib_images/Calib_alignment_1.png</file>
+        <file>Calib_images/Calib_alignment_2.png</file>
+        <file>Calib_images/Calib_boresight_1.png</file>
+        <file>Calib_images/Calib_boresight_2.png</file>
+        <file>Calib_images/calib_drift_1.png</file>
+        <file>Calib_images/calib_drift_2.png</file>
+    </qresource>
+</RCC>
