@@ -204,7 +204,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1713, 792);
+        MainWindow->resize(1697, 1252);
         MainWindow->setMinimumSize(QSize(60, 90));
         QFont font;
         font.setPointSize(12);
@@ -214,7 +214,7 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         groupBox_setup = new QGroupBox(centralwidget);
         groupBox_setup->setObjectName(QString::fromUtf8("groupBox_setup"));
-        groupBox_setup->setGeometry(QRect(1040, 20, 721, 631));
+        groupBox_setup->setGeometry(QRect(1050, 60, 721, 631));
         groupBox_setup->setStyleSheet(QString::fromUtf8("background-color: rgb(32, 64, 128); color:rgb(255, 255, 255)"));
         gridLayout_7 = new QGridLayout(groupBox_setup);
         gridLayout_7->setSpacing(6);
@@ -562,7 +562,7 @@ public:
         sizePolicy.setHeightForWidth(bt_f_1->sizePolicy().hasHeightForWidth());
         bt_f_1->setSizePolicy(sizePolicy);
         QIcon icon;
-        icon.addFile(QString::fromUtf8("m11.jpg"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8("icons/m11.jpg"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_1->setIcon(icon);
         bt_f_1->setIconSize(QSize(64, 64));
         bt_f_1->setCheckable(true);
