@@ -18,4 +18,6 @@ void video_window::paintEvent(QPaintEvent *p)
         pPainter->drawImage(rect(), img,img.rect());
         delete pPainter;
         QWidget::paintEvent(p);
+        printf("Rect:%d",rect().width());
+        _flushall();
 }
