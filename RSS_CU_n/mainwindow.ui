@@ -239,7 +239,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,4,1">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0,1">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -692,12 +692,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="frame_video">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
+        <widget class="video_window" name="widget_video" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>500</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -3588,6 +3588,12 @@
    <class>QCustomSlider</class>
    <extends>QSlider</extends>
    <header location="global">qcustomslider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>video_window</class>
+   <extends>QWidget</extends>
+   <header location="global">video_window.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

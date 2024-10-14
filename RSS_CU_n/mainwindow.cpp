@@ -306,6 +306,11 @@ MainWindow::MainWindow(QWidget *parent) :
                 "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
                 "}"
                 );
+//    this->on_bt_f_1_clicked();
+//    ui->bt_f_1->setChecked(true);
+//    this->on_bt_f_2_clicked();
+//    ui->bt_f_2->setChecked(true);
+
     //* ==========================>
 }
 
@@ -1148,7 +1153,7 @@ void MainWindow::updateData()
             }
             {
                 imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
-
+                ui->widget_video->SetImg(imgVideo);
                 update();
             }
             frameID=newFrameID;

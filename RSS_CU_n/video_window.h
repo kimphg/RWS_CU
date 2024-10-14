@@ -8,7 +8,8 @@ class video_window : public QWidget
     Q_OBJECT
 public:
     explicit video_window(QWidget *parent = nullptr);
-
+public:
+    void SetImg(QImage img);
 signals:
 
 };
