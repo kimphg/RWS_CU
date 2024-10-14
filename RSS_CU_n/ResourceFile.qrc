@@ -4,8 +4,6 @@
         <file>images/DAY SIGHT 2.png</file>
         <file>images/IR SIGHT 1.png</file>
         <file>images/IR SIGHT 2.png</file>
-        <file>images/RANGING 1.png</file>
-        <file>images/RANGING 2.png</file>
         <file>images/WEAPON 1.png</file>
         <file>images/WEAPON 2.png</file>
         <file>images/CALIBRATION 1.png</file>
@@ -34,11 +32,13 @@
         <file>images/CONTRAST TRU 2.png</file>
         <file>images/GAIN MODES 1.png</file>
         <file>images/GAIN MODES 2.png</file>
-        <file>images/EDGE 1.png</file>
-        <file>images/EDGE 2.png</file>
         <file>images/ON 1.png</file>
         <file>images/ON 2.png</file>
         <file>images/STABILIZATION 1.png</file>
         <file>images/STABILIZATION 2.png</file>
+        <file>images/EDGE 1.png</file>
+        <file>images/EDGE 2.png</file>
+        <file>images/RANGING 1.png</file>
+        <file>images/RANGING 2.png</file>
     </qresource>
 </RCC>

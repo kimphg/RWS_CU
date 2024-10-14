@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/new/rangingImages">
+        <file>RangingImages/BATTLE_RANGE_1.png</file>
+        <file>RangingImages/BATTLE_RANGE_2.png</file>
+        <file>RangingImages/FIRST ECHO 1.png</file>
+        <file>RangingImages/FIRST_ECHO_2.png</file>
+        <file>RangingImages/LAST_ECHO_1.png</file>
+        <file>RangingImages/LAST_ECHO_2.png</file>
+        <file>RangingImages/RANGE_CROSS_1.png</file>
+        <file>RangingImages/RANGE_CROSS_2.png</file>
+        <file>RangingImages/RANGE_SQUARE_1.png</file>
+        <file>RangingImages/RANGE_SQUARE_2.png</file>
+        <file>RangingImages/RANGE_STEP_1.png</file>
+        <file>RangingImages/RANGE_STEP_2.png</file>
+    </qresource>
+</RCC>

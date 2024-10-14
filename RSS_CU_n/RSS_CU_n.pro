@@ -37,6 +37,7 @@ SOURCES += main.cpp\
     UsbDevice.cpp \
 #    qcustombutton.cpp \
 #    qcustomslider.cpp \
+    qcustomslider.cpp \
     videostab.cpp
 LIBS += "AVerCapAPI_x64.lib"
 LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
@@ -58,6 +59,7 @@ HEADERS  += \
     UsbDevice.h \
 #    qcustombutton.h \
 #    qcustomslider.h \
+    qcustomslider.h \
     videostab.h
 
 FORMS    += mainwindow.ui \
@@ -122,4 +124,7 @@ DISTFILES += \
     dialogconfig_ui.py
 
 RESOURCES += \
-    ResourceFile.qrc
+    IrSight_ResourcesFile.qrc \
+    RangingsResourcesFile.qrc \
+    ResourceFile.qrc \
+    WeaponResourcesFile.qrc

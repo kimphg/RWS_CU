@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/new/ir_sight_images">
+        <file>IrSight_images/FREEZE 1.png</file>
+        <file>IrSight_images/FREEZE 2.png</file>
+        <file>IrSight_images/INFINITY 1.png</file>
+        <file>IrSight_images/INFINITY 2.png</file>
+        <file>IrSight_images/NUC 1.png</file>
+        <file>IrSight_images/NUC 2.png</file>
+        <file>IrSight_images/POLARITY_CONG.png</file>
+        <file>IrSight_images/POLARITY_TRU.png</file>
+    </qresource>
+</RCC>

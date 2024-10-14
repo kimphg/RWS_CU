@@ -150,7 +150,7 @@ MainWindow::MainWindow(QWidget *parent) :
     CConfig::setValue("param_vd",1.25);
 
     //====================> KHANG
-    resize(1024, 768);
+    resize(SCR_W, SCR_H);
 
     ui->stackedWidget_dasight_2->setHidden(false);
     ui->stackedWidget_irsight_2->setHidden(true);
@@ -1385,7 +1385,7 @@ void MainWindow::on_bt_send_pid_clicked()
     //    double pv= ui->textEdit_pv->toPlainText().toDouble();
     //    double iv= ui->textEdit_iv->toPlainText().toDouble();
     //    double dv= ui->textEdit_dv->toPlainText().toDouble();
-    //    mControl.setPIDparams(ph,ih,dh,pv,iv,dv);
+    //        mControl.setPIDparams(ph,ih,dh,pv,iv,dv);
     //    CConfig::SaveToFile();
 }
 
@@ -1852,6 +1852,26 @@ void MainWindow::on_bt_f_2_clicked()
     ui->stackedWidget_calibration_2->setHidden(true);
     ui->stackedWidget_system_2->setHidden(true);
 
+    ui->stackedWidget_irsight_2->setCurrentIndex(0);
+
+    //NEXT
+    setButtonStyle(ui->bt_irsight_bt_next_1, ":/images/images/NEXT 1.png", ":/images/images/NEXT 2.png");
+
+    //ZOOM IN
+    setButtonStyle(ui->ir_sight_narrow, ":/images/images/CONG 1.png", ":/images/images/CONG 2.png");
+
+    //ZOOM OUT
+    setButtonStyle(ui->bt_sight_wide, ":/images/images/TRU 1.png", ":/images/images/TRU 2.png");
+
+    //AUTO FOCUS
+    setButtonStyle(ui->bt_auto_focus_ir, ":/images/images/AUTO FOCUS 1.png", ":/images/images/AUTO FOCUS 2.png");
+
+    //FOCUS NEAR
+    setButtonStyle(ui->bt_ir_focus_near_ir, ":/images/images/FOCUS NEAR 1.png", ":/images/images/FOCUS NEAR 2.png");
+
+    //FOCUS OUT
+    setButtonStyle(ui->bt_focus_far_ir, ":/images/images/FOCUS FAR 1.png", ":/images/images/FOCUS_FAR_2.png");
+
     //==================>
 
     //    ui->stackedWidget->setCurrentIndex(1);
@@ -1877,6 +1897,26 @@ void MainWindow::on_bt_f_3_clicked()
     ui->stackedWidget_weapon_2->setHidden(true);
     ui->stackedWidget_calibration_2->setHidden(true);
     ui->stackedWidget_system_2->setHidden(true);
+
+    ui->stackedWidget_ranging_2->setCurrentIndex(0);
+
+    //RANGE CROSS
+    setButtonStyle(ui->bt_range_Cross, ":/new/rangingImages/RangingImages/RANGE_CROSS_1.png", ":/new/rangingImages/RangingImages/RANGE_CROSS_2.png");
+
+    //RANGE SQUARE
+    setButtonStyle(ui->bt_range_square, ":/new/rangingImages/RangingImages/RANGE_SQUARE_1.png", ":/new/rangingImages/RangingImages/RANGE_SQUARE_2.png");
+
+    //RANGE STEP
+    setButtonStyle(ui->bt_range_step, ":/new/rangingImages/RangingImages/RANGE_STEP_1.png", ":/new/rangingImages/RangingImages/RANGE_STEP_2.png");
+
+    //FIRST ECHO
+    setButtonStyle(ui->bt_first_echo, ":/new/rangingImages/RangingImages/FIRST ECHO 1.png", ":/new/rangingImages/RangingImages/FIRST_ECHO_2.png");
+
+    //LAST ECHO
+    setButtonStyle(ui->bt_last_echo, ":/new/rangingImages/RangingImages/LAST_ECHO_1.png", ":/new/rangingImages/RangingImages/LAST_ECHO_2.png");
+
+    //BATTLE RANGE
+    setButtonStyle(ui->bt_battle_range, ":/new/rangingImages/RangingImages/BATTLE_RANGE_1.png", ":/new/rangingImages/RangingImages/BATTLE_RANGE_2.png");
     //==================>
 
     //    ui->stackedWidget->setCurrentIndex(2);
@@ -1891,6 +1931,27 @@ void MainWindow::on_bt_f_4_clicked()
     ui->stackedWidget_weapon_2->setHidden(false);
     ui->stackedWidget_calibration_2->setHidden(true);
     ui->stackedWidget_system_2->setHidden(true);
+
+    ui->stackedWidget_weapon_2->setCurrentIndex(0);
+
+    //NEXT
+    setButtonStyle(ui->weapon_bt_next_1, ":/images/images/NEXT 1.png", ":/images/images/NEXT_2.png");
+
+    //WEAPON TYPE
+    setButtonStyle(ui->bt_weapon_type, ":/new/WeaponImages/Weapon_Images/WEAPON_TYPE_1.png", ":/new/WeaponImages/Weapon_Images/WEAPON_TYPE_2.png");
+
+    //AMMUNITION
+    setButtonStyle(ui->bt_ammunition, ":/new/WeaponImages/Weapon_Images/AMUMITION 1.png", ":/new/WeaponImages/Weapon_Images/AMUMITION_2.png");
+
+    //FIRE CORRECTIONS
+    setButtonStyle(ui->bt_fire_conrrections, ":/new/WeaponImages/Weapon_Images/FIRE_CORRECTION_1.png", ":/new/WeaponImages/Weapon_Images/FIRE_CORRECTION_2.png");
+
+    //RESET FIRE CORRECTIONS
+    setButtonStyle(ui->bt_reset_corrections, ":/new/WeaponImages/Weapon_Images/RESET_FIRE_CORRECTION_1.png", ":/new/WeaponImages/Weapon_Images/RESET_FIRE_CORRECTION_2.png");
+
+    //MAXIMUM SPEED
+    setButtonStyle(ui->bt_maximum_speed, ":/new/WeaponImages/Weapon_Images/MAXIMUM_SPEED_1.png", ":/new/WeaponImages/Weapon_Images/MAXIMUM_SPEED_2.png");
+
     //==================>
 
     //    ui->stackedWidget->setCurrentIndex(3);
@@ -2028,4 +2089,126 @@ void MainWindow::on_daysight_bt_next_44_clicked()
     //FOCUS OUT
     setButtonStyle(ui->bt_focus_far, ":/images/images/FOCUS FAR 1.png", ":/images/images/FOCUS_FAR_2.png");
 
+}
+
+void MainWindow::on_bt_irsight_bt_next_1_clicked()
+{
+    ui->stackedWidget_irsight_2->setCurrentIndex(1);
+    //NEXT
+    setButtonStyle(ui->irsight_bt_next_2, ":/images/images/NEXT 1.png", ":/images/images/NEXT_2.png");
+
+    //GAIN MODES
+    setButtonStyle(ui->bt_gain_ir, ":/images/images/GAIN MODES 1.png",":/images/images/GAIN MODES 2.png");
+
+    //BRIGHTNESS +
+    setButtonStyle( ui->bt_brightness_cong_ir, ":/images/images/BRIGHTNESS 1.png", ":/images/images/BRIGHTNESS CONG 2.png");
+
+    //BRIGHTNESS -
+    setButtonStyle(ui->bt_brightness_tru_ir, ":/images/images/BRIGHTNESS TRU 1.png", ":/images/images/BRIGHTNESS TRU 2.png");
+
+    //CONTRAST +
+    setButtonStyle(ui->bt_contrast_ir_cong, ":/images/images/CONTRAST CONG  1.png", ":/images/images/CONTRAST CONG 2.png");
+
+    //CONTRAST -
+    setButtonStyle(ui->bt_contrast_tru_ir, ":/images/images/CONTRAST TRU 1.png", ":/images/images/CONTRAST TRU 2.png");
+}
+
+void MainWindow::on_irsight_bt_next_2_clicked()
+{
+    ui->stackedWidget_irsight_2->setCurrentIndex(2);
+    //  NEXT
+    setButtonStyle(ui->irsight_bt_next_3,  ":/images/images/NEXT 1.png", ":/images/images/NEXT_2.png");
+    //ON/OFF
+    setButtonStyle(ui->bt_onoff_ir, ":/images/images/ON 1.png", ":/images/images/ON 2.png");
+    //DIGITAL ZOOM IN
+    setButtonStyle(ui->bt_digital_zoom_in_ir, ":/images/images/CONG 1.png", ":/images/images/CONG 2.png");
+    //DIGITAL ZOOM OUT
+    setButtonStyle(ui->bt_digital_zoom_out_ir, ":/images/images/TRU 1.png", ":/images/images/TRU 2.png");
+    //INFINITY FOCUS
+    setButtonStyle(ui->bt_infinity_ir, ":/new/ir_sight_images/IrSight_images/INFINITY 1.png", ":/new/ir_sight_images/IrSight_images/INFINITY 2.png");
+    //EDGE EHANCEMENT
+    setButtonStyle(ui->bt_edge_ir, ":/images/images/EDGE 1.png", ":/images/images/EDGE 2.png");
+}
+
+void MainWindow::on_irsight_bt_next_3_clicked()
+{
+    ui->stackedWidget_irsight_2->setCurrentIndex(3);
+    //  NEXT
+    setButtonStyle(ui->irsight_bt_next_4,  ":/images/images/NEXT 1.png", ":/images/images/NEXT_2.png");
+    //POLARITY +/-
+    setButtonStyle(ui->bt_polanty_ir, ":/new/ir_sight_images/IrSight_images/POLARITY_TRU.png", ":/new/ir_sight_images/IrSight_images/POLARITY_CONG.png");
+    //NUC
+    setButtonStyle(ui->bt_nuc_ir, ":/new/ir_sight_images/IrSight_images/NUC 1.png", ":/new/ir_sight_images/IrSight_images/NUC 2.png");
+    //FREEZE/UNFREEZE
+    setButtonStyle(ui->bt_freeze_ir, ":/new/ir_sight_images/IrSight_images/FREEZE 1.png", ":/new/ir_sight_images/IrSight_images/FREEZE 2.png");
+
+}
+
+void MainWindow::on_irsight_bt_next_4_clicked()
+{
+    ui->stackedWidget_irsight_2->setCurrentIndex(0);
+
+    //NEXT
+    setButtonStyle(ui->bt_irsight_bt_next_1, ":/images/images/NEXT 1.png", ":/images/images/NEXT 2.png");
+
+    //ZOOM IN
+    setButtonStyle(ui->ir_sight_narrow, ":/images/images/CONG 1.png", ":/images/images/CONG 2.png");
+
+    //ZOOM OUT
+    setButtonStyle(ui->bt_sight_wide, ":/images/images/TRU 1.png", ":/images/images/TRU 2.png");
+
+    //AUTO FOCUS
+    setButtonStyle(ui->bt_auto_focus_ir, ":/images/images/AUTO FOCUS 1.png", ":/images/images/AUTO FOCUS 2.png");
+
+    //FOCUS NEAR
+    setButtonStyle(ui->bt_ir_focus_near_ir, ":/images/images/FOCUS NEAR 1.png", ":/images/images/FOCUS NEAR 2.png");
+
+    //FOCUS OUT
+    setButtonStyle(ui->bt_focus_far_ir, ":/images/images/FOCUS FAR 1.png", ":/images/images/FOCUS_FAR_2.png");
+}
+
+
+
+void MainWindow::on_weapon_bt_next_1_clicked()
+{
+    ui->stackedWidget_weapon_2->setCurrentIndex(1);
+
+    //NEXT
+    setButtonStyle(ui->weapon_bt_next_2, ":/images/images/NEXT 1.png", ":/images/images/NEXT_2.png");
+
+    //bt_weapon_init_FC
+    setButtonStyle(ui->bt_weapon_init_FC, ":/new/WeaponImages/Weapon_Images/INNIT_1.png", ":/new/WeaponImages/Weapon_Images/INNIT_2.png");
+
+    //bt_weapon_fc
+    setButtonStyle(ui->bt_weapon_fc, ":/new/WeaponImages/Weapon_Images/FIRE_CONTROL_DEACTIVATE.png", ":/new/WeaponImages/Weapon_Images/FIRE_CONTROL_ACTIVATE.png");
+
+    //bt_weapon_fp
+    setButtonStyle(ui->bt_weapon_fp, ":/new/WeaponImages/Weapon_Images/FIRE_PREDICTION_DEACTIVATE.png", ":/new/WeaponImages/Weapon_Images/FIRE_PREDICTION_ACTIVATE.png");
+
+    //bt_weapon_super_elevation
+    setButtonStyle(ui->bt_weapon_super_elevation, ":/new/WeaponImages/Weapon_Images/SUPERELEVATION_1.png", ":/new/WeaponImages/Weapon_Images/SUPERELEVATION_2.png");
+
+    //bt_weapon_warning_fire
+    setButtonStyle(ui->bt_weapon_warning_fire, ":/new/WeaponImages/Weapon_Images/WARNING_SHOT_1.png", ":/new/WeaponImages/Weapon_Images/WARNING_SHOT_2.png");
+}
+
+void MainWindow::on_weapon_bt_next_2_clicked()
+{
+    ui->stackedWidget_weapon_2->setCurrentIndex(2);
+
+    //NEXT
+    setButtonStyle(ui->weapon_bt_next_3, ":/images/images/NEXT 1.png", ":/images/images/NEXT_2.png");
+
+    //bt_weapon_moveToStandby
+    setButtonStyle(ui->bt_weapon_moveToStandby, ":/new/WeaponImages/Weapon_Images/MOVE_TO_STANBY_1.png", ":/new/WeaponImages/Weapon_Images/MOVE_TO_STANBY_2.png");
+
+    //bt_weapon_change
+    setButtonStyle(ui->bt_weapon_change, "", "");
+
+}
+
+
+void MainWindow::on_weapon_bt_next_3_clicked()
+{
+    on_bt_f_4_clicked();
 }

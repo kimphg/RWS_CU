@@ -245,6 +245,20 @@ private slots:
     void on_daysight_bt_next_3_clicked();
 
     void on_daysight_bt_next_44_clicked();
+    void on_bt_irsight_bt_next_1_clicked();
+
+    void on_irsight_bt_next_2_clicked();
+
+    void on_irsight_bt_next_3_clicked();
+
+    void on_irsight_bt_next_4_clicked();
+
+    void on_weapon_bt_next_1_clicked();
+
+    void on_weapon_bt_next_2_clicked();
+
+    void on_weapon_bt_next_3_clicked();
+
 public:
     void setButtonStyle(QPushButton *button, const QString &image1Path, const QString &image2Path);
 

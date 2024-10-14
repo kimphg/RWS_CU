@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/new/WeaponImages">
+        <file>Weapon_Images/AMUMITION 1.png</file>
+        <file>Weapon_Images/AMUMITION_2.png</file>
+        <file>Weapon_Images/FIRE_CONTROL_ACTIVATE.png</file>
+        <file>Weapon_Images/FIRE_CONTROL_DEACTIVATE.png</file>
+        <file>Weapon_Images/FIRE_CORRECTION_1.png</file>
+        <file>Weapon_Images/FIRE_CORRECTION_2.png</file>
+        <file>Weapon_Images/FIRE_PREDICTION_ACTIVATE.png</file>
+        <file>Weapon_Images/FIRE_PREDICTION_DEACTIVATE.png</file>
+        <file>Weapon_Images/INNIT_1.png</file>
+        <file>Weapon_Images/INNIT_2.png</file>
+        <file>Weapon_Images/MAXIMUM_SPEED_1.png</file>
+        <file>Weapon_Images/MAXIMUM_SPEED_2.png</file>
+        <file>Weapon_Images/MOVE_TO_STANBY_1.png</file>
+        <file>Weapon_Images/MOVE_TO_STANBY_2.png</file>
+        <file>Weapon_Images/RESET_FIRE_CORRECTION_1.png</file>
+        <file>Weapon_Images/RESET_FIRE_CORRECTION_2.png</file>
+        <file>Weapon_Images/SUPERELEVATION_1.png</file>
+        <file>Weapon_Images/SUPERELEVATION_2.png</file>
+        <file>Weapon_Images/WEAPON_TYPE_1.png</file>
+        <file>Weapon_Images/WEAPON_TYPE_2.png</file>
+        <file>Weapon_Images/WARNING_SHOT_1.png</file>
+        <file>Weapon_Images/WARNING_SHOT_2.png</file>
+    </qresource>
+</RCC>
