@@ -456,34 +456,58 @@ void MainWindow::processKeyBoardEvent(int key)
 
 
         this->on_bt_f_1_clicked();
+        ui->bt_f_1->setChecked(true);
         //    this->ui->frame_gui->show();
     }
     else if(key == Qt::Key_F2){
 
         this->on_bt_f_2_clicked();
+        ui->bt_f_2->setChecked(true);
         //    this->ui->frame_gui->show();
     }
     else if(key == Qt::Key_F3){
 
 
         this->on_bt_f_3_clicked();
+        ui->bt_f_3->setChecked(true);
         //    this->ui->frame_gui->show();
     }
-    else if(key == Qt::Key_F8){
+    else if(key == Qt::Key_F4){
 
 
-        system("cmd.exe");
+        this->on_bt_f_4_clicked();
+        ui->bt_f_4->setChecked(true);
+        //    this->ui->frame_gui->show();
     }
-    else if(key == Qt::Key_F9){
+    else if(key == Qt::Key_F5){
 
 
-        system("explorer.exe");
+        this->on_bt_f_5_clicked();
+        ui->bt_f_5->setChecked(true);
+        //    this->ui->frame_gui->show();
     }
-    else if(key==Qt::Key_F11)
-    {
-        mControl.setWorkmode(0);
+    else if(key == Qt::Key_F6){
 
+
+        this->on_bt_f_6_clicked();
+        ui->bt_f_6->setChecked(true);
+        //    this->ui->frame_gui->show();
     }
+//    else if(key == Qt::Key_F8){
+
+
+//        system("cmd.exe");
+//    }
+//    else if(key == Qt::Key_F9){
+
+
+//        system("explorer.exe");
+//    }
+//    else if(key==Qt::Key_F11)
+//    {
+//        mControl.setWorkmode(0);
+
+//    }
     else if(key==Qt::Key_Escape)
     {
         mControl.setWorkmode(1);
