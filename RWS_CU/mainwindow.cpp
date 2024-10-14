@@ -76,6 +76,7 @@ int selectVTargetIndex = -1;
 static double ballistic_k=0.002;
 double ballistic_calc_time(float d)
 {
+
     double v0 = 850;
     double time = (exp(ballistic_k*d)-1)/(ballistic_k*v0);
     return time;
@@ -1751,6 +1752,7 @@ void MainWindow::on_bt_control_file_7_released()
 {
     mControl.setplc(4,0);
 }
+
 
 void MainWindow::on_bt_video_thermal_pressed()
 {
