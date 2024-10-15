@@ -24,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
+    compasscustom_widget.cpp \
     dialogconfig.cpp \
         mainwindow.cpp \
     c_gimbal_control.cpp \
@@ -43,6 +44,7 @@ SOURCES += main.cpp\
 #LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
 
 HEADERS  += \
+    compasscustom_widget.h \
     dialogconfig.h \
     mainwindow.h \
     c_gimbal_control.h \

@@ -34,5 +34,5 @@ void QCustomSlider::paintEvent(QPaintEvent *event)
     painter.setPen(QPen(QBrush(Qt::white),2));
     painter.drawText(width()/2-12,linepos+5,QString::number(pos/100.0,'f',2));
 
-//    _flushall();
+    _flushall();
 }

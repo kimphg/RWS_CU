@@ -25,6 +25,8 @@
 #include <cmath>
 #include <fstream>
 #include <time.h>
+
+#include<compasscustom_widget.h>
 //#include <videostab.h>
 //using namespace cv;
 namespace Ui {

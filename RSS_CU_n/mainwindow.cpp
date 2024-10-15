@@ -161,151 +161,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //DAY_SIGHT SETUP
-    ui->bt_f_1->setStyleSheet(
-                "QPushButton {"
-                "border-radius: 10px;"
-                "border: 2px solid transparent;"
-                "image: url(:/images/images/DAY SIGHT 1.png);"
-                "position: center;"
-                "repeat: no-repeat;"
-                "}"
-
-                "QPushButton:hover {"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi hover
-                "}"
-
-                "QPushButton:checked {"
-                "image: url(:/images/images/DAY SIGHT 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-
-                "QPushButton:pressed {"
-                "image: url(:/images/images/DAY SIGHT 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-                );
+    setButtonStyle( ui->bt_f_1, ":/images/images/DAY SIGHT 1.png", ":/images/images/DAY SIGHT 2.png");
 
     //IR_SIGHT SETUP
-    ui->bt_f_2->setStyleSheet(
-                "QPushButton {"
-                "border-radius: 10px;"
-                "border: 2px solid transparent;"
-                "image: url(:/images/images/IR SIGHT 1.png);"
-                "position: center;"
-                "repeat: no-repeat;"
-                "}"
-
-                "QPushButton:hover {"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi hover
-                "}"
-
-                "QPushButton:checked {"
-                "image: url(:/images/images/IR SIGHT 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-
-                "QPushButton:pressed {"
-                "image: url(:/images/images/IR SIGHT 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-                );
+    setButtonStyle( ui->bt_f_2, ":/images/images/IR SIGHT 1.png", ":/images/images/IR SIGHT 2.png");
 
     // RANGING SETUP
-    ui->bt_f_3->setStyleSheet(
-                "QPushButton {"
-                "border-radius: 10px;"
-                "border: 2px solid transparent;"
-                "image: url(:/images/images/RANGING 1.png);"
-                "position: center;"
-                "repeat: no-repeat;"
-                "}"
+    setButtonStyle( ui->bt_f_3, ":/images/images/RANGING 1.png", ":/images/images/RANGING 2.png");
 
-                "QPushButton:hover {"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi hover
-                "}"
-
-                "QPushButton:checked {"
-                "image: url(:/images/images/RANGING 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-
-                "QPushButton:pressed {"
-                "image: url(:/images/images/RANGING 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-                );
     // WEAPON SETUP
-    ui->bt_f_4->setStyleSheet(
-                "QPushButton {"
-                "border-radius: 10px;"
-                "border: 2px solid transparent;"
-                "image: url(:/images/images/WEAPON 1.png);"
-                "position: center;"
-                "repeat: no-repeat;"
-                "}"
+    setButtonStyle( ui->bt_f_4, ":/images/images/WEAPON 1.png", ":/images/images/WEAPON 2.png");
 
-                "QPushButton:hover {"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi hover
-                "}"
-
-                "QPushButton:checked {"
-                "image: url(:/images/images/WEAPON 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-
-                "QPushButton:pressed {"
-                "image: url(:/images/images/WEAPON 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-                );
     // CALIBRATION SETUP
-    ui->bt_f_5->setStyleSheet(
-                "QPushButton {"
-                "border-radius: 10px;"
-                "border: 2px solid transparent;"
-                "image: url(:/images/images/CALIBRATION 1.png);"
-                "position: center;"
-                "repeat: no-repeat;"
-                "}"
+    setButtonStyle( ui->bt_f_5, ":/images/images/CALIBRATION 1.png", ":/images/images/CALIBRATION 2.png");
 
-                "QPushButton:hover {"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi hover
-                "}"
-
-                "QPushButton:checked {"
-                "image: url(:/images/images/CALIBRATION 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-
-                "QPushButton:pressed {"
-                "image: url(:/images/images/CALIBRATION 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-                );
     // SYSTEM SETUP
-    ui->bt_f_6->setStyleSheet(
-                "QPushButton {"
-                "border-radius: 10px;"
-                "border: 2px solid transparent;"
-                "image: url(:/images/images/SYSTEM 1.png);"
-                "position: center;"
-                "repeat: no-repeat;"
-                "}"
+    setButtonStyle( ui->bt_f_6, ":/images/images/SYSTEM 1.png", ":/images/images/SYSTEM 2.png");
 
-                "QPushButton:hover {"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi hover
-                "}"
-
-                "QPushButton:checked {"
-                "image: url(:/images/images/SYSTEM 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-
-                "QPushButton:pressed {"
-                "image: url(:/images/images/SYSTEM 2.png);"
-                "border: 2px solid rgba(2, 253, 221, 255);" // Viền sáng khi nhấn
-                "}"
-                );
 //    this->on_bt_f_1_clicked();
 //    ui->bt_f_1->setChecked(true);
 //    this->on_bt_f_2_clicked();
