@@ -5,20 +5,22 @@
 #define M_PI 3.14159265358979323846
 
 CompassCustom_Widget::CompassCustom_Widget(QWidget *parent)
-    : QWidget(parent), angleMainArrow(0), angleRedArrow(0), angleSideArrow(0) {}
+    : QWidget(parent) {
+//    setElevationAngle(5);
+}
 
-void CompassCustom_Widget::setMainArrowAngle(int angle) {
+void CompassCustom_Widget::setMainArrowAngle(float angle) {
     angleMainArrow = angle;
     update();
 }
 
-void CompassCustom_Widget::setRedArrowAngle(int angle) {
+void CompassCustom_Widget::setRedArrowAngle(float angle) {
     angleRedArrow = angle;
     update();
 }
 
-void CompassCustom_Widget::setSideArrowAngle(int angle) {
-    angleSideArrow = angle;
+void CompassCustom_Widget::setYellowAngle(float angle) {
+    angleyellow = angle;
     update();
 }
 
@@ -41,8 +43,8 @@ void CompassCustom_Widget::paintEvent(QPaintEvent *event)
     QRect widgetRect = rect();
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // Vẽ thang đo dọc bên phải
-    drawLeftArc(painter, widgetRect, 10);
+    // Vẽ cung đo bên trái
+    drawLeftArc(painter, widgetRect );
 
 }
 
@@ -83,7 +85,7 @@ void CompassCustom_Widget::drawCompass(QPainter &painter, const QPoint &center, 
             case 270: text = "270"; break;   // 270 độ ở phía Tây
             }
 
-            int text_x = center.x() + (radius - 15) * cos(angleRad)-5;  // Lùi vào trong compass một xíu nữa
+            int text_x = center.x() + (radius - 15) * cos(angleRad) - 5;  // Lùi vào trong compass một xíu nữa
             int text_y = center.y() + (radius - 15) * sin(angleRad) + 5;
 
             painter.drawText(text_x, text_y, text);  // Vẽ số đo
@@ -110,12 +112,12 @@ void CompassCustom_Widget::drawCompass(QPainter &painter, const QPoint &center, 
     painter.setPen(QPen(QColor(0,255,218), 3));
     painter.drawEllipse(center, radius/3, radius/3);
 
-    int Curren_angle_BLUE_target = 100, Curren_angle_RED_target = 145;
+
 
 
     // ====> Tính toán tọa độ cho mũi tên màu XANH
     QPoint p1, p2;
-    double radian_1 = Curren_angle_BLUE_target * M_PI / 180.0;
+    double radian_1 = angleMainArrow * M_PI / 180.0;
     p1.setX(center.x() + (radius/3 + 3) * sin(radian_1)); // Tọa độ x
     p1.setY(center.y() - (radius/3 + 3) * cos(radian_1)); // Tọa độ y (trừ đi vì trục y tăng lên khi đi xuống)
 
@@ -126,7 +128,7 @@ void CompassCustom_Widget::drawCompass(QPainter &painter, const QPoint &center, 
 
     // =====> Tính toán tọa độ cho mũi tên màu ĐỎ
     QPoint p3, p4;
-    double radian_2 = Curren_angle_RED_target * M_PI / 180.0;
+    double radian_2 = angleRedArrow * M_PI / 180.0;
     p3.setX(center.x() + (radius/3 + 3) * sin(radian_2)); // Tọa độ x
     p3.setY(center.y() - (radius/3 + 3) * cos(radian_2)); // Tọa độ y (trừ đi vì trục y tăng lên khi đi xuống)
 
@@ -136,12 +138,30 @@ void CompassCustom_Widget::drawCompass(QPainter &painter, const QPoint &center, 
     drawArrow_red(painter, p3, p4);
 
 
-    QString text = QString::number(Curren_angle_BLUE_target) + "°";
+    QString text = QString::number(angleMainArrow) + "°";
     QFont font2 = painter.font();
     font2.setPointSize(8);
     painter.setPen(QPen(QColor(0,255,218), 3));
     painter.setFont(font2);
     painter.drawText(center.x()-8, center.y()+5, text);  // Vẽ số đo
+    // =====> Tính toán tọa độ cho mũi tên màu ĐỎ
+
+    radian_2 = angleyellow * M_PI / 180.0;
+    p3.setX(center.x() + (radius-30) * sin(radian_2)); // Tọa độ x
+    p3.setY(center.y() - (radius-30) * cos(radian_2)); // Tọa độ y (trừ đi vì trục y tăng lên khi đi xuống)
+
+    p4.setX(center.x() + (radius - 5) * sin(radian_2));
+    p4.setY(center.y() - (radius - 5) * cos(radian_2));
+
+    drawArrow_yellow(painter, p3, p4);
+
+
+//    QString text = QString::number(Curren_angle_BLUE_target) + "°";
+//    QFont font2 = painter.font();
+//    font2.setPointSize(8);
+//    painter.setPen(QPen(QColor(0,255,218), 3));
+//    painter.setFont(font2);
+//    painter.drawText(center.x()-8, center.y()+5, text);  // Vẽ số đo
 
 
 }
@@ -169,6 +189,31 @@ void CompassCustom_Widget::drawArrow_blue(QPainter &painter, const QPoint &p1, c
     painter.setBrush(QColor(0,245, 210));
     painter.drawPolygon(triangle);
 }
+void CompassCustom_Widget::drawArrow_yellow(QPainter &painter, const QPoint &p1, const QPoint &p2)
+{
+    painter.setPen(QPen(QColor(200,245, 0), 1));
+
+    //chiều dài của phần đáy của tam giác
+    double baseLength = 5.0;
+//    double height = 10.0; //(từ đáy đến đỉnh)
+
+    //góc giữa p1 và p2
+    double angle = atan2(p2.y() - p1.y(), p2.x() - p1.x());
+
+    // hai điểm đáy
+    QPointF baseP1(p1.x() - (baseLength / 2) * cos(angle + M_PI / 2),
+                   p1.y() - (baseLength / 2) * sin(angle + M_PI / 2));
+
+    QPointF baseP2(p1.x() + (baseLength / 2) * cos(angle + M_PI / 2),
+                   p1.y() + (baseLength / 2) * sin(angle + M_PI / 2));
+
+    QPolygonF triangle;//polygon cho tam giác này
+    triangle << QPointF(baseP1) << QPointF(baseP2) << p2;
+
+    painter.setBrush(QColor(150,160, 0));
+    painter.drawPolygon(triangle);
+
+}
 void CompassCustom_Widget::drawArrow_red(QPainter &painter, const QPoint &p1, const QPoint &p2)
 {
     painter.setPen(QPen(Qt::red, 2));
@@ -190,6 +235,16 @@ void CompassCustom_Widget::drawArrow_red(QPainter &painter, const QPoint &p1, co
 
     painter.setBrush(Qt::red);
     painter.drawPolygon(arrowHead);
+}
+
+void CompassCustom_Widget::setElevationAngleYellow(float value)
+{
+    elevationAngleYellow = value;
+}
+
+void CompassCustom_Widget::setElevationAngleRed(float value)
+{
+    elevationAngleRed = value;
 }
 
 //==============> cánh cung bên trái
@@ -230,17 +285,21 @@ void CompassCustom_Widget::drawArrow(QPainter& painter, const QPoint& center, co
 
     QPolygon arrowHead;
     arrowHead << target << arrowP1 << arrowP2;
-    painter.setBrush(Qt::cyan);
+    painter.setPen(QPen(QColor(200,245, 0), 1));
+    painter.setBrush(QColor(150,160, 0));
     painter.drawPolygon(arrowHead);
 }
 
-void CompassCustom_Widget::drawLeftArc(QPainter &painter, const QRect &widgetRect, int value)
+void CompassCustom_Widget::drawLeftArc(QPainter &painter, const QRect &widgetRect)
 {
+//    float startAngle = -20;
+    QPoint center=widgetRect.center();
     painter.setPen(QPen(Qt::cyan, 1.5));
-    int d = 153;
-    QRectF arc_rect(0, -10, d, d);
+    int d = 152;
+    float radius = d/2.0;
+    QRectF arc_rect(0, -14, d, d);
     int startAngle = -130 * 16;
-    int spanAngle = -100 * 16;
+    int spanAngle = -90 * 16;
     painter.drawArc(arc_rect, startAngle, spanAngle);
 
     QFont font = painter.font();
@@ -248,19 +307,36 @@ void CompassCustom_Widget::drawLeftArc(QPainter &painter, const QRect &widgetRec
     painter.setFont(font);
 
     // Tính toán vị trí để vẽ số 70 ở phía trên
-    painter.drawText(QPoint(2, 12), "70°");
-    painter.drawText(QPoint(0 + 2, this->height()-5), "-20°");
+    painter.drawText(QPoint(4, 12), "70°");
+    painter.drawText(QPoint(4, this->height()-5), "-20°");
 //--°--'--''
     //***** Vẽ mũi tên màu xanh nhỏ từ giá trị value
-    int angle = convertValue(value);
-    //    qDebug() << "JABEKNAKN: " << angle;
-    QPoint abc = getCoordinates(double( angle), QPoint(arc_rect.center().x(), arc_rect.center().y()), d/2.0 - 2 ); // trừ thêm 2 cho mũi tên đỡ đè lên cug tròn
+    int angle = convertValue(elevationAngleYellow);
+    QPoint abc = getCoordinates(double( angle), QPoint(arc_rect.center().x(), arc_rect.center().y()), d/2.0 - 4 ); // trừ thêm 2 cho mũi tên đỡ đè lên cug tròn
     //    qDebug() << "GO/*C*/A:  " << abc;
 
     //    painter.setPen(QPen(Qt::red, 2));
     //    painter.drawPoint(abc);
-
     drawArrow(painter, QPoint(arc_rect.center().x(), arc_rect.center().y()), abc);
+
+    angle = convertValue(elevationAngleRed);
+    abc = getCoordinates(double( angle), QPoint(arc_rect.center().x(), arc_rect.center().y()), d/2.0 - 4 ); // trừ thêm 2 cho mũi tên đỡ đè lên cug tròn
+    drawArrow_red(painter, QPoint(arc_rect.center().x(), arc_rect.center().y()), abc);
+    for (int i= -30;i<=60;i+=5)
+    {
+        float leng=4;
+            if(i%30==0)leng=10;
+            double angleRad = qDegreesToRadians_k(i+160 );  // Đổi để 0 độ là phía Bắc
+            float x1 = center.x() + radius * cos(angleRad);
+            float y1 = center.y() + radius * sin(angleRad);
+            float x2 = center.x() + (radius - leng) * cos(angleRad);
+            float y2 = center.y() + (radius - leng) * sin(angleRad);
+
+            painter.setPen(QPen(QColor(0, 200, 200), 1));
+            painter.drawLine(x1, y1, x2, y2);  // Vẽ vạch
+
+    }
+
 }
 
 
