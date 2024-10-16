@@ -38,22 +38,30 @@ public:
     QVBoxLayout *verticalLayout;
     QFrame *frame_2;
     QGridLayout *gridLayout_2;
-    QPushButton *bt_f_1_2;
     QPushButton *bt_f_1;
-    QPushButton *bt_f_1_1;
-    QPushButton *bt_f_1_3;
-    QPushButton *bt_f_1_6;
-    QLabel *label;
-    QPushButton *bt_f_2;
-    QLabel *label_2;
-    QPushButton *bt_f_3;
-    QLabel *label_3;
+    QPushButton *bt_f_4_1;
+    QPushButton *bt_f_1_2;
     QPushButton *bt_f_4;
-    QLabel *label_4;
+    QPushButton *bt_f_3;
+    QPushButton *bt_f_2_3;
     QPushButton *bt_f_5;
-    QLabel *label_5;
+    QLabel *label_4;
+    QPushButton *bt_f_4_3;
+    QPushButton *bt_f_1_1;
     QPushButton *bt_f_6;
+    QPushButton *bt_f_2_1;
+    QPushButton *bt_f_2;
+    QPushButton *bt_f_1_3;
+    QLabel *label_5;
+    QPushButton *bt_f_2_2;
+    QPushButton *bt_f_2_4;
+    QPushButton *bt_f_1_6;
+    QPushButton *bt_f_3_1;
+    QLabel *label_3;
+    QLabel *label_2;
+    QLabel *label;
     QLabel *label_6;
+    QPushButton *bt_f_4_2;
     QFrame *frame;
     QVBoxLayout *verticalLayout_2;
     QWidget *widget_header;
@@ -359,11 +367,30 @@ public:
         gridLayout_2->setSpacing(0);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        bt_f_1_2 = new QPushButton(frame_2);
-        bt_f_1_2->setObjectName(QString::fromUtf8("bt_f_1_2"));
+        bt_f_1 = new QPushButton(frame_2);
+        bt_f_1->setObjectName(QString::fromUtf8("bt_f_1"));
         QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(bt_f_1->sizePolicy().hasHeightForWidth());
+        bt_f_1->setSizePolicy(sizePolicy);
+        bt_f_1->setMinimumSize(QSize(100, 90));
+        bt_f_1->setCheckable(true);
+        bt_f_1->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_1, 0, 1, 2, 1);
+
+        bt_f_4_1 = new QPushButton(frame_2);
+        bt_f_4_1->setObjectName(QString::fromUtf8("bt_f_4_1"));
+        sizePolicy.setHeightForWidth(bt_f_4_1->sizePolicy().hasHeightForWidth());
+        bt_f_4_1->setSizePolicy(sizePolicy);
+        bt_f_4_1->setCheckable(true);
+        bt_f_4_1->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_4_1, 8, 2, 1, 1);
+
+        bt_f_1_2 = new QPushButton(frame_2);
+        bt_f_1_2->setObjectName(QString::fromUtf8("bt_f_1_2"));
         sizePolicy.setHeightForWidth(bt_f_1_2->sizePolicy().hasHeightForWidth());
         bt_f_1_2->setSizePolicy(sizePolicy);
         bt_f_1_2->setMinimumSize(QSize(20, 20));
@@ -375,15 +402,60 @@ public:
 
         gridLayout_2->addWidget(bt_f_1_2, 0, 0, 1, 1);
 
-        bt_f_1 = new QPushButton(frame_2);
-        bt_f_1->setObjectName(QString::fromUtf8("bt_f_1"));
-        sizePolicy.setHeightForWidth(bt_f_1->sizePolicy().hasHeightForWidth());
-        bt_f_1->setSizePolicy(sizePolicy);
-        bt_f_1->setMinimumSize(QSize(100, 100));
-        bt_f_1->setCheckable(true);
-        bt_f_1->setAutoExclusive(true);
+        bt_f_4 = new QPushButton(frame_2);
+        bt_f_4->setObjectName(QString::fromUtf8("bt_f_4"));
+        sizePolicy.setHeightForWidth(bt_f_4->sizePolicy().hasHeightForWidth());
+        bt_f_4->setSizePolicy(sizePolicy);
+        bt_f_4->setMinimumSize(QSize(100, 90));
+        bt_f_4->setCheckable(true);
+        bt_f_4->setAutoExclusive(true);
 
-        gridLayout_2->addWidget(bt_f_1, 0, 1, 2, 1);
+        gridLayout_2->addWidget(bt_f_4, 8, 1, 3, 1);
+
+        bt_f_3 = new QPushButton(frame_2);
+        bt_f_3->setObjectName(QString::fromUtf8("bt_f_3"));
+        sizePolicy.setHeightForWidth(bt_f_3->sizePolicy().hasHeightForWidth());
+        bt_f_3->setSizePolicy(sizePolicy);
+        bt_f_3->setMinimumSize(QSize(100, 90));
+        bt_f_3->setCheckable(true);
+        bt_f_3->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_3, 6, 1, 1, 1);
+
+        bt_f_2_3 = new QPushButton(frame_2);
+        bt_f_2_3->setObjectName(QString::fromUtf8("bt_f_2_3"));
+        sizePolicy.setHeightForWidth(bt_f_2_3->sizePolicy().hasHeightForWidth());
+        bt_f_2_3->setSizePolicy(sizePolicy);
+        bt_f_2_3->setCheckable(true);
+        bt_f_2_3->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_2_3, 3, 2, 1, 1);
+
+        bt_f_5 = new QPushButton(frame_2);
+        bt_f_5->setObjectName(QString::fromUtf8("bt_f_5"));
+        sizePolicy.setHeightForWidth(bt_f_5->sizePolicy().hasHeightForWidth());
+        bt_f_5->setSizePolicy(sizePolicy);
+        bt_f_5->setMinimumSize(QSize(100, 90));
+        bt_f_5->setCheckable(true);
+        bt_f_5->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_5, 12, 1, 2, 1);
+
+        label_4 = new QLabel(frame_2);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+        label_4->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
+        label_4->setAlignment(Qt::AlignCenter);
+
+        gridLayout_2->addWidget(label_4, 11, 1, 1, 1);
+
+        bt_f_4_3 = new QPushButton(frame_2);
+        bt_f_4_3->setObjectName(QString::fromUtf8("bt_f_4_3"));
+        sizePolicy.setHeightForWidth(bt_f_4_3->sizePolicy().hasHeightForWidth());
+        bt_f_4_3->setSizePolicy(sizePolicy);
+        bt_f_4_3->setCheckable(true);
+        bt_f_4_3->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_4_3, 10, 2, 1, 1);
 
         bt_f_1_1 = new QPushButton(frame_2);
         bt_f_1_1->setObjectName(QString::fromUtf8("bt_f_1_1"));
@@ -398,6 +470,35 @@ public:
 
         gridLayout_2->addWidget(bt_f_1_1, 0, 2, 1, 1);
 
+        bt_f_6 = new QPushButton(frame_2);
+        bt_f_6->setObjectName(QString::fromUtf8("bt_f_6"));
+        sizePolicy.setHeightForWidth(bt_f_6->sizePolicy().hasHeightForWidth());
+        bt_f_6->setSizePolicy(sizePolicy);
+        bt_f_6->setMinimumSize(QSize(100, 90));
+        bt_f_6->setCheckable(true);
+        bt_f_6->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_6, 15, 1, 1, 1);
+
+        bt_f_2_1 = new QPushButton(frame_2);
+        bt_f_2_1->setObjectName(QString::fromUtf8("bt_f_2_1"));
+        sizePolicy.setHeightForWidth(bt_f_2_1->sizePolicy().hasHeightForWidth());
+        bt_f_2_1->setSizePolicy(sizePolicy);
+        bt_f_2_1->setCheckable(true);
+        bt_f_2_1->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_2_1, 3, 0, 1, 1);
+
+        bt_f_2 = new QPushButton(frame_2);
+        bt_f_2->setObjectName(QString::fromUtf8("bt_f_2"));
+        sizePolicy.setHeightForWidth(bt_f_2->sizePolicy().hasHeightForWidth());
+        bt_f_2->setSizePolicy(sizePolicy);
+        bt_f_2->setMinimumSize(QSize(100, 90));
+        bt_f_2->setCheckable(true);
+        bt_f_2->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_2, 3, 1, 2, 1);
+
         bt_f_1_3 = new QPushButton(frame_2);
         bt_f_1_3->setObjectName(QString::fromUtf8("bt_f_1_3"));
         sizePolicy.setHeightForWidth(bt_f_1_3->sizePolicy().hasHeightForWidth());
@@ -408,6 +509,31 @@ public:
         bt_f_1_3->setAutoExclusive(false);
 
         gridLayout_2->addWidget(bt_f_1_3, 1, 0, 1, 1);
+
+        label_5 = new QLabel(frame_2);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+        label_5->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
+        label_5->setAlignment(Qt::AlignCenter);
+
+        gridLayout_2->addWidget(label_5, 14, 1, 1, 1);
+
+        bt_f_2_2 = new QPushButton(frame_2);
+        bt_f_2_2->setObjectName(QString::fromUtf8("bt_f_2_2"));
+        sizePolicy.setHeightForWidth(bt_f_2_2->sizePolicy().hasHeightForWidth());
+        bt_f_2_2->setSizePolicy(sizePolicy);
+        bt_f_2_2->setCheckable(true);
+        bt_f_2_2->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_2_2, 4, 0, 1, 1);
+
+        bt_f_2_4 = new QPushButton(frame_2);
+        bt_f_2_4->setObjectName(QString::fromUtf8("bt_f_2_4"));
+        sizePolicy.setHeightForWidth(bt_f_2_4->sizePolicy().hasHeightForWidth());
+        bt_f_2_4->setSizePolicy(sizePolicy);
+        bt_f_2_4->setCheckable(true);
+        bt_f_2_4->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_2_4, 4, 2, 1, 1);
 
         bt_f_1_6 = new QPushButton(frame_2);
         bt_f_1_6->setObjectName(QString::fromUtf8("bt_f_1_6"));
@@ -422,95 +548,54 @@ public:
 
         gridLayout_2->addWidget(bt_f_1_6, 1, 2, 1, 1);
 
+        bt_f_3_1 = new QPushButton(frame_2);
+        bt_f_3_1->setObjectName(QString::fromUtf8("bt_f_3_1"));
+        sizePolicy.setHeightForWidth(bt_f_3_1->sizePolicy().hasHeightForWidth());
+        bt_f_3_1->setSizePolicy(sizePolicy);
+        bt_f_3_1->setCheckable(true);
+        bt_f_3_1->setAutoExclusive(true);
 
-        verticalLayout->addWidget(frame_2);
+        gridLayout_2->addWidget(bt_f_3_1, 6, 2, 1, 1);
 
-        label = new QLabel(widget);
-        label->setObjectName(QString::fromUtf8("label"));
-        label->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
-        label->setAlignment(Qt::AlignCenter);
-
-        verticalLayout->addWidget(label);
-
-        bt_f_2 = new QPushButton(widget);
-        bt_f_2->setObjectName(QString::fromUtf8("bt_f_2"));
-        sizePolicy.setHeightForWidth(bt_f_2->sizePolicy().hasHeightForWidth());
-        bt_f_2->setSizePolicy(sizePolicy);
-        bt_f_2->setCheckable(true);
-        bt_f_2->setAutoExclusive(true);
-
-        verticalLayout->addWidget(bt_f_2);
-
-        label_2 = new QLabel(widget);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
-        label_2->setAlignment(Qt::AlignCenter);
-
-        verticalLayout->addWidget(label_2);
-
-        bt_f_3 = new QPushButton(widget);
-        bt_f_3->setObjectName(QString::fromUtf8("bt_f_3"));
-        sizePolicy.setHeightForWidth(bt_f_3->sizePolicy().hasHeightForWidth());
-        bt_f_3->setSizePolicy(sizePolicy);
-        bt_f_3->setCheckable(true);
-        bt_f_3->setAutoExclusive(true);
-
-        verticalLayout->addWidget(bt_f_3);
-
-        label_3 = new QLabel(widget);
+        label_3 = new QLabel(frame_2);
         label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
         label_3->setAlignment(Qt::AlignCenter);
 
-        verticalLayout->addWidget(label_3);
+        gridLayout_2->addWidget(label_3, 7, 1, 1, 1);
 
-        bt_f_4 = new QPushButton(widget);
-        bt_f_4->setObjectName(QString::fromUtf8("bt_f_4"));
-        sizePolicy.setHeightForWidth(bt_f_4->sizePolicy().hasHeightForWidth());
-        bt_f_4->setSizePolicy(sizePolicy);
-        bt_f_4->setCheckable(true);
-        bt_f_4->setAutoExclusive(true);
+        label_2 = new QLabel(frame_2);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+        label_2->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
+        label_2->setAlignment(Qt::AlignCenter);
 
-        verticalLayout->addWidget(bt_f_4);
+        gridLayout_2->addWidget(label_2, 5, 1, 1, 1);
 
-        label_4 = new QLabel(widget);
-        label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
-        label_4->setAlignment(Qt::AlignCenter);
+        label = new QLabel(frame_2);
+        label->setObjectName(QString::fromUtf8("label"));
+        label->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
+        label->setAlignment(Qt::AlignCenter);
 
-        verticalLayout->addWidget(label_4);
+        gridLayout_2->addWidget(label, 2, 1, 1, 1);
 
-        bt_f_5 = new QPushButton(widget);
-        bt_f_5->setObjectName(QString::fromUtf8("bt_f_5"));
-        sizePolicy.setHeightForWidth(bt_f_5->sizePolicy().hasHeightForWidth());
-        bt_f_5->setSizePolicy(sizePolicy);
-        bt_f_5->setCheckable(true);
-        bt_f_5->setAutoExclusive(true);
-
-        verticalLayout->addWidget(bt_f_5);
-
-        label_5 = new QLabel(widget);
-        label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
-        label_5->setAlignment(Qt::AlignCenter);
-
-        verticalLayout->addWidget(label_5);
-
-        bt_f_6 = new QPushButton(widget);
-        bt_f_6->setObjectName(QString::fromUtf8("bt_f_6"));
-        sizePolicy.setHeightForWidth(bt_f_6->sizePolicy().hasHeightForWidth());
-        bt_f_6->setSizePolicy(sizePolicy);
-        bt_f_6->setCheckable(true);
-        bt_f_6->setAutoExclusive(true);
-
-        verticalLayout->addWidget(bt_f_6);
-
-        label_6 = new QLabel(widget);
+        label_6 = new QLabel(frame_2);
         label_6->setObjectName(QString::fromUtf8("label_6"));
         label_6->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);"));
         label_6->setAlignment(Qt::AlignCenter);
 
-        verticalLayout->addWidget(label_6);
+        gridLayout_2->addWidget(label_6, 16, 1, 1, 1);
+
+        bt_f_4_2 = new QPushButton(frame_2);
+        bt_f_4_2->setObjectName(QString::fromUtf8("bt_f_4_2"));
+        sizePolicy.setHeightForWidth(bt_f_4_2->sizePolicy().hasHeightForWidth());
+        bt_f_4_2->setSizePolicy(sizePolicy);
+        bt_f_4_2->setCheckable(true);
+        bt_f_4_2->setAutoExclusive(true);
+
+        gridLayout_2->addWidget(bt_f_4_2, 9, 2, 1, 1);
+
+
+        verticalLayout->addWidget(frame_2);
 
 
         horizontalLayout->addWidget(widget);
@@ -2360,22 +2445,30 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        bt_f_1_2->setText(QString());
         bt_f_1->setText(QString());
-        bt_f_1_1->setText(QString());
-        bt_f_1_3->setText(QString());
-        bt_f_1_6->setText(QString());
-        label->setText(QCoreApplication::translate("MainWindow", "Day Sight", nullptr));
-        bt_f_2->setText(QString());
-        label_2->setText(QCoreApplication::translate("MainWindow", "Ir Sight", nullptr));
-        bt_f_3->setText(QString());
-        label_3->setText(QCoreApplication::translate("MainWindow", "Ranging", nullptr));
+        bt_f_4_1->setText(QString());
+        bt_f_1_2->setText(QString());
         bt_f_4->setText(QString());
-        label_4->setText(QCoreApplication::translate("MainWindow", "Weapon", nullptr));
+        bt_f_3->setText(QString());
+        bt_f_2_3->setText(QString());
         bt_f_5->setText(QString());
-        label_5->setText(QCoreApplication::translate("MainWindow", "Calibration", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "Weapon", nullptr));
+        bt_f_4_3->setText(QString());
+        bt_f_1_1->setText(QString());
         bt_f_6->setText(QString());
+        bt_f_2_1->setText(QString());
+        bt_f_2->setText(QString());
+        bt_f_1_3->setText(QString());
+        label_5->setText(QCoreApplication::translate("MainWindow", "Calibration", nullptr));
+        bt_f_2_2->setText(QString());
+        bt_f_2_4->setText(QString());
+        bt_f_1_6->setText(QString());
+        bt_f_3_1->setText(QString());
+        label_3->setText(QCoreApplication::translate("MainWindow", "Ranging", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "Ir Sight", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "Day Sight", nullptr));
         label_6->setText(QCoreApplication::translate("MainWindow", "System", nullptr));
+        bt_f_4_2->setText(QString());
         label_90->setText(QCoreApplication::translate("MainWindow", "Weapon", nullptr));
         label_101->setText(QCoreApplication::translate("MainWindow", "M8", nullptr));
         label_93->setText(QCoreApplication::translate("MainWindow", "Ammo", nullptr));
