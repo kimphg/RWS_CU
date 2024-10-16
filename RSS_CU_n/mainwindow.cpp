@@ -150,7 +150,7 @@ MainWindow::MainWindow(QWidget *parent) :
     CConfig::setValue("param_vd",1.25);
 
     //====================> KHANG
-//    resize(SCR_W, SCR_H);
+    //    resize(SCR_W, SCR_H);
 
     ui->stackedWidget_dasight_2->setHidden(false);
     ui->stackedWidget_irsight_2->setHidden(true);
@@ -178,14 +178,18 @@ MainWindow::MainWindow(QWidget *parent) :
     // SYSTEM SETUP
     setButtonStyle( ui->bt_f_6, ":/images/images/SYSTEM 1.png", ":/images/images/SYSTEM 2.png");
 
-//    this->on_bt_f_1_clicked();
-//    ui->bt_f_1->setChecked(true);
-//    this->on_bt_f_2_clicked();
-//    ui->bt_f_2->setChecked(true);
+    //    this->on_bt_f_1_clicked();
+    //    ui->bt_f_1->setChecked(true);
+    //    this->on_bt_f_2_clicked();
+    //    ui->bt_f_2->setChecked(true);
     setButtonStyle(ui->bt_f_1_1,":/images/images/BRIGHTNESS 1.png",":/images/images/BRIGHTNESS 1.png");
     setButtonStyle(ui->bt_f_1_6,":/images/images/CONTRAST CONG  1.png",":/images/images/CONTRAST CONG  1.png");
     setButtonStyle(ui->bt_f_1_3,":/images/images/CONG 1.png",":/images/images/CONG 1.png");
     setButtonStyle(ui->bt_f_1_2,":/images/images/CONG 1.png",":/images/images/CONG 1.png");
+
+    setButtonStyle(ui->pushButton_Continuous_shot, ":/new/headerImages/Header_Images/CONTINUOUS_1.png", ":/new/headerImages/Header_Images/CONTINUOUS_2.png");
+    setButtonStyle(ui->pushButto_Burst_shot, ":/new/headerImages/Header_Images/BURST_1.png", ":/new/headerImages/Header_Images/BURST_2.png");
+    setButtonStyle(ui->pushButton_single_shot, ":/new/headerImages/Header_Images/SINGLE_1.png", ":/new/headerImages/Header_Images/SINGLE_2.png");
     //* ==========================>
 }
 
@@ -373,21 +377,21 @@ void MainWindow::processKeyBoardEvent(int key)
         ui->bt_f_6->setChecked(true);
         //    this->ui->frame_gui->show();
     }
-//    else if(key == Qt::Key_F8){
+    //    else if(key == Qt::Key_F8){
 
 
-//        system("cmd.exe");
-//    }
-//    else if(key == Qt::Key_F9){
+    //        system("cmd.exe");
+    //    }
+    //    else if(key == Qt::Key_F9){
 
 
-//        system("explorer.exe");
-//    }
-//    else if(key==Qt::Key_F11)
-//    {
-//        mControl.setWorkmode(0);
+    //        system("explorer.exe");
+    //    }
+    //    else if(key==Qt::Key_F11)
+    //    {
+    //        mControl.setWorkmode(0);
 
-//    }
+    //    }
     else if(key==Qt::Key_Escape)
     {
         mControl.setWorkmode(1);
@@ -1678,7 +1682,7 @@ void MainWindow::on_bt_stab_2_clicked()
 void MainWindow::setButtonStyle(QPushButton *button, const QString &image1Path, const QString &image2Path) {
     QString styleSheet = QString(
                 "QPushButton {"
-                "border-radius: 10px;"
+                "border-radius: 5px;"
                 "border: 2px solid transparent;"
                 "image: url(%1);" // Image 1
                 "position: center;"

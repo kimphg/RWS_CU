@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/new/headerImages">
+        <file>Header_Images/BURST_1.png</file>
+        <file>Header_Images/BURST_2.png</file>
+        <file>Header_Images/CONTINUOUS_1.png</file>
+        <file>Header_Images/CONTINUOUS_2.png</file>
+        <file>Header_Images/SINGLE_1.png</file>
+        <file>Header_Images/SINGLE_2.png</file>
+        <file>Header_Images/a1.png</file>
+        <file>Header_Images/a2.png</file>
+        <file>Header_Images/b1.png</file>
+        <file>Header_Images/b2.png</file>
+        <file>Header_Images/b3.png</file>
+        <file>Header_Images/RANGING 1.png</file>
+        <file>Header_Images/RANGING 2.png</file>
+        <file>Header_Images/FIRST ECHO 1.png</file>
+        <file>Header_Images/LAST_ECHO_1.png</file>
+        <file>Header_Images/pan_1.png</file>
+        <file>Header_Images/pan_2.png</file>
+        <file>Header_Images/tilt_1.png</file>
+        <file>Header_Images/tilt_2.png</file>
+    </qresource>
+</RCC>

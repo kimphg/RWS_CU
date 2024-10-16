@@ -127,6 +127,7 @@ DISTFILES += \
 
 RESOURCES += \
     CalibResourcesFile.qrc \
+    HeaderResourcesFile.qrc \
     IrSight_ResourcesFile.qrc \
     RangingsResourcesFile.qrc \
     ResourceFile.qrc \
