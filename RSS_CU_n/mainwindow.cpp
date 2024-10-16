@@ -182,7 +182,10 @@ MainWindow::MainWindow(QWidget *parent) :
 //    ui->bt_f_1->setChecked(true);
 //    this->on_bt_f_2_clicked();
 //    ui->bt_f_2->setChecked(true);
-
+    setButtonStyle(ui->bt_f_1_1,":/images/images/BRIGHTNESS 1.png",":/images/images/BRIGHTNESS 1.png");
+    setButtonStyle(ui->bt_f_1_6,":/images/images/CONTRAST CONG  1.png",":/images/images/CONTRAST CONG  1.png");
+    setButtonStyle(ui->bt_f_1_3,":/images/images/CONG 1.png",":/images/images/CONG 1.png");
+    setButtonStyle(ui->bt_f_1_2,":/images/images/CONG 1.png",":/images/images/CONG 1.png");
     //* ==========================>
 }
 

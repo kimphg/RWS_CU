@@ -10,8 +10,10 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFrame>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
@@ -34,7 +36,13 @@ public:
     QHBoxLayout *horizontalLayout;
     QWidget *widget;
     QVBoxLayout *verticalLayout;
+    QFrame *frame_2;
+    QGridLayout *gridLayout;
     QPushButton *bt_f_1;
+    QPushButton *bt_f_1_3;
+    QPushButton *bt_f_1_2;
+    QPushButton *bt_f_1_1;
+    QPushButton *bt_f_1_6;
     QLabel *label;
     QPushButton *bt_f_2;
     QLabel *label_2;
@@ -296,17 +304,79 @@ public:
         widget->setObjectName(QString::fromUtf8("widget"));
         verticalLayout = new QVBoxLayout(widget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        bt_f_1 = new QPushButton(widget);
+        frame_2 = new QFrame(widget);
+        frame_2->setObjectName(QString::fromUtf8("frame_2"));
+        frame_2->setFrameShape(QFrame::StyledPanel);
+        frame_2->setFrameShadow(QFrame::Raised);
+        gridLayout = new QGridLayout(frame_2);
+        gridLayout->setSpacing(1);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        gridLayout->setContentsMargins(1, 1, 1, 1);
+        bt_f_1 = new QPushButton(frame_2);
         bt_f_1->setObjectName(QString::fromUtf8("bt_f_1"));
         QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(bt_f_1->sizePolicy().hasHeightForWidth());
         bt_f_1->setSizePolicy(sizePolicy);
+        bt_f_1->setMinimumSize(QSize(100, 100));
         bt_f_1->setCheckable(true);
         bt_f_1->setAutoExclusive(true);
 
-        verticalLayout->addWidget(bt_f_1);
+        gridLayout->addWidget(bt_f_1, 0, 1, 3, 1);
+
+        bt_f_1_3 = new QPushButton(frame_2);
+        bt_f_1_3->setObjectName(QString::fromUtf8("bt_f_1_3"));
+        sizePolicy.setHeightForWidth(bt_f_1_3->sizePolicy().hasHeightForWidth());
+        bt_f_1_3->setSizePolicy(sizePolicy);
+        bt_f_1_3->setMinimumSize(QSize(20, 20));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/images/images/CONG 1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        bt_f_1_3->setIcon(icon);
+        bt_f_1_3->setCheckable(true);
+        bt_f_1_3->setAutoExclusive(false);
+
+        gridLayout->addWidget(bt_f_1_3, 1, 0, 1, 1);
+
+        bt_f_1_2 = new QPushButton(frame_2);
+        bt_f_1_2->setObjectName(QString::fromUtf8("bt_f_1_2"));
+        sizePolicy.setHeightForWidth(bt_f_1_2->sizePolicy().hasHeightForWidth());
+        bt_f_1_2->setSizePolicy(sizePolicy);
+        bt_f_1_2->setMinimumSize(QSize(20, 20));
+        bt_f_1_2->setIcon(icon);
+        bt_f_1_2->setCheckable(true);
+        bt_f_1_2->setAutoExclusive(false);
+
+        gridLayout->addWidget(bt_f_1_2, 0, 0, 1, 1);
+
+        bt_f_1_1 = new QPushButton(frame_2);
+        bt_f_1_1->setObjectName(QString::fromUtf8("bt_f_1_1"));
+        sizePolicy.setHeightForWidth(bt_f_1_1->sizePolicy().hasHeightForWidth());
+        bt_f_1_1->setSizePolicy(sizePolicy);
+        bt_f_1_1->setMinimumSize(QSize(20, 20));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/images/images/BRIGHTNESS 1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        bt_f_1_1->setIcon(icon1);
+        bt_f_1_1->setCheckable(true);
+        bt_f_1_1->setAutoExclusive(false);
+
+        gridLayout->addWidget(bt_f_1_1, 0, 2, 1, 1);
+
+        bt_f_1_6 = new QPushButton(frame_2);
+        bt_f_1_6->setObjectName(QString::fromUtf8("bt_f_1_6"));
+        sizePolicy.setHeightForWidth(bt_f_1_6->sizePolicy().hasHeightForWidth());
+        bt_f_1_6->setSizePolicy(sizePolicy);
+        bt_f_1_6->setMinimumSize(QSize(20, 20));
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/images/images/CONTRAST CONG  1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        bt_f_1_6->setIcon(icon2);
+        bt_f_1_6->setCheckable(true);
+        bt_f_1_6->setAutoExclusive(false);
+
+        gridLayout->addWidget(bt_f_1_6, 1, 2, 1, 1);
+
+
+        verticalLayout->addWidget(frame_2);
 
         label = new QLabel(widget);
         label->setObjectName(QString::fromUtf8("label"));
@@ -1901,7 +1971,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 2063, 25));
+        menubar->setGeometry(QRect(0, 0, 2063, 20));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -1923,6 +1993,10 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         bt_f_1->setText(QString());
+        bt_f_1_3->setText(QString());
+        bt_f_1_2->setText(QString());
+        bt_f_1_1->setText(QString());
+        bt_f_1_6->setText(QString());
         label->setText(QCoreApplication::translate("MainWindow", "Day Sight", nullptr));
         bt_f_2->setText(QString());
         label_2->setText(QCoreApplication::translate("MainWindow", "Ir Sight", nullptr));
