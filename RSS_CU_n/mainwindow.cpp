@@ -187,8 +187,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setButtonStyle(ui->bt_f_1_3,":/images/images/CONG 1.png",":/images/images/CONG 1.png");
     setButtonStyle(ui->bt_f_1_2,":/images/images/CONG 1.png",":/images/images/CONG 1.png");
 
-    setButtonStyle(ui->pushButton_Continuous_shot, ":/new/headerImages/Header_Images/CONTINUOUS_1.png", ":/new/headerImages/Header_Images/CONTINUOUS_2.png");
-    setButtonStyle(ui->pushButto_Burst_shot, ":/new/headerImages/Header_Images/BURST_1.png", ":/new/headerImages/Header_Images/BURST_2.png");
+    setButtonStyle(ui->pushButton_continuous_shot, ":/new/headerImages/Header_Images/CONTINUOUS_1.png", ":/new/headerImages/Header_Images/CONTINUOUS_2.png");
+    setButtonStyle(ui->pushButton_burst_shot, ":/new/headerImages/Header_Images/BURST_1.png", ":/new/headerImages/Header_Images/BURST_2.png");
     setButtonStyle(ui->pushButton_single_shot, ":/new/headerImages/Header_Images/SINGLE_1.png", ":/new/headerImages/Header_Images/SINGLE_2.png");
     //* ==========================>
 }
