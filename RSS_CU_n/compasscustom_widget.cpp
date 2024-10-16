@@ -250,7 +250,7 @@ void CompassCustom_Widget::drawLeftArc(QPainter &painter, const QRect &widgetRec
     // Tính toán vị trí để vẽ số 70 ở phía trên
     painter.drawText(QPoint(2, 12), "70°");
     painter.drawText(QPoint(0 + 2, this->height()-5), "-20°");
-
+//--°--'--''
     //***** Vẽ mũi tên màu xanh nhỏ từ giá trị value
     int angle = convertValue(value);
     //    qDebug() << "JABEKNAKN: " << angle;

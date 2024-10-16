@@ -19,5 +19,8 @@
         <file>Header_Images/pan_2.png</file>
         <file>Header_Images/tilt_1.png</file>
         <file>Header_Images/tilt_2.png</file>
+        <file>Header_Images/ABC.png</file>
+        <file>Header_Images/CDE.png</file>
+        <file>Header_Images/FGH.png</file>
     </qresource>
 </RCC>
