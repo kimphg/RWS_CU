@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/new/footer_images">
+        <file>Footer_Images/app_logo.png</file>
+        <file>Footer_Images/footer_1.png</file>
+        <file>Footer_Images/footer_2.png</file>
+        <file>Footer_Images/footer_3.png</file>
+        <file>Footer_Images/footer_4.png</file>
+        <file>Footer_Images/footer_5.png</file>
+        <file>Footer_Images/footer_6.png</file>
+        <file>Footer_Images/pause_1.png</file>
+        <file>Footer_Images/pause_2.png</file>
+        <file>Footer_Images/stop_1.png</file>
+        <file>Footer_Images/stop_2.png</file>
+        <file>Footer_Images/STOPCLOCK.png</file>
+    </qresource>
+</RCC>

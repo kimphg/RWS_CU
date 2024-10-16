@@ -270,6 +270,7 @@ Makefile: RSS_CU_n.pro C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\win32-msvc\qmak
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\qtmain.prl \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\build_pass.prf \
 		CalibResourcesFile.qrc \
+		FooterResourcesFile.qrc \
 		HeaderResourcesFile.qrc \
 		IrSight_ResourcesFile.qrc \
 		RangingsResourcesFile.qrc \
@@ -471,6 +472,7 @@ C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\Qt5Core.prl:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\qtmain.prl:
 C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\mkspecs\features\build_pass.prf:
 CalibResourcesFile.qrc:
+FooterResourcesFile.qrc:
 HeaderResourcesFile.qrc:
 IrSight_ResourcesFile.qrc:
 RangingsResourcesFile.qrc:

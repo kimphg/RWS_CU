@@ -7,6 +7,7 @@
 CompassCustom_Widget::CompassCustom_Widget(QWidget *parent)
     : QWidget(parent) {
 //    setElevationAngle(5);
+    setFixedSize(165,125);
 }
 
 void CompassCustom_Widget::setMainArrowAngle(float angle) {
@@ -34,7 +35,7 @@ void CompassCustom_Widget::paintEvent(QPaintEvent *event)
     QPoint center(w / 2, h / 2);
 
     // Đặt màu nền
-    painter.setBrush(QColor(0, 40, 40));
+    painter.setBrush(QColor(0, 33, 41));
     painter.drawRect(rect());
 
     // Vẽ mặt số la bàn

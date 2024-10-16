@@ -22,6 +22,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include <compasscustom_widget.h>
@@ -87,7 +88,7 @@ public:
     QLabel *label_103;
     QWidget *widget_3;
     QVBoxLayout *verticalLayout_21;
-    QFrame *frame2;
+    QFrame *frame_3;
     QGridLayout *gridLayout_3;
     QWidget *widget_10;
     QHBoxLayout *horizontalLayout_6;
@@ -106,7 +107,7 @@ public:
     QLabel *label_111;
     QWidget *widget_4;
     QVBoxLayout *verticalLayout_22;
-    QFrame *frame3;
+    QFrame *frame2;
     QGridLayout *gridLayout_4;
     QWidget *widget_13;
     QHBoxLayout *horizontalLayout_9;
@@ -121,7 +122,7 @@ public:
     QLabel *label_118;
     QWidget *widget_6;
     QVBoxLayout *verticalLayout_23;
-    QFrame *frame4;
+    QFrame *frame3;
     QGridLayout *gridLayout_5;
     QLabel *label_124;
     QLabel *label_120;
@@ -140,6 +141,35 @@ public:
     CompassCustom_Widget *widget_compass;
     video_window *widget_video;
     QWidget *widget_footer;
+    QHBoxLayout *horizontalLayout_13;
+    QWidget *widget_17;
+    QVBoxLayout *verticalLayout_26;
+    QFrame *frame_4;
+    QGridLayout *gridLayout_10;
+    QLabel *label_135;
+    QLabel *label_136;
+    QLabel *label_137;
+    QSpacerItem *horizontalSpacer_2;
+    QTextBrowser *textBrowser;
+    QWidget *widget_18;
+    QVBoxLayout *verticalLayout_25;
+    QFrame *frame_21;
+    QGridLayout *gridLayout_7;
+    QLabel *label_133;
+    QLabel *label_134;
+    QSpacerItem *horizontalSpacer;
+    QFrame *frame_22;
+    QGridLayout *gridLayout_8;
+    QPushButton *pushButton;
+    QPushButton *pushButton_2;
+    QWidget *widget_19;
+    QVBoxLayout *verticalLayout_24;
+    QLabel *label_129;
+    QFrame *frame_20;
+    QGridLayout *gridLayout_9;
+    QLabel *label_131;
+    QLabel *label_132;
+    QLabel *label_130;
     QWidget *widget_5;
     QHBoxLayout *horizontalLayout_3;
     QStackedWidget *stackedWidget_dasight_2;
@@ -381,6 +411,7 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         frame_2 = new QFrame(widget);
         frame_2->setObjectName(QString::fromUtf8("frame_2"));
+        frame_2->setMaximumSize(QSize(170, 16777215));
         frame_2->setFrameShape(QFrame::StyledPanel);
         frame_2->setFrameShadow(QFrame::Raised);
         gridLayout_2 = new QGridLayout(frame_2);
@@ -402,8 +433,13 @@ public:
 
         bt_f_4_1 = new QPushButton(frame_2);
         bt_f_4_1->setObjectName(QString::fromUtf8("bt_f_4_1"));
-        sizePolicy.setHeightForWidth(bt_f_4_1->sizePolicy().hasHeightForWidth());
-        bt_f_4_1->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(bt_f_4_1->sizePolicy().hasHeightForWidth());
+        bt_f_4_1->setSizePolicy(sizePolicy1);
+        bt_f_4_1->setMinimumSize(QSize(30, 30));
+        bt_f_4_1->setMaximumSize(QSize(30, 30));
         bt_f_4_1->setCheckable(true);
         bt_f_4_1->setAutoExclusive(true);
 
@@ -411,9 +447,10 @@ public:
 
         bt_f_1_2 = new QPushButton(frame_2);
         bt_f_1_2->setObjectName(QString::fromUtf8("bt_f_1_2"));
-        sizePolicy.setHeightForWidth(bt_f_1_2->sizePolicy().hasHeightForWidth());
-        bt_f_1_2->setSizePolicy(sizePolicy);
-        bt_f_1_2->setMinimumSize(QSize(20, 20));
+        sizePolicy1.setHeightForWidth(bt_f_1_2->sizePolicy().hasHeightForWidth());
+        bt_f_1_2->setSizePolicy(sizePolicy1);
+        bt_f_1_2->setMinimumSize(QSize(30, 30));
+        bt_f_1_2->setMaximumSize(QSize(30, 30));
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/images/images/CONG 1.png"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_1_2->setIcon(icon);
@@ -444,8 +481,10 @@ public:
 
         bt_f_2_3 = new QPushButton(frame_2);
         bt_f_2_3->setObjectName(QString::fromUtf8("bt_f_2_3"));
-        sizePolicy.setHeightForWidth(bt_f_2_3->sizePolicy().hasHeightForWidth());
-        bt_f_2_3->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(bt_f_2_3->sizePolicy().hasHeightForWidth());
+        bt_f_2_3->setSizePolicy(sizePolicy1);
+        bt_f_2_3->setMinimumSize(QSize(30, 30));
+        bt_f_2_3->setMaximumSize(QSize(30, 30));
         bt_f_2_3->setCheckable(true);
         bt_f_2_3->setAutoExclusive(true);
 
@@ -470,8 +509,10 @@ public:
 
         bt_f_4_3 = new QPushButton(frame_2);
         bt_f_4_3->setObjectName(QString::fromUtf8("bt_f_4_3"));
-        sizePolicy.setHeightForWidth(bt_f_4_3->sizePolicy().hasHeightForWidth());
-        bt_f_4_3->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(bt_f_4_3->sizePolicy().hasHeightForWidth());
+        bt_f_4_3->setSizePolicy(sizePolicy1);
+        bt_f_4_3->setMinimumSize(QSize(30, 30));
+        bt_f_4_3->setMaximumSize(QSize(30, 30));
         bt_f_4_3->setCheckable(true);
         bt_f_4_3->setAutoExclusive(true);
 
@@ -479,9 +520,10 @@ public:
 
         bt_f_1_1 = new QPushButton(frame_2);
         bt_f_1_1->setObjectName(QString::fromUtf8("bt_f_1_1"));
-        sizePolicy.setHeightForWidth(bt_f_1_1->sizePolicy().hasHeightForWidth());
-        bt_f_1_1->setSizePolicy(sizePolicy);
-        bt_f_1_1->setMinimumSize(QSize(20, 20));
+        sizePolicy1.setHeightForWidth(bt_f_1_1->sizePolicy().hasHeightForWidth());
+        bt_f_1_1->setSizePolicy(sizePolicy1);
+        bt_f_1_1->setMinimumSize(QSize(30, 30));
+        bt_f_1_1->setMaximumSize(QSize(30, 30));
         QIcon icon1;
         icon1.addFile(QString::fromUtf8(":/images/images/BRIGHTNESS 1.png"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_1_1->setIcon(icon1);
@@ -502,8 +544,10 @@ public:
 
         bt_f_2_1 = new QPushButton(frame_2);
         bt_f_2_1->setObjectName(QString::fromUtf8("bt_f_2_1"));
-        sizePolicy.setHeightForWidth(bt_f_2_1->sizePolicy().hasHeightForWidth());
-        bt_f_2_1->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(bt_f_2_1->sizePolicy().hasHeightForWidth());
+        bt_f_2_1->setSizePolicy(sizePolicy1);
+        bt_f_2_1->setMinimumSize(QSize(30, 30));
+        bt_f_2_1->setMaximumSize(QSize(30, 30));
         bt_f_2_1->setCheckable(true);
         bt_f_2_1->setAutoExclusive(true);
 
@@ -521,9 +565,10 @@ public:
 
         bt_f_1_3 = new QPushButton(frame_2);
         bt_f_1_3->setObjectName(QString::fromUtf8("bt_f_1_3"));
-        sizePolicy.setHeightForWidth(bt_f_1_3->sizePolicy().hasHeightForWidth());
-        bt_f_1_3->setSizePolicy(sizePolicy);
-        bt_f_1_3->setMinimumSize(QSize(20, 20));
+        sizePolicy1.setHeightForWidth(bt_f_1_3->sizePolicy().hasHeightForWidth());
+        bt_f_1_3->setSizePolicy(sizePolicy1);
+        bt_f_1_3->setMinimumSize(QSize(30, 30));
+        bt_f_1_3->setMaximumSize(QSize(30, 30));
         bt_f_1_3->setIcon(icon);
         bt_f_1_3->setCheckable(true);
         bt_f_1_3->setAutoExclusive(false);
@@ -539,8 +584,10 @@ public:
 
         bt_f_2_2 = new QPushButton(frame_2);
         bt_f_2_2->setObjectName(QString::fromUtf8("bt_f_2_2"));
-        sizePolicy.setHeightForWidth(bt_f_2_2->sizePolicy().hasHeightForWidth());
-        bt_f_2_2->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(bt_f_2_2->sizePolicy().hasHeightForWidth());
+        bt_f_2_2->setSizePolicy(sizePolicy1);
+        bt_f_2_2->setMinimumSize(QSize(30, 30));
+        bt_f_2_2->setMaximumSize(QSize(30, 30));
         bt_f_2_2->setCheckable(true);
         bt_f_2_2->setAutoExclusive(true);
 
@@ -548,8 +595,10 @@ public:
 
         bt_f_2_4 = new QPushButton(frame_2);
         bt_f_2_4->setObjectName(QString::fromUtf8("bt_f_2_4"));
-        sizePolicy.setHeightForWidth(bt_f_2_4->sizePolicy().hasHeightForWidth());
-        bt_f_2_4->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(bt_f_2_4->sizePolicy().hasHeightForWidth());
+        bt_f_2_4->setSizePolicy(sizePolicy1);
+        bt_f_2_4->setMinimumSize(QSize(30, 30));
+        bt_f_2_4->setMaximumSize(QSize(30, 30));
         bt_f_2_4->setCheckable(true);
         bt_f_2_4->setAutoExclusive(true);
 
@@ -557,9 +606,10 @@ public:
 
         bt_f_1_6 = new QPushButton(frame_2);
         bt_f_1_6->setObjectName(QString::fromUtf8("bt_f_1_6"));
-        sizePolicy.setHeightForWidth(bt_f_1_6->sizePolicy().hasHeightForWidth());
-        bt_f_1_6->setSizePolicy(sizePolicy);
-        bt_f_1_6->setMinimumSize(QSize(20, 20));
+        sizePolicy1.setHeightForWidth(bt_f_1_6->sizePolicy().hasHeightForWidth());
+        bt_f_1_6->setSizePolicy(sizePolicy1);
+        bt_f_1_6->setMinimumSize(QSize(30, 30));
+        bt_f_1_6->setMaximumSize(QSize(30, 30));
         QIcon icon2;
         icon2.addFile(QString::fromUtf8(":/images/images/CONTRAST CONG  1.png"), QSize(), QIcon::Normal, QIcon::Off);
         bt_f_1_6->setIcon(icon2);
@@ -570,8 +620,10 @@ public:
 
         bt_f_3_1 = new QPushButton(frame_2);
         bt_f_3_1->setObjectName(QString::fromUtf8("bt_f_3_1"));
-        sizePolicy.setHeightForWidth(bt_f_3_1->sizePolicy().hasHeightForWidth());
-        bt_f_3_1->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(bt_f_3_1->sizePolicy().hasHeightForWidth());
+        bt_f_3_1->setSizePolicy(sizePolicy1);
+        bt_f_3_1->setMinimumSize(QSize(30, 30));
+        bt_f_3_1->setMaximumSize(QSize(30, 30));
         bt_f_3_1->setCheckable(true);
         bt_f_3_1->setAutoExclusive(true);
 
@@ -607,8 +659,10 @@ public:
 
         bt_f_4_2 = new QPushButton(frame_2);
         bt_f_4_2->setObjectName(QString::fromUtf8("bt_f_4_2"));
-        sizePolicy.setHeightForWidth(bt_f_4_2->sizePolicy().hasHeightForWidth());
-        bt_f_4_2->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(bt_f_4_2->sizePolicy().hasHeightForWidth());
+        bt_f_4_2->setSizePolicy(sizePolicy1);
+        bt_f_4_2->setMinimumSize(QSize(30, 30));
+        bt_f_4_2->setMaximumSize(QSize(30, 30));
         bt_f_4_2->setCheckable(true);
         bt_f_4_2->setAutoExclusive(true);
 
@@ -630,6 +684,12 @@ public:
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         widget_header = new QWidget(frame);
         widget_header->setObjectName(QString::fromUtf8("widget_header"));
+        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(widget_header->sizePolicy().hasHeightForWidth());
+        widget_header->setSizePolicy(sizePolicy2);
+        widget_header->setMaximumSize(QSize(16777215, 150));
         widget_header->setStyleSheet(QString::fromUtf8(""));
         horizontalLayout_2 = new QHBoxLayout(widget_header);
         horizontalLayout_2->setSpacing(2);
@@ -694,9 +754,6 @@ public:
 
         widget_7 = new QWidget(frame1);
         widget_7->setObjectName(QString::fromUtf8("widget_7"));
-        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Minimum);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(widget_7->sizePolicy().hasHeightForWidth());
         widget_7->setSizePolicy(sizePolicy1);
         horizontalLayout_5 = new QHBoxLayout(widget_7);
@@ -705,11 +762,11 @@ public:
         horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
         pushButton_continuous_shot = new QPushButton(widget_7);
         pushButton_continuous_shot->setObjectName(QString::fromUtf8("pushButton_continuous_shot"));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(pushButton_continuous_shot->sizePolicy().hasHeightForWidth());
-        pushButton_continuous_shot->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(pushButton_continuous_shot->sizePolicy().hasHeightForWidth());
+        pushButton_continuous_shot->setSizePolicy(sizePolicy3);
         pushButton_continuous_shot->setMinimumSize(QSize(5, 10));
         pushButton_continuous_shot->setMaximumSize(QSize(30, 40));
 
@@ -774,12 +831,12 @@ public:
         verticalLayout_21->setSpacing(0);
         verticalLayout_21->setObjectName(QString::fromUtf8("verticalLayout_21"));
         verticalLayout_21->setContentsMargins(0, 0, 0, 0);
-        frame2 = new QFrame(widget_3);
-        frame2->setObjectName(QString::fromUtf8("frame2"));
-        gridLayout_3 = new QGridLayout(frame2);
+        frame_3 = new QFrame(widget_3);
+        frame_3->setObjectName(QString::fromUtf8("frame_3"));
+        gridLayout_3 = new QGridLayout(frame_3);
         gridLayout_3->setSpacing(0);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
-        widget_10 = new QWidget(frame2);
+        widget_10 = new QWidget(frame_3);
         widget_10->setObjectName(QString::fromUtf8("widget_10"));
         horizontalLayout_6 = new QHBoxLayout(widget_10);
         horizontalLayout_6->setSpacing(5);
@@ -802,13 +859,13 @@ public:
 
         gridLayout_3->addWidget(widget_10, 1, 0, 1, 1);
 
-        widget_9 = new QWidget(frame2);
+        widget_9 = new QWidget(frame_3);
         widget_9->setObjectName(QString::fromUtf8("widget_9"));
         widget_9->setStyleSheet(QString::fromUtf8("image: url(:/new/headerImages/Header_Images/a1.png);"));
 
         gridLayout_3->addWidget(widget_9, 0, 0, 1, 1);
 
-        widget_11 = new QWidget(frame2);
+        widget_11 = new QWidget(frame_3);
         widget_11->setObjectName(QString::fromUtf8("widget_11"));
         horizontalLayout_7 = new QHBoxLayout(widget_11);
         horizontalLayout_7->setSpacing(15);
@@ -831,7 +888,7 @@ public:
 
         gridLayout_3->addWidget(widget_11, 2, 0, 1, 1);
 
-        widget_12 = new QWidget(frame2);
+        widget_12 = new QWidget(frame_3);
         widget_12->setObjectName(QString::fromUtf8("widget_12"));
         horizontalLayout_8 = new QHBoxLayout(widget_12);
         horizontalLayout_8->setSpacing(5);
@@ -877,7 +934,7 @@ public:
         gridLayout_3->setRowMinimumHeight(2, 1);
         gridLayout_3->setRowMinimumHeight(3, 1);
 
-        verticalLayout_21->addWidget(frame2);
+        verticalLayout_21->addWidget(frame_3);
 
 
         horizontalLayout_2->addWidget(widget_3);
@@ -888,12 +945,12 @@ public:
         verticalLayout_22->setSpacing(0);
         verticalLayout_22->setObjectName(QString::fromUtf8("verticalLayout_22"));
         verticalLayout_22->setContentsMargins(0, 0, 0, 0);
-        frame3 = new QFrame(widget_4);
-        frame3->setObjectName(QString::fromUtf8("frame3"));
-        gridLayout_4 = new QGridLayout(frame3);
+        frame2 = new QFrame(widget_4);
+        frame2->setObjectName(QString::fromUtf8("frame2"));
+        gridLayout_4 = new QGridLayout(frame2);
         gridLayout_4->setSpacing(0);
         gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
-        widget_13 = new QWidget(frame3);
+        widget_13 = new QWidget(frame2);
         widget_13->setObjectName(QString::fromUtf8("widget_13"));
         horizontalLayout_9 = new QHBoxLayout(widget_13);
         horizontalLayout_9->setSpacing(5);
@@ -901,8 +958,8 @@ public:
         horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
         label_113 = new QLabel(widget_13);
         label_113->setObjectName(QString::fromUtf8("label_113"));
-        sizePolicy2.setHeightForWidth(label_113->sizePolicy().hasHeightForWidth());
-        label_113->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(label_113->sizePolicy().hasHeightForWidth());
+        label_113->setSizePolicy(sizePolicy3);
         label_113->setMinimumSize(QSize(45, 0));
         label_113->setStyleSheet(QString::fromUtf8("image: url(:/new/headerImages/Header_Images/pan_2.png);"));
         label_113->setAlignment(Qt::AlignCenter);
@@ -926,13 +983,13 @@ public:
 
         gridLayout_4->addWidget(widget_13, 1, 0, 1, 1);
 
-        label_112 = new QLabel(frame3);
+        label_112 = new QLabel(frame2);
         label_112->setObjectName(QString::fromUtf8("label_112"));
         label_112->setStyleSheet(QString::fromUtf8("image: url(:/new/headerImages/Header_Images/b1.png);"));
 
         gridLayout_4->addWidget(label_112, 0, 0, 1, 1);
 
-        widget_14 = new QWidget(frame3);
+        widget_14 = new QWidget(frame2);
         widget_14->setObjectName(QString::fromUtf8("widget_14"));
         horizontalLayout_10 = new QHBoxLayout(widget_14);
         horizontalLayout_10->setSpacing(5);
@@ -940,8 +997,8 @@ public:
         horizontalLayout_10->setContentsMargins(0, 0, 0, 0);
         label_116 = new QLabel(widget_14);
         label_116->setObjectName(QString::fromUtf8("label_116"));
-        sizePolicy2.setHeightForWidth(label_116->sizePolicy().hasHeightForWidth());
-        label_116->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(label_116->sizePolicy().hasHeightForWidth());
+        label_116->setSizePolicy(sizePolicy3);
         label_116->setMinimumSize(QSize(50, 30));
         label_116->setStyleSheet(QString::fromUtf8("image: url(:/new/headerImages/Header_Images/tilt_2.png);"));
 
@@ -971,7 +1028,7 @@ public:
         gridLayout_4->setRowMinimumHeight(1, 1);
         gridLayout_4->setRowMinimumHeight(2, 1);
 
-        verticalLayout_22->addWidget(frame3);
+        verticalLayout_22->addWidget(frame2);
 
 
         horizontalLayout_2->addWidget(widget_4);
@@ -983,24 +1040,24 @@ public:
         verticalLayout_23->setSpacing(0);
         verticalLayout_23->setObjectName(QString::fromUtf8("verticalLayout_23"));
         verticalLayout_23->setContentsMargins(0, 0, 0, 0);
-        frame4 = new QFrame(widget_6);
-        frame4->setObjectName(QString::fromUtf8("frame4"));
-        gridLayout_5 = new QGridLayout(frame4);
+        frame3 = new QFrame(widget_6);
+        frame3->setObjectName(QString::fromUtf8("frame3"));
+        gridLayout_5 = new QGridLayout(frame3);
         gridLayout_5->setSpacing(0);
         gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
-        label_124 = new QLabel(frame4);
+        label_124 = new QLabel(frame3);
         label_124->setObjectName(QString::fromUtf8("label_124"));
         label_124->setStyleSheet(QString::fromUtf8("image: url(:/new/headerImages/Header_Images/FGH.png);"));
 
         gridLayout_5->addWidget(label_124, 3, 1, 1, 1);
 
-        label_120 = new QLabel(frame4);
+        label_120 = new QLabel(frame3);
         label_120->setObjectName(QString::fromUtf8("label_120"));
         label_120->setStyleSheet(QString::fromUtf8("image: url(:/new/headerImages/Header_Images/CDE.png);"));
 
         gridLayout_5->addWidget(label_120, 1, 1, 1, 1);
 
-        label_122 = new QLabel(frame4);
+        label_122 = new QLabel(frame3);
         label_122->setObjectName(QString::fromUtf8("label_122"));
         label_122->setFont(font);
         label_122->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
@@ -1008,13 +1065,13 @@ public:
 
         gridLayout_5->addWidget(label_122, 3, 0, 1, 1);
 
-        label_123 = new QLabel(frame4);
+        label_123 = new QLabel(frame3);
         label_123->setObjectName(QString::fromUtf8("label_123"));
         label_123->setStyleSheet(QString::fromUtf8("image: url(:/new/headerImages/Header_Images/ABC.png);"));
 
         gridLayout_5->addWidget(label_123, 2, 1, 1, 1);
 
-        label_121 = new QLabel(frame4);
+        label_121 = new QLabel(frame3);
         label_121->setObjectName(QString::fromUtf8("label_121"));
         label_121->setFont(font);
         label_121->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
@@ -1022,7 +1079,7 @@ public:
 
         gridLayout_5->addWidget(label_121, 2, 0, 1, 1);
 
-        label_119 = new QLabel(frame4);
+        label_119 = new QLabel(frame3);
         label_119->setObjectName(QString::fromUtf8("label_119"));
         label_119->setFont(font);
         label_119->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
@@ -1030,7 +1087,7 @@ public:
 
         gridLayout_5->addWidget(label_119, 1, 0, 1, 1);
 
-        widget_15 = new QWidget(frame4);
+        widget_15 = new QWidget(frame3);
         widget_15->setObjectName(QString::fromUtf8("widget_15"));
         horizontalLayout_11 = new QHBoxLayout(widget_15);
         horizontalLayout_11->setSpacing(0);
@@ -1046,8 +1103,8 @@ public:
 
         label_126 = new QLabel(widget_15);
         label_126->setObjectName(QString::fromUtf8("label_126"));
-        sizePolicy2.setHeightForWidth(label_126->sizePolicy().hasHeightForWidth());
-        label_126->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(label_126->sizePolicy().hasHeightForWidth());
+        label_126->setSizePolicy(sizePolicy3);
         label_126->setMinimumSize(QSize(40, 20));
         label_126->setStyleSheet(QString::fromUtf8("image: url(:/new/headerImages/Header_Images/pan_1.png);"));
 
@@ -1056,7 +1113,7 @@ public:
 
         gridLayout_5->addWidget(widget_15, 0, 0, 1, 1);
 
-        widget_16 = new QWidget(frame4);
+        widget_16 = new QWidget(frame3);
         widget_16->setObjectName(QString::fromUtf8("widget_16"));
         horizontalLayout_12 = new QHBoxLayout(widget_16);
         horizontalLayout_12->setSpacing(0);
@@ -1072,8 +1129,8 @@ public:
 
         label_128 = new QLabel(widget_16);
         label_128->setObjectName(QString::fromUtf8("label_128"));
-        sizePolicy2.setHeightForWidth(label_128->sizePolicy().hasHeightForWidth());
-        label_128->setSizePolicy(sizePolicy2);
+        sizePolicy3.setHeightForWidth(label_128->sizePolicy().hasHeightForWidth());
+        label_128->setSizePolicy(sizePolicy3);
         label_128->setMinimumSize(QSize(30, 30));
         label_128->setStyleSheet(QString::fromUtf8("image: url(:/new/headerImages/Header_Images/tilt_1.png);"));
 
@@ -1083,7 +1140,7 @@ public:
         gridLayout_5->addWidget(widget_16, 0, 1, 1, 1);
 
 
-        verticalLayout_23->addWidget(frame4);
+        verticalLayout_23->addWidget(frame3);
 
 
         horizontalLayout_2->addWidget(widget_6);
@@ -1104,14 +1161,198 @@ public:
 
         widget_video = new video_window(frame);
         widget_video->setObjectName(QString::fromUtf8("widget_video"));
-        widget_video->setMinimumSize(QSize(300, 500));
+        widget_video->setMinimumSize(QSize(300, 400));
         widget_video->setStyleSheet(QString::fromUtf8("background-color: rgb(67, 255, 127);"));
 
         verticalLayout_2->addWidget(widget_video);
 
         widget_footer = new QWidget(frame);
         widget_footer->setObjectName(QString::fromUtf8("widget_footer"));
-        widget_footer->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 199, 246);"));
+        widget_footer->setStyleSheet(QString::fromUtf8(""));
+        horizontalLayout_13 = new QHBoxLayout(widget_footer);
+        horizontalLayout_13->setSpacing(0);
+        horizontalLayout_13->setObjectName(QString::fromUtf8("horizontalLayout_13"));
+        horizontalLayout_13->setContentsMargins(0, 0, 0, 0);
+        widget_17 = new QWidget(widget_footer);
+        widget_17->setObjectName(QString::fromUtf8("widget_17"));
+        verticalLayout_26 = new QVBoxLayout(widget_17);
+        verticalLayout_26->setSpacing(0);
+        verticalLayout_26->setObjectName(QString::fromUtf8("verticalLayout_26"));
+        verticalLayout_26->setContentsMargins(0, 0, 0, 0);
+        frame_4 = new QFrame(widget_17);
+        frame_4->setObjectName(QString::fromUtf8("frame_4"));
+        sizePolicy2.setHeightForWidth(frame_4->sizePolicy().hasHeightForWidth());
+        frame_4->setSizePolicy(sizePolicy2);
+        frame_4->setMaximumSize(QSize(16777215, 60));
+        frame_4->setFrameShape(QFrame::StyledPanel);
+        frame_4->setFrameShadow(QFrame::Raised);
+        gridLayout_10 = new QGridLayout(frame_4);
+        gridLayout_10->setObjectName(QString::fromUtf8("gridLayout_10"));
+        label_135 = new QLabel(frame_4);
+        label_135->setObjectName(QString::fromUtf8("label_135"));
+        QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(label_135->sizePolicy().hasHeightForWidth());
+        label_135->setSizePolicy(sizePolicy4);
+        label_135->setMinimumSize(QSize(30, 0));
+        label_135->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/footer_2.png);"));
+
+        gridLayout_10->addWidget(label_135, 0, 0, 1, 1);
+
+        label_136 = new QLabel(frame_4);
+        label_136->setObjectName(QString::fromUtf8("label_136"));
+        sizePolicy4.setHeightForWidth(label_136->sizePolicy().hasHeightForWidth());
+        label_136->setSizePolicy(sizePolicy4);
+        label_136->setMinimumSize(QSize(30, 0));
+        label_136->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/footer_4.png);"));
+
+        gridLayout_10->addWidget(label_136, 0, 1, 1, 1);
+
+        label_137 = new QLabel(frame_4);
+        label_137->setObjectName(QString::fromUtf8("label_137"));
+        sizePolicy4.setHeightForWidth(label_137->sizePolicy().hasHeightForWidth());
+        label_137->setSizePolicy(sizePolicy4);
+        label_137->setMinimumSize(QSize(30, 0));
+        label_137->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/footer_6.png);"));
+
+        gridLayout_10->addWidget(label_137, 0, 2, 1, 1);
+
+        horizontalSpacer_2 = new QSpacerItem(564, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_10->addItem(horizontalSpacer_2, 0, 3, 1, 1);
+
+
+        verticalLayout_26->addWidget(frame_4);
+
+        textBrowser = new QTextBrowser(widget_17);
+        textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
+
+        verticalLayout_26->addWidget(textBrowser);
+
+
+        horizontalLayout_13->addWidget(widget_17);
+
+        widget_18 = new QWidget(widget_footer);
+        widget_18->setObjectName(QString::fromUtf8("widget_18"));
+        verticalLayout_25 = new QVBoxLayout(widget_18);
+        verticalLayout_25->setSpacing(0);
+        verticalLayout_25->setObjectName(QString::fromUtf8("verticalLayout_25"));
+        verticalLayout_25->setContentsMargins(0, 0, 0, 0);
+        frame_21 = new QFrame(widget_18);
+        frame_21->setObjectName(QString::fromUtf8("frame_21"));
+        gridLayout_7 = new QGridLayout(frame_21);
+        gridLayout_7->setObjectName(QString::fromUtf8("gridLayout_7"));
+        gridLayout_7->setContentsMargins(0, 0, 0, 0);
+        label_133 = new QLabel(frame_21);
+        label_133->setObjectName(QString::fromUtf8("label_133"));
+        sizePolicy3.setHeightForWidth(label_133->sizePolicy().hasHeightForWidth());
+        label_133->setSizePolicy(sizePolicy3);
+        label_133->setMinimumSize(QSize(30, 30));
+        label_133->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/STOPCLOCK.png);"));
+
+        gridLayout_7->addWidget(label_133, 0, 0, 1, 1);
+
+        label_134 = new QLabel(frame_21);
+        label_134->setObjectName(QString::fromUtf8("label_134"));
+        QFont font2;
+        font2.setPointSize(9);
+        font2.setBold(true);
+        font2.setWeight(75);
+        label_134->setFont(font2);
+        label_134->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
+
+        gridLayout_7->addWidget(label_134, 0, 1, 1, 1);
+
+        horizontalSpacer = new QSpacerItem(163, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_7->addItem(horizontalSpacer, 0, 2, 1, 1);
+
+
+        verticalLayout_25->addWidget(frame_21);
+
+        frame_22 = new QFrame(widget_18);
+        frame_22->setObjectName(QString::fromUtf8("frame_22"));
+        gridLayout_8 = new QGridLayout(frame_22);
+        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
+        gridLayout_8->setContentsMargins(0, 0, 0, 0);
+        pushButton = new QPushButton(frame_22);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        sizePolicy3.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
+        pushButton->setSizePolicy(sizePolicy3);
+        pushButton->setMinimumSize(QSize(70, 90));
+        pushButton->setMaximumSize(QSize(16777215, 16777215));
+        pushButton->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/pause_1.png);"));
+
+        gridLayout_8->addWidget(pushButton, 0, 0, 1, 1);
+
+        pushButton_2 = new QPushButton(frame_22);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        sizePolicy3.setHeightForWidth(pushButton_2->sizePolicy().hasHeightForWidth());
+        pushButton_2->setSizePolicy(sizePolicy3);
+        pushButton_2->setMinimumSize(QSize(70, 90));
+        pushButton_2->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/stop_1.png);"));
+
+        gridLayout_8->addWidget(pushButton_2, 0, 1, 1, 1);
+
+
+        verticalLayout_25->addWidget(frame_22);
+
+
+        horizontalLayout_13->addWidget(widget_18);
+
+        widget_19 = new QWidget(widget_footer);
+        widget_19->setObjectName(QString::fromUtf8("widget_19"));
+        verticalLayout_24 = new QVBoxLayout(widget_19);
+        verticalLayout_24->setSpacing(0);
+        verticalLayout_24->setObjectName(QString::fromUtf8("verticalLayout_24"));
+        verticalLayout_24->setContentsMargins(0, 0, 0, 0);
+        label_129 = new QLabel(widget_19);
+        label_129->setObjectName(QString::fromUtf8("label_129"));
+        label_129->setStyleSheet(QString::fromUtf8("image: url(:/images/images/app_logo.png);"));
+
+        verticalLayout_24->addWidget(label_129);
+
+        frame_20 = new QFrame(widget_19);
+        frame_20->setObjectName(QString::fromUtf8("frame_20"));
+        gridLayout_9 = new QGridLayout(frame_20);
+        gridLayout_9->setObjectName(QString::fromUtf8("gridLayout_9"));
+        gridLayout_9->setContentsMargins(0, 0, 0, 0);
+        label_131 = new QLabel(frame_20);
+        label_131->setObjectName(QString::fromUtf8("label_131"));
+        QFont font3;
+        font3.setPointSize(10);
+        font3.setBold(true);
+        font3.setWeight(75);
+        label_131->setFont(font3);
+        label_131->setStyleSheet(QString::fromUtf8("color: rgb(49, 103, 91);"));
+        label_131->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        gridLayout_9->addWidget(label_131, 0, 0, 1, 1);
+
+        label_132 = new QLabel(frame_20);
+        label_132->setObjectName(QString::fromUtf8("label_132"));
+        label_132->setStyleSheet(QString::fromUtf8("color: rgb(49, 103, 91);"));
+        label_132->setAlignment(Qt::AlignCenter);
+
+        gridLayout_9->addWidget(label_132, 0, 1, 1, 1);
+
+
+        verticalLayout_24->addWidget(frame_20);
+
+        label_130 = new QLabel(widget_19);
+        label_130->setObjectName(QString::fromUtf8("label_130"));
+        label_130->setStyleSheet(QString::fromUtf8("color: rgb(49, 103, 91);"));
+        label_130->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+
+        verticalLayout_24->addWidget(label_130);
+
+
+        horizontalLayout_13->addWidget(widget_19);
+
+        horizontalLayout_13->setStretch(0, 7);
+        horizontalLayout_13->setStretch(1, 3);
+        horizontalLayout_13->setStretch(2, 2);
 
         verticalLayout_2->addWidget(widget_footer);
 
@@ -1145,11 +1386,11 @@ public:
 
         label_7 = new QLabel(page_13);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
-        label_7->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy5(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
+        label_7->setSizePolicy(sizePolicy5);
         label_7->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_7->setAlignment(Qt::AlignCenter);
@@ -1250,8 +1491,8 @@ public:
 
         label_19 = new QLabel(page_14);
         label_19->setObjectName(QString::fromUtf8("label_19"));
-        sizePolicy3.setHeightForWidth(label_19->sizePolicy().hasHeightForWidth());
-        label_19->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_19->sizePolicy().hasHeightForWidth());
+        label_19->setSizePolicy(sizePolicy5);
         label_19->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_19->setAlignment(Qt::AlignCenter);
@@ -1361,8 +1602,8 @@ public:
 
         label_21 = new QLabel(page_26);
         label_21->setObjectName(QString::fromUtf8("label_21"));
-        sizePolicy3.setHeightForWidth(label_21->sizePolicy().hasHeightForWidth());
-        label_21->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_21->sizePolicy().hasHeightForWidth());
+        label_21->setSizePolicy(sizePolicy5);
         label_21->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_21->setAlignment(Qt::AlignCenter);
@@ -1460,8 +1701,8 @@ public:
 
         label_28 = new QLabel(page_28);
         label_28->setObjectName(QString::fromUtf8("label_28"));
-        sizePolicy3.setHeightForWidth(label_28->sizePolicy().hasHeightForWidth());
-        label_28->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_28->sizePolicy().hasHeightForWidth());
+        label_28->setSizePolicy(sizePolicy5);
         label_28->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_28->setAlignment(Qt::AlignCenter);
@@ -1564,8 +1805,8 @@ public:
 
         label_36 = new QLabel(page_29);
         label_36->setObjectName(QString::fromUtf8("label_36"));
-        sizePolicy3.setHeightForWidth(label_36->sizePolicy().hasHeightForWidth());
-        label_36->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_36->sizePolicy().hasHeightForWidth());
+        label_36->setSizePolicy(sizePolicy5);
         label_36->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_36->setAlignment(Qt::AlignCenter);
@@ -1632,8 +1873,8 @@ public:
 
         label_55 = new QLabel(page);
         label_55->setObjectName(QString::fromUtf8("label_55"));
-        sizePolicy3.setHeightForWidth(label_55->sizePolicy().hasHeightForWidth());
-        label_55->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_55->sizePolicy().hasHeightForWidth());
+        label_55->setSizePolicy(sizePolicy5);
         label_55->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_55->setAlignment(Qt::AlignCenter);
@@ -1734,8 +1975,8 @@ public:
 
         label_62 = new QLabel(page_2);
         label_62->setObjectName(QString::fromUtf8("label_62"));
-        sizePolicy3.setHeightForWidth(label_62->sizePolicy().hasHeightForWidth());
-        label_62->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_62->sizePolicy().hasHeightForWidth());
+        label_62->setSizePolicy(sizePolicy5);
         label_62->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_62->setAlignment(Qt::AlignCenter);
@@ -1836,8 +2077,8 @@ public:
 
         label_41 = new QLabel(page_15);
         label_41->setObjectName(QString::fromUtf8("label_41"));
-        sizePolicy3.setHeightForWidth(label_41->sizePolicy().hasHeightForWidth());
-        label_41->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_41->sizePolicy().hasHeightForWidth());
+        label_41->setSizePolicy(sizePolicy5);
         label_41->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_41->setAlignment(Qt::AlignCenter);
@@ -1938,8 +2179,8 @@ public:
 
         label_48 = new QLabel(page_16);
         label_48->setObjectName(QString::fromUtf8("label_48"));
-        sizePolicy3.setHeightForWidth(label_48->sizePolicy().hasHeightForWidth());
-        label_48->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_48->sizePolicy().hasHeightForWidth());
+        label_48->setSizePolicy(sizePolicy5);
         label_48->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_48->setAlignment(Qt::AlignCenter);
@@ -2026,8 +2267,8 @@ public:
 
         label_67 = new QLabel(page_17);
         label_67->setObjectName(QString::fromUtf8("label_67"));
-        sizePolicy3.setHeightForWidth(label_67->sizePolicy().hasHeightForWidth());
-        label_67->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_67->sizePolicy().hasHeightForWidth());
+        label_67->setSizePolicy(sizePolicy5);
         label_67->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_67->setAlignment(Qt::AlignCenter);
@@ -2126,8 +2367,8 @@ public:
 
         label_73 = new QLabel(page_19);
         label_73->setObjectName(QString::fromUtf8("label_73"));
-        sizePolicy3.setHeightForWidth(label_73->sizePolicy().hasHeightForWidth());
-        label_73->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_73->sizePolicy().hasHeightForWidth());
+        label_73->setSizePolicy(sizePolicy5);
         label_73->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_73->setAlignment(Qt::AlignCenter);
@@ -2228,8 +2469,8 @@ public:
 
         label_80 = new QLabel(page_20);
         label_80->setObjectName(QString::fromUtf8("label_80"));
-        sizePolicy3.setHeightForWidth(label_80->sizePolicy().hasHeightForWidth());
-        label_80->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_80->sizePolicy().hasHeightForWidth());
+        label_80->setSizePolicy(sizePolicy5);
         label_80->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_80->setAlignment(Qt::AlignCenter);
@@ -2330,8 +2571,8 @@ public:
 
         label_94 = new QLabel(page_4);
         label_94->setObjectName(QString::fromUtf8("label_94"));
-        sizePolicy3.setHeightForWidth(label_94->sizePolicy().hasHeightForWidth());
-        label_94->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_94->sizePolicy().hasHeightForWidth());
+        label_94->setSizePolicy(sizePolicy5);
         label_94->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_94->setAlignment(Qt::AlignCenter);
@@ -2404,8 +2645,8 @@ public:
 
         label_96 = new QLabel(page_21);
         label_96->setObjectName(QString::fromUtf8("label_96"));
-        sizePolicy3.setHeightForWidth(label_96->sizePolicy().hasHeightForWidth());
-        label_96->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_96->sizePolicy().hasHeightForWidth());
+        label_96->setSizePolicy(sizePolicy5);
         label_96->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_96->setAlignment(Qt::AlignCenter);
@@ -2475,8 +2716,8 @@ public:
 
         label_85 = new QLabel(page_23);
         label_85->setObjectName(QString::fromUtf8("label_85"));
-        sizePolicy3.setHeightForWidth(label_85->sizePolicy().hasHeightForWidth());
-        label_85->setSizePolicy(sizePolicy3);
+        sizePolicy5.setHeightForWidth(label_85->sizePolicy().hasHeightForWidth());
+        label_85->setSizePolicy(sizePolicy5);
         label_85->setStyleSheet(QString::fromUtf8("color: rgb(123, 154, 147);\n"
 ""));
         label_85->setAlignment(Qt::AlignCenter);
@@ -2556,7 +2797,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 2063, 20));
+        menubar->setGeometry(QRect(0, 0, 2063, 25));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -2637,6 +2878,17 @@ public:
         label_126->setText(QString());
         label_127->setText(QCoreApplication::translate("MainWindow", "1\302\260", nullptr));
         label_128->setText(QString());
+        label_135->setText(QString());
+        label_136->setText(QString());
+        label_137->setText(QString());
+        label_133->setText(QString());
+        label_134->setText(QCoreApplication::translate("MainWindow", "08:01", nullptr));
+        pushButton->setText(QString());
+        pushButton_2->setText(QString());
+        label_129->setText(QString());
+        label_131->setText(QCoreApplication::translate("MainWindow", "10:12", nullptr));
+        label_132->setText(QCoreApplication::translate("MainWindow", "13", nullptr));
+        label_130->setText(QCoreApplication::translate("MainWindow", "16/10/2024", nullptr));
         daysight_bt_next_1->setText(QString());
         label_7->setText(QCoreApplication::translate("MainWindow", "Next", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "1/4", nullptr));
