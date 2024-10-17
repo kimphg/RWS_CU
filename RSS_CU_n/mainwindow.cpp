@@ -90,6 +90,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setFixedSize(1024,768);
     this->statusBar()->setStyleSheet("background-color: rgb(58, 65, 60); color:rgb(255, 255, 255)");
     socket = new QUdpSocket(this);
     videoSocket = new QUdpSocket(this);
@@ -182,10 +183,25 @@ MainWindow::MainWindow(QWidget *parent) :
     //    ui->bt_f_1->setChecked(true);
     //    this->on_bt_f_2_clicked();
     //    ui->bt_f_2->setChecked(true);
-    setButtonStyle(ui->bt_f_1_1,":/images/images/BRIGHTNESS 1.png",":/images/images/BRIGHTNESS 1.png");
-    setButtonStyle(ui->bt_f_1_6,":/images/images/CONTRAST CONG  1.png",":/images/images/CONTRAST CONG  1.png");
-    setButtonStyle(ui->bt_f_1_3,":/images/images/CONG 1.png",":/images/images/CONG 1.png");
-    setButtonStyle(ui->bt_f_1_2,":/images/images/CONG 1.png",":/images/images/CONG 1.png");
+    setButtonStyle(ui->bt_f_1_1,":/images/images/BRIGHTNESS 1.png",":/images/images/BRIGHTNESS CONG 2.png");
+    setButtonStyle(ui->bt_f_1_6,":/images/images/CONTRAST CONG  1.png",":/images/images/CONTRAST CONG 2.png");
+    setButtonStyle(ui->bt_f_1_3,":/images/images/SEARCH_1.png",":/images/images/SEARCH_2.png");
+    setButtonStyle(ui->bt_f_1_2,":/images/images/SEARCH_1.png",":/images/images/SEARCH_2.png");
+
+    setButtonStyle(ui->bt_f_2_3,":/images/images/BRIGHTNESS 1.png",":/images/images/BRIGHTNESS CONG 2.png");
+    setButtonStyle(ui->bt_f_2_4,":/images/images/CONTRAST CONG  1.png",":/images/images/CONTRAST CONG 2.png");
+    setButtonStyle(ui->bt_f_2_1,":/images/images/SEARCH_1.png",":/images/images/SEARCH_2.png");
+    setButtonStyle(ui->bt_f_2_2,":/images/images/SEARCH_1.png",":/images/images/SEARCH_2.png");
+
+    setButtonStyle(ui->bt_f_3_1,":/new/rangingImages/RangingImages/RANGE_STEP_1.png",":/new/rangingImages/RangingImages/RANGE_STEP_2.png");
+
+    setButtonStyle(ui->bt_f_4_1,":/new/WeaponImages/Weapon_Images/FIRE_CORRECTION_1.png",":/new/WeaponImages/Weapon_Images/RESET_FIRE_CORRECTION_2.png");
+    setButtonStyle(ui->bt_f_4_2,":/new/WeaponImages/Weapon_Images/FIRE_CONTROL_DEACTIVATE.png",":/new/WeaponImages/Weapon_Images/FIRE_CONTROL_ACTIVATE.png");
+    setButtonStyle(ui->bt_f_4_3,":/new/WeaponImages/Weapon_Images/FIRE_PREDICTION_DEACTIVATE.png",":/new/WeaponImages/Weapon_Images/FIRE_PREDICTION_ACTIVATE.png");
+
+    setButtonStyle(ui->pushButton_pause,":/new/footer_images/Footer_Images/pause_1.png",":/new/footer_images/Footer_Images/pause_2.png");
+    setButtonStyle(ui->pushButton_stop,":/new/footer_images/Footer_Images/stop_1.png",":/new/footer_images/Footer_Images/stop_2.png");
+
 
     setButtonStyle(ui->pushButton_continuous_shot, ":/new/headerImages/Header_Images/CONTINUOUS_1.png", ":/new/headerImages/Header_Images/CONTINUOUS_2.png");
     setButtonStyle(ui->pushButton_burst_shot, ":/new/headerImages/Header_Images/BURST_1.png", ":/new/headerImages/Header_Images/BURST_2.png");
@@ -320,9 +336,6 @@ void MainWindow::processKeyBoardEvent(int key)
 
         if((!frame.empty())&&trackermode == 0)
         {
-
-
-
             kcf_tracker.trackLostSens = CConfig::getDouble("trackLostSens",2.5);
             if(kcf_tracker.Init(frame,trackrect))
                 //            ui->textBrowser_msg->append("target too big");

@@ -10,7 +10,6 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
-#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
@@ -150,7 +149,7 @@ public:
     QLabel *label_136;
     QLabel *label_137;
     QSpacerItem *horizontalSpacer_2;
-    QTextBrowser *textBrowser;
+    QTextBrowser *textBrowser_msg;
     QWidget *widget_18;
     QVBoxLayout *verticalLayout_25;
     QFrame *frame_21;
@@ -160,8 +159,8 @@ public:
     QSpacerItem *horizontalSpacer;
     QFrame *frame_22;
     QGridLayout *gridLayout_8;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
+    QPushButton *pushButton_pause;
+    QPushButton *pushButton_stop;
     QWidget *widget_19;
     QVBoxLayout *verticalLayout_24;
     QLabel *label_129;
@@ -441,7 +440,7 @@ public:
         bt_f_4_1->setMinimumSize(QSize(30, 30));
         bt_f_4_1->setMaximumSize(QSize(30, 30));
         bt_f_4_1->setCheckable(true);
-        bt_f_4_1->setAutoExclusive(true);
+        bt_f_4_1->setAutoExclusive(false);
 
         gridLayout_2->addWidget(bt_f_4_1, 8, 2, 1, 1);
 
@@ -451,9 +450,6 @@ public:
         bt_f_1_2->setSizePolicy(sizePolicy1);
         bt_f_1_2->setMinimumSize(QSize(30, 30));
         bt_f_1_2->setMaximumSize(QSize(30, 30));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/images/images/CONG 1.png"), QSize(), QIcon::Normal, QIcon::Off);
-        bt_f_1_2->setIcon(icon);
         bt_f_1_2->setCheckable(true);
         bt_f_1_2->setAutoExclusive(false);
 
@@ -465,6 +461,7 @@ public:
         bt_f_4->setSizePolicy(sizePolicy);
         bt_f_4->setMinimumSize(QSize(100, 90));
         bt_f_4->setCheckable(true);
+        bt_f_4->setChecked(false);
         bt_f_4->setAutoExclusive(true);
 
         gridLayout_2->addWidget(bt_f_4, 8, 1, 3, 1);
@@ -486,7 +483,7 @@ public:
         bt_f_2_3->setMinimumSize(QSize(30, 30));
         bt_f_2_3->setMaximumSize(QSize(30, 30));
         bt_f_2_3->setCheckable(true);
-        bt_f_2_3->setAutoExclusive(true);
+        bt_f_2_3->setAutoExclusive(false);
 
         gridLayout_2->addWidget(bt_f_2_3, 3, 2, 1, 1);
 
@@ -514,7 +511,7 @@ public:
         bt_f_4_3->setMinimumSize(QSize(30, 30));
         bt_f_4_3->setMaximumSize(QSize(30, 30));
         bt_f_4_3->setCheckable(true);
-        bt_f_4_3->setAutoExclusive(true);
+        bt_f_4_3->setAutoExclusive(false);
 
         gridLayout_2->addWidget(bt_f_4_3, 10, 2, 1, 1);
 
@@ -524,9 +521,6 @@ public:
         bt_f_1_1->setSizePolicy(sizePolicy1);
         bt_f_1_1->setMinimumSize(QSize(30, 30));
         bt_f_1_1->setMaximumSize(QSize(30, 30));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/images/images/BRIGHTNESS 1.png"), QSize(), QIcon::Normal, QIcon::Off);
-        bt_f_1_1->setIcon(icon1);
         bt_f_1_1->setCheckable(true);
         bt_f_1_1->setAutoExclusive(false);
 
@@ -549,7 +543,7 @@ public:
         bt_f_2_1->setMinimumSize(QSize(30, 30));
         bt_f_2_1->setMaximumSize(QSize(30, 30));
         bt_f_2_1->setCheckable(true);
-        bt_f_2_1->setAutoExclusive(true);
+        bt_f_2_1->setAutoExclusive(false);
 
         gridLayout_2->addWidget(bt_f_2_1, 3, 0, 1, 1);
 
@@ -569,7 +563,6 @@ public:
         bt_f_1_3->setSizePolicy(sizePolicy1);
         bt_f_1_3->setMinimumSize(QSize(30, 30));
         bt_f_1_3->setMaximumSize(QSize(30, 30));
-        bt_f_1_3->setIcon(icon);
         bt_f_1_3->setCheckable(true);
         bt_f_1_3->setAutoExclusive(false);
 
@@ -589,7 +582,7 @@ public:
         bt_f_2_2->setMinimumSize(QSize(30, 30));
         bt_f_2_2->setMaximumSize(QSize(30, 30));
         bt_f_2_2->setCheckable(true);
-        bt_f_2_2->setAutoExclusive(true);
+        bt_f_2_2->setAutoExclusive(false);
 
         gridLayout_2->addWidget(bt_f_2_2, 4, 0, 1, 1);
 
@@ -600,7 +593,7 @@ public:
         bt_f_2_4->setMinimumSize(QSize(30, 30));
         bt_f_2_4->setMaximumSize(QSize(30, 30));
         bt_f_2_4->setCheckable(true);
-        bt_f_2_4->setAutoExclusive(true);
+        bt_f_2_4->setAutoExclusive(false);
 
         gridLayout_2->addWidget(bt_f_2_4, 4, 2, 1, 1);
 
@@ -610,9 +603,6 @@ public:
         bt_f_1_6->setSizePolicy(sizePolicy1);
         bt_f_1_6->setMinimumSize(QSize(30, 30));
         bt_f_1_6->setMaximumSize(QSize(30, 30));
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/images/images/CONTRAST CONG  1.png"), QSize(), QIcon::Normal, QIcon::Off);
-        bt_f_1_6->setIcon(icon2);
         bt_f_1_6->setCheckable(true);
         bt_f_1_6->setAutoExclusive(false);
 
@@ -625,7 +615,7 @@ public:
         bt_f_3_1->setMinimumSize(QSize(30, 30));
         bt_f_3_1->setMaximumSize(QSize(30, 30));
         bt_f_3_1->setCheckable(true);
-        bt_f_3_1->setAutoExclusive(true);
+        bt_f_3_1->setAutoExclusive(false);
 
         gridLayout_2->addWidget(bt_f_3_1, 6, 2, 1, 1);
 
@@ -664,7 +654,7 @@ public:
         bt_f_4_2->setMinimumSize(QSize(30, 30));
         bt_f_4_2->setMaximumSize(QSize(30, 30));
         bt_f_4_2->setCheckable(true);
-        bt_f_4_2->setAutoExclusive(true);
+        bt_f_4_2->setAutoExclusive(false);
 
         gridLayout_2->addWidget(bt_f_4_2, 9, 2, 1, 1);
 
@@ -769,6 +759,8 @@ public:
         pushButton_continuous_shot->setSizePolicy(sizePolicy3);
         pushButton_continuous_shot->setMinimumSize(QSize(5, 10));
         pushButton_continuous_shot->setMaximumSize(QSize(30, 40));
+        pushButton_continuous_shot->setCheckable(true);
+        pushButton_continuous_shot->setAutoExclusive(true);
 
         horizontalLayout_5->addWidget(pushButton_continuous_shot);
 
@@ -777,6 +769,8 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_burst_shot->sizePolicy().hasHeightForWidth());
         pushButton_burst_shot->setSizePolicy(sizePolicy1);
         pushButton_burst_shot->setMaximumSize(QSize(30, 40));
+        pushButton_burst_shot->setCheckable(true);
+        pushButton_burst_shot->setAutoExclusive(true);
 
         horizontalLayout_5->addWidget(pushButton_burst_shot);
 
@@ -785,6 +779,8 @@ public:
         sizePolicy1.setHeightForWidth(pushButton_single_shot->sizePolicy().hasHeightForWidth());
         pushButton_single_shot->setSizePolicy(sizePolicy1);
         pushButton_single_shot->setMaximumSize(QSize(30, 40));
+        pushButton_single_shot->setCheckable(true);
+        pushButton_single_shot->setAutoExclusive(true);
 
         horizontalLayout_5->addWidget(pushButton_single_shot);
 
@@ -1225,10 +1221,10 @@ public:
 
         verticalLayout_26->addWidget(frame_4);
 
-        textBrowser = new QTextBrowser(widget_17);
-        textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
+        textBrowser_msg = new QTextBrowser(widget_17);
+        textBrowser_msg->setObjectName(QString::fromUtf8("textBrowser_msg"));
 
-        verticalLayout_26->addWidget(textBrowser);
+        verticalLayout_26->addWidget(textBrowser_msg);
 
 
         horizontalLayout_13->addWidget(widget_17);
@@ -1276,24 +1272,28 @@ public:
         gridLayout_8 = new QGridLayout(frame_22);
         gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
         gridLayout_8->setContentsMargins(0, 0, 0, 0);
-        pushButton = new QPushButton(frame_22);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        sizePolicy3.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-        pushButton->setSizePolicy(sizePolicy3);
-        pushButton->setMinimumSize(QSize(70, 90));
-        pushButton->setMaximumSize(QSize(16777215, 16777215));
-        pushButton->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/pause_1.png);"));
+        pushButton_pause = new QPushButton(frame_22);
+        pushButton_pause->setObjectName(QString::fromUtf8("pushButton_pause"));
+        sizePolicy3.setHeightForWidth(pushButton_pause->sizePolicy().hasHeightForWidth());
+        pushButton_pause->setSizePolicy(sizePolicy3);
+        pushButton_pause->setMinimumSize(QSize(70, 90));
+        pushButton_pause->setMaximumSize(QSize(16777215, 16777215));
+        pushButton_pause->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/pause_1.png);"));
+        pushButton_pause->setCheckable(true);
+        pushButton_pause->setAutoExclusive(true);
 
-        gridLayout_8->addWidget(pushButton, 0, 0, 1, 1);
+        gridLayout_8->addWidget(pushButton_pause, 0, 0, 1, 1);
 
-        pushButton_2 = new QPushButton(frame_22);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        sizePolicy3.setHeightForWidth(pushButton_2->sizePolicy().hasHeightForWidth());
-        pushButton_2->setSizePolicy(sizePolicy3);
-        pushButton_2->setMinimumSize(QSize(70, 90));
-        pushButton_2->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/stop_1.png);"));
+        pushButton_stop = new QPushButton(frame_22);
+        pushButton_stop->setObjectName(QString::fromUtf8("pushButton_stop"));
+        sizePolicy3.setHeightForWidth(pushButton_stop->sizePolicy().hasHeightForWidth());
+        pushButton_stop->setSizePolicy(sizePolicy3);
+        pushButton_stop->setMinimumSize(QSize(70, 90));
+        pushButton_stop->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/stop_1.png);"));
+        pushButton_stop->setCheckable(true);
+        pushButton_stop->setAutoExclusive(true);
 
-        gridLayout_8->addWidget(pushButton_2, 0, 1, 1, 1);
+        gridLayout_8->addWidget(pushButton_stop, 0, 1, 1, 1);
 
 
         verticalLayout_25->addWidget(frame_22);
@@ -1381,6 +1381,7 @@ public:
         daysight_bt_next_1->setObjectName(QString::fromUtf8("daysight_bt_next_1"));
         sizePolicy.setHeightForWidth(daysight_bt_next_1->sizePolicy().hasHeightForWidth());
         daysight_bt_next_1->setSizePolicy(sizePolicy);
+        daysight_bt_next_1->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_3->addWidget(daysight_bt_next_1);
 
@@ -1407,8 +1408,12 @@ public:
 
         bt_zoom_in = new QPushButton(page_13);
         bt_zoom_in->setObjectName(QString::fromUtf8("bt_zoom_in"));
-        sizePolicy.setHeightForWidth(bt_zoom_in->sizePolicy().hasHeightForWidth());
-        bt_zoom_in->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy6(QSizePolicy::Minimum, QSizePolicy::Expanding);
+        sizePolicy6.setHorizontalStretch(200);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(bt_zoom_in->sizePolicy().hasHeightForWidth());
+        bt_zoom_in->setSizePolicy(sizePolicy6);
+        bt_zoom_in->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_3->addWidget(bt_zoom_in);
 
@@ -1423,6 +1428,7 @@ public:
         bt_zoom_out->setObjectName(QString::fromUtf8("bt_zoom_out"));
         sizePolicy.setHeightForWidth(bt_zoom_out->sizePolicy().hasHeightForWidth());
         bt_zoom_out->setSizePolicy(sizePolicy);
+        bt_zoom_out->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_3->addWidget(bt_zoom_out);
 
@@ -1437,6 +1443,7 @@ public:
         bt_auto_focus->setObjectName(QString::fromUtf8("bt_auto_focus"));
         sizePolicy.setHeightForWidth(bt_auto_focus->sizePolicy().hasHeightForWidth());
         bt_auto_focus->setSizePolicy(sizePolicy);
+        bt_auto_focus->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_3->addWidget(bt_auto_focus);
 
@@ -1451,6 +1458,7 @@ public:
         bt_focus_near->setObjectName(QString::fromUtf8("bt_focus_near"));
         sizePolicy.setHeightForWidth(bt_focus_near->sizePolicy().hasHeightForWidth());
         bt_focus_near->setSizePolicy(sizePolicy);
+        bt_focus_near->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_3->addWidget(bt_focus_near);
 
@@ -1465,6 +1473,7 @@ public:
         bt_focus_far->setObjectName(QString::fromUtf8("bt_focus_far"));
         sizePolicy.setHeightForWidth(bt_focus_far->sizePolicy().hasHeightForWidth());
         bt_focus_far->setSizePolicy(sizePolicy);
+        bt_focus_far->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_3->addWidget(bt_focus_far);
 
@@ -1486,6 +1495,7 @@ public:
         daysight_bt_next_2->setObjectName(QString::fromUtf8("daysight_bt_next_2"));
         sizePolicy.setHeightForWidth(daysight_bt_next_2->sizePolicy().hasHeightForWidth());
         daysight_bt_next_2->setSizePolicy(sizePolicy);
+        daysight_bt_next_2->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_4->addWidget(daysight_bt_next_2);
 
@@ -1511,6 +1521,7 @@ public:
         bt_gain->setObjectName(QString::fromUtf8("bt_gain"));
         sizePolicy.setHeightForWidth(bt_gain->sizePolicy().hasHeightForWidth());
         bt_gain->setSizePolicy(sizePolicy);
+        bt_gain->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_4->addWidget(bt_gain);
 
@@ -1525,6 +1536,7 @@ public:
         bt_brightness_cong->setObjectName(QString::fromUtf8("bt_brightness_cong"));
         sizePolicy.setHeightForWidth(bt_brightness_cong->sizePolicy().hasHeightForWidth());
         bt_brightness_cong->setSizePolicy(sizePolicy);
+        bt_brightness_cong->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_4->addWidget(bt_brightness_cong);
 
@@ -1539,6 +1551,7 @@ public:
         bt_brightness_tru->setObjectName(QString::fromUtf8("bt_brightness_tru"));
         sizePolicy.setHeightForWidth(bt_brightness_tru->sizePolicy().hasHeightForWidth());
         bt_brightness_tru->setSizePolicy(sizePolicy);
+        bt_brightness_tru->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_4->addWidget(bt_brightness_tru);
 
@@ -1553,6 +1566,7 @@ public:
         bt_contrast_cong->setObjectName(QString::fromUtf8("bt_contrast_cong"));
         sizePolicy.setHeightForWidth(bt_contrast_cong->sizePolicy().hasHeightForWidth());
         bt_contrast_cong->setSizePolicy(sizePolicy);
+        bt_contrast_cong->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_4->addWidget(bt_contrast_cong);
 
@@ -1567,6 +1581,7 @@ public:
         bt_contrast_tru->setObjectName(QString::fromUtf8("bt_contrast_tru"));
         sizePolicy.setHeightForWidth(bt_contrast_tru->sizePolicy().hasHeightForWidth());
         bt_contrast_tru->setSizePolicy(sizePolicy);
+        bt_contrast_tru->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_4->addWidget(bt_contrast_tru);
 
@@ -1597,6 +1612,7 @@ public:
         daysight_bt_next_3->setObjectName(QString::fromUtf8("daysight_bt_next_3"));
         sizePolicy.setHeightForWidth(daysight_bt_next_3->sizePolicy().hasHeightForWidth());
         daysight_bt_next_3->setSizePolicy(sizePolicy);
+        daysight_bt_next_3->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_5->addWidget(daysight_bt_next_3);
 
@@ -1622,6 +1638,7 @@ public:
         bt_on_off->setObjectName(QString::fromUtf8("bt_on_off"));
         sizePolicy.setHeightForWidth(bt_on_off->sizePolicy().hasHeightForWidth());
         bt_on_off->setSizePolicy(sizePolicy);
+        bt_on_off->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_5->addWidget(bt_on_off);
 
@@ -1636,6 +1653,7 @@ public:
         bt_digital_zoom_in->setObjectName(QString::fromUtf8("bt_digital_zoom_in"));
         sizePolicy.setHeightForWidth(bt_digital_zoom_in->sizePolicy().hasHeightForWidth());
         bt_digital_zoom_in->setSizePolicy(sizePolicy);
+        bt_digital_zoom_in->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_5->addWidget(bt_digital_zoom_in);
 
@@ -1650,6 +1668,7 @@ public:
         bt_digital_zoom_out->setObjectName(QString::fromUtf8("bt_digital_zoom_out"));
         sizePolicy.setHeightForWidth(bt_digital_zoom_out->sizePolicy().hasHeightForWidth());
         bt_digital_zoom_out->setSizePolicy(sizePolicy);
+        bt_digital_zoom_out->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_5->addWidget(bt_digital_zoom_out);
 
@@ -1664,6 +1683,7 @@ public:
         bt_edge->setObjectName(QString::fromUtf8("bt_edge"));
         sizePolicy.setHeightForWidth(bt_edge->sizePolicy().hasHeightForWidth());
         bt_edge->setSizePolicy(sizePolicy);
+        bt_edge->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_5->addWidget(bt_edge);
 
@@ -1800,6 +1820,7 @@ public:
         daysight_bt_next_44->setObjectName(QString::fromUtf8("daysight_bt_next_44"));
         sizePolicy.setHeightForWidth(daysight_bt_next_44->sizePolicy().hasHeightForWidth());
         daysight_bt_next_44->setSizePolicy(sizePolicy);
+        daysight_bt_next_44->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_9->addWidget(daysight_bt_next_44);
 
@@ -1825,6 +1846,7 @@ public:
         bt_image_tabilization->setObjectName(QString::fromUtf8("bt_image_tabilization"));
         sizePolicy.setHeightForWidth(bt_image_tabilization->sizePolicy().hasHeightForWidth());
         bt_image_tabilization->setSizePolicy(sizePolicy);
+        bt_image_tabilization->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_9->addWidget(bt_image_tabilization);
 
@@ -1868,6 +1890,7 @@ public:
         bt_irsight_bt_next_1->setObjectName(QString::fromUtf8("bt_irsight_bt_next_1"));
         sizePolicy.setHeightForWidth(bt_irsight_bt_next_1->sizePolicy().hasHeightForWidth());
         bt_irsight_bt_next_1->setSizePolicy(sizePolicy);
+        bt_irsight_bt_next_1->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_12->addWidget(bt_irsight_bt_next_1);
 
@@ -1893,6 +1916,7 @@ public:
         ir_sight_narrow->setObjectName(QString::fromUtf8("ir_sight_narrow"));
         sizePolicy.setHeightForWidth(ir_sight_narrow->sizePolicy().hasHeightForWidth());
         ir_sight_narrow->setSizePolicy(sizePolicy);
+        ir_sight_narrow->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_12->addWidget(ir_sight_narrow);
 
@@ -1907,6 +1931,7 @@ public:
         bt_sight_wide->setObjectName(QString::fromUtf8("bt_sight_wide"));
         sizePolicy.setHeightForWidth(bt_sight_wide->sizePolicy().hasHeightForWidth());
         bt_sight_wide->setSizePolicy(sizePolicy);
+        bt_sight_wide->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_12->addWidget(bt_sight_wide);
 
@@ -1921,6 +1946,7 @@ public:
         bt_auto_focus_ir->setObjectName(QString::fromUtf8("bt_auto_focus_ir"));
         sizePolicy.setHeightForWidth(bt_auto_focus_ir->sizePolicy().hasHeightForWidth());
         bt_auto_focus_ir->setSizePolicy(sizePolicy);
+        bt_auto_focus_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_12->addWidget(bt_auto_focus_ir);
 
@@ -1935,6 +1961,7 @@ public:
         bt_ir_focus_near_ir->setObjectName(QString::fromUtf8("bt_ir_focus_near_ir"));
         sizePolicy.setHeightForWidth(bt_ir_focus_near_ir->sizePolicy().hasHeightForWidth());
         bt_ir_focus_near_ir->setSizePolicy(sizePolicy);
+        bt_ir_focus_near_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_12->addWidget(bt_ir_focus_near_ir);
 
@@ -1949,6 +1976,7 @@ public:
         bt_focus_far_ir->setObjectName(QString::fromUtf8("bt_focus_far_ir"));
         sizePolicy.setHeightForWidth(bt_focus_far_ir->sizePolicy().hasHeightForWidth());
         bt_focus_far_ir->setSizePolicy(sizePolicy);
+        bt_focus_far_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_12->addWidget(bt_focus_far_ir);
 
@@ -1970,6 +1998,7 @@ public:
         irsight_bt_next_2->setObjectName(QString::fromUtf8("irsight_bt_next_2"));
         sizePolicy.setHeightForWidth(irsight_bt_next_2->sizePolicy().hasHeightForWidth());
         irsight_bt_next_2->setSizePolicy(sizePolicy);
+        irsight_bt_next_2->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_13->addWidget(irsight_bt_next_2);
 
@@ -1995,6 +2024,7 @@ public:
         bt_gain_ir->setObjectName(QString::fromUtf8("bt_gain_ir"));
         sizePolicy.setHeightForWidth(bt_gain_ir->sizePolicy().hasHeightForWidth());
         bt_gain_ir->setSizePolicy(sizePolicy);
+        bt_gain_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_13->addWidget(bt_gain_ir);
 
@@ -2009,6 +2039,7 @@ public:
         bt_brightness_cong_ir->setObjectName(QString::fromUtf8("bt_brightness_cong_ir"));
         sizePolicy.setHeightForWidth(bt_brightness_cong_ir->sizePolicy().hasHeightForWidth());
         bt_brightness_cong_ir->setSizePolicy(sizePolicy);
+        bt_brightness_cong_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_13->addWidget(bt_brightness_cong_ir);
 
@@ -2023,6 +2054,7 @@ public:
         bt_brightness_tru_ir->setObjectName(QString::fromUtf8("bt_brightness_tru_ir"));
         sizePolicy.setHeightForWidth(bt_brightness_tru_ir->sizePolicy().hasHeightForWidth());
         bt_brightness_tru_ir->setSizePolicy(sizePolicy);
+        bt_brightness_tru_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_13->addWidget(bt_brightness_tru_ir);
 
@@ -2037,6 +2069,7 @@ public:
         bt_contrast_ir_cong->setObjectName(QString::fromUtf8("bt_contrast_ir_cong"));
         sizePolicy.setHeightForWidth(bt_contrast_ir_cong->sizePolicy().hasHeightForWidth());
         bt_contrast_ir_cong->setSizePolicy(sizePolicy);
+        bt_contrast_ir_cong->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_13->addWidget(bt_contrast_ir_cong);
 
@@ -2051,6 +2084,7 @@ public:
         bt_contrast_tru_ir->setObjectName(QString::fromUtf8("bt_contrast_tru_ir"));
         sizePolicy.setHeightForWidth(bt_contrast_tru_ir->sizePolicy().hasHeightForWidth());
         bt_contrast_tru_ir->setSizePolicy(sizePolicy);
+        bt_contrast_tru_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_13->addWidget(bt_contrast_tru_ir);
 
@@ -2072,6 +2106,7 @@ public:
         irsight_bt_next_3->setObjectName(QString::fromUtf8("irsight_bt_next_3"));
         sizePolicy.setHeightForWidth(irsight_bt_next_3->sizePolicy().hasHeightForWidth());
         irsight_bt_next_3->setSizePolicy(sizePolicy);
+        irsight_bt_next_3->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_10->addWidget(irsight_bt_next_3);
 
@@ -2097,6 +2132,7 @@ public:
         bt_onoff_ir->setObjectName(QString::fromUtf8("bt_onoff_ir"));
         sizePolicy.setHeightForWidth(bt_onoff_ir->sizePolicy().hasHeightForWidth());
         bt_onoff_ir->setSizePolicy(sizePolicy);
+        bt_onoff_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_10->addWidget(bt_onoff_ir);
 
@@ -2111,6 +2147,7 @@ public:
         bt_digital_zoom_in_ir->setObjectName(QString::fromUtf8("bt_digital_zoom_in_ir"));
         sizePolicy.setHeightForWidth(bt_digital_zoom_in_ir->sizePolicy().hasHeightForWidth());
         bt_digital_zoom_in_ir->setSizePolicy(sizePolicy);
+        bt_digital_zoom_in_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_10->addWidget(bt_digital_zoom_in_ir);
 
@@ -2125,6 +2162,7 @@ public:
         bt_digital_zoom_out_ir->setObjectName(QString::fromUtf8("bt_digital_zoom_out_ir"));
         sizePolicy.setHeightForWidth(bt_digital_zoom_out_ir->sizePolicy().hasHeightForWidth());
         bt_digital_zoom_out_ir->setSizePolicy(sizePolicy);
+        bt_digital_zoom_out_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_10->addWidget(bt_digital_zoom_out_ir);
 
@@ -2139,6 +2177,7 @@ public:
         bt_infinity_ir->setObjectName(QString::fromUtf8("bt_infinity_ir"));
         sizePolicy.setHeightForWidth(bt_infinity_ir->sizePolicy().hasHeightForWidth());
         bt_infinity_ir->setSizePolicy(sizePolicy);
+        bt_infinity_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_10->addWidget(bt_infinity_ir);
 
@@ -2153,6 +2192,7 @@ public:
         bt_edge_ir->setObjectName(QString::fromUtf8("bt_edge_ir"));
         sizePolicy.setHeightForWidth(bt_edge_ir->sizePolicy().hasHeightForWidth());
         bt_edge_ir->setSizePolicy(sizePolicy);
+        bt_edge_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_10->addWidget(bt_edge_ir);
 
@@ -2174,6 +2214,7 @@ public:
         irsight_bt_next_4->setObjectName(QString::fromUtf8("irsight_bt_next_4"));
         sizePolicy.setHeightForWidth(irsight_bt_next_4->sizePolicy().hasHeightForWidth());
         irsight_bt_next_4->setSizePolicy(sizePolicy);
+        irsight_bt_next_4->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_11->addWidget(irsight_bt_next_4);
 
@@ -2199,6 +2240,7 @@ public:
         bt_polanty_ir->setObjectName(QString::fromUtf8("bt_polanty_ir"));
         sizePolicy.setHeightForWidth(bt_polanty_ir->sizePolicy().hasHeightForWidth());
         bt_polanty_ir->setSizePolicy(sizePolicy);
+        bt_polanty_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_11->addWidget(bt_polanty_ir);
 
@@ -2213,6 +2255,7 @@ public:
         bt_nuc_ir->setObjectName(QString::fromUtf8("bt_nuc_ir"));
         sizePolicy.setHeightForWidth(bt_nuc_ir->sizePolicy().hasHeightForWidth());
         bt_nuc_ir->setSizePolicy(sizePolicy);
+        bt_nuc_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_11->addWidget(bt_nuc_ir);
 
@@ -2227,6 +2270,7 @@ public:
         bt_freeze_ir->setObjectName(QString::fromUtf8("bt_freeze_ir"));
         sizePolicy.setHeightForWidth(bt_freeze_ir->sizePolicy().hasHeightForWidth());
         bt_freeze_ir->setSizePolicy(sizePolicy);
+        bt_freeze_ir->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_11->addWidget(bt_freeze_ir);
 
@@ -2262,6 +2306,7 @@ public:
         bt_range_Cross->setObjectName(QString::fromUtf8("bt_range_Cross"));
         sizePolicy.setHeightForWidth(bt_range_Cross->sizePolicy().hasHeightForWidth());
         bt_range_Cross->setSizePolicy(sizePolicy);
+        bt_range_Cross->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_14->addWidget(bt_range_Cross);
 
@@ -2279,6 +2324,7 @@ public:
         bt_range_square->setObjectName(QString::fromUtf8("bt_range_square"));
         sizePolicy.setHeightForWidth(bt_range_square->sizePolicy().hasHeightForWidth());
         bt_range_square->setSizePolicy(sizePolicy);
+        bt_range_square->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_14->addWidget(bt_range_square);
 
@@ -2293,6 +2339,7 @@ public:
         bt_range_step->setObjectName(QString::fromUtf8("bt_range_step"));
         sizePolicy.setHeightForWidth(bt_range_step->sizePolicy().hasHeightForWidth());
         bt_range_step->setSizePolicy(sizePolicy);
+        bt_range_step->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_14->addWidget(bt_range_step);
 
@@ -2307,6 +2354,7 @@ public:
         bt_first_echo->setObjectName(QString::fromUtf8("bt_first_echo"));
         sizePolicy.setHeightForWidth(bt_first_echo->sizePolicy().hasHeightForWidth());
         bt_first_echo->setSizePolicy(sizePolicy);
+        bt_first_echo->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_14->addWidget(bt_first_echo);
 
@@ -2321,6 +2369,7 @@ public:
         bt_last_echo->setObjectName(QString::fromUtf8("bt_last_echo"));
         sizePolicy.setHeightForWidth(bt_last_echo->sizePolicy().hasHeightForWidth());
         bt_last_echo->setSizePolicy(sizePolicy);
+        bt_last_echo->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_14->addWidget(bt_last_echo);
 
@@ -2335,6 +2384,7 @@ public:
         bt_battle_range->setObjectName(QString::fromUtf8("bt_battle_range"));
         sizePolicy.setHeightForWidth(bt_battle_range->sizePolicy().hasHeightForWidth());
         bt_battle_range->setSizePolicy(sizePolicy);
+        bt_battle_range->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_14->addWidget(bt_battle_range);
 
@@ -2362,6 +2412,7 @@ public:
         weapon_bt_next_1->setObjectName(QString::fromUtf8("weapon_bt_next_1"));
         sizePolicy.setHeightForWidth(weapon_bt_next_1->sizePolicy().hasHeightForWidth());
         weapon_bt_next_1->setSizePolicy(sizePolicy);
+        weapon_bt_next_1->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_15->addWidget(weapon_bt_next_1);
 
@@ -2387,6 +2438,7 @@ public:
         bt_weapon_type->setObjectName(QString::fromUtf8("bt_weapon_type"));
         sizePolicy.setHeightForWidth(bt_weapon_type->sizePolicy().hasHeightForWidth());
         bt_weapon_type->setSizePolicy(sizePolicy);
+        bt_weapon_type->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_15->addWidget(bt_weapon_type);
 
@@ -2401,6 +2453,7 @@ public:
         bt_ammunition->setObjectName(QString::fromUtf8("bt_ammunition"));
         sizePolicy.setHeightForWidth(bt_ammunition->sizePolicy().hasHeightForWidth());
         bt_ammunition->setSizePolicy(sizePolicy);
+        bt_ammunition->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_15->addWidget(bt_ammunition);
 
@@ -2415,6 +2468,7 @@ public:
         bt_fire_conrrections->setObjectName(QString::fromUtf8("bt_fire_conrrections"));
         sizePolicy.setHeightForWidth(bt_fire_conrrections->sizePolicy().hasHeightForWidth());
         bt_fire_conrrections->setSizePolicy(sizePolicy);
+        bt_fire_conrrections->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_15->addWidget(bt_fire_conrrections);
 
@@ -2429,6 +2483,7 @@ public:
         bt_reset_corrections->setObjectName(QString::fromUtf8("bt_reset_corrections"));
         sizePolicy.setHeightForWidth(bt_reset_corrections->sizePolicy().hasHeightForWidth());
         bt_reset_corrections->setSizePolicy(sizePolicy);
+        bt_reset_corrections->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_15->addWidget(bt_reset_corrections);
 
@@ -2443,6 +2498,7 @@ public:
         bt_maximum_speed->setObjectName(QString::fromUtf8("bt_maximum_speed"));
         sizePolicy.setHeightForWidth(bt_maximum_speed->sizePolicy().hasHeightForWidth());
         bt_maximum_speed->setSizePolicy(sizePolicy);
+        bt_maximum_speed->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_15->addWidget(bt_maximum_speed);
 
@@ -2640,6 +2696,7 @@ public:
         bt_calib_weapon_alignment->setObjectName(QString::fromUtf8("bt_calib_weapon_alignment"));
         sizePolicy.setHeightForWidth(bt_calib_weapon_alignment->sizePolicy().hasHeightForWidth());
         bt_calib_weapon_alignment->setSizePolicy(sizePolicy);
+        bt_calib_weapon_alignment->setMaximumSize(QSize(100, 100));
 
         verticalLayout_17->addWidget(bt_calib_weapon_alignment);
 
@@ -2657,6 +2714,7 @@ public:
         bt_broresight->setObjectName(QString::fromUtf8("bt_broresight"));
         sizePolicy.setHeightForWidth(bt_broresight->sizePolicy().hasHeightForWidth());
         bt_broresight->setSizePolicy(sizePolicy);
+        bt_broresight->setMaximumSize(QSize(100, 100));
 
         verticalLayout_17->addWidget(bt_broresight);
 
@@ -2678,6 +2736,7 @@ public:
         bt_calib_drift->setObjectName(QString::fromUtf8("bt_calib_drift"));
         sizePolicy.setHeightForWidth(bt_calib_drift->sizePolicy().hasHeightForWidth());
         bt_calib_drift->setSizePolicy(sizePolicy);
+        bt_calib_drift->setMaximumSize(QSize(100, 100));
 
         verticalLayout_17->addWidget(bt_calib_drift);
 
@@ -2711,6 +2770,7 @@ public:
         bt_system_diagnostic->setObjectName(QString::fromUtf8("bt_system_diagnostic"));
         sizePolicy.setHeightForWidth(bt_system_diagnostic->sizePolicy().hasHeightForWidth());
         bt_system_diagnostic->setSizePolicy(sizePolicy);
+        bt_system_diagnostic->setMaximumSize(QSize(100, 100));
 
         verticalLayout_19->addWidget(bt_system_diagnostic);
 
@@ -2728,6 +2788,7 @@ public:
         bt_system_datetime->setObjectName(QString::fromUtf8("bt_system_datetime"));
         sizePolicy.setHeightForWidth(bt_system_datetime->sizePolicy().hasHeightForWidth());
         bt_system_datetime->setSizePolicy(sizePolicy);
+        bt_system_datetime->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_19->addWidget(bt_system_datetime);
 
@@ -2742,6 +2803,7 @@ public:
         bt_system_events->setObjectName(QString::fromUtf8("bt_system_events"));
         sizePolicy.setHeightForWidth(bt_system_events->sizePolicy().hasHeightForWidth());
         bt_system_events->setSizePolicy(sizePolicy);
+        bt_system_events->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_19->addWidget(bt_system_events);
 
@@ -2756,6 +2818,7 @@ public:
         bt_system_trainer->setObjectName(QString::fromUtf8("bt_system_trainer"));
         sizePolicy.setHeightForWidth(bt_system_trainer->sizePolicy().hasHeightForWidth());
         bt_system_trainer->setSizePolicy(sizePolicy);
+        bt_system_trainer->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_19->addWidget(bt_system_trainer);
 
@@ -2770,6 +2833,7 @@ public:
         bt_system_maintence->setObjectName(QString::fromUtf8("bt_system_maintence"));
         sizePolicy.setHeightForWidth(bt_system_maintence->sizePolicy().hasHeightForWidth());
         bt_system_maintence->setSizePolicy(sizePolicy);
+        bt_system_maintence->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_19->addWidget(bt_system_maintence);
 
@@ -2807,9 +2871,9 @@ public:
 
         stackedWidget_dasight_2->setCurrentIndex(0);
         stackedWidget_dasight_3->setCurrentIndex(0);
-        stackedWidget_irsight_2->setCurrentIndex(3);
+        stackedWidget_irsight_2->setCurrentIndex(0);
         stackedWidget_ranging_2->setCurrentIndex(0);
-        stackedWidget_weapon_2->setCurrentIndex(2);
+        stackedWidget_weapon_2->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -2883,8 +2947,8 @@ public:
         label_137->setText(QString());
         label_133->setText(QString());
         label_134->setText(QCoreApplication::translate("MainWindow", "08:01", nullptr));
-        pushButton->setText(QString());
-        pushButton_2->setText(QString());
+        pushButton_pause->setText(QString());
+        pushButton_stop->setText(QString());
         label_129->setText(QString());
         label_131->setText(QCoreApplication::translate("MainWindow", "10:12", nullptr));
         label_132->setText(QCoreApplication::translate("MainWindow", "13", nullptr));

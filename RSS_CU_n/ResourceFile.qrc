@@ -41,5 +41,7 @@
         <file>images/RANGING 1.png</file>
         <file>images/RANGING 2.png</file>
         <file>images/app_logo.png</file>
+        <file>images/SEARCH_1.png</file>
+        <file>images/SEARCH_2.png</file>
     </qresource>
 </RCC>

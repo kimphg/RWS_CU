@@ -371,11 +371,13 @@ release\qrc_ResourceFile.cpp: ResourceFile.qrc \
 		"images\CONG 2.png" \
 		"images\BRIGHTNESS 1.png" \
 		"images\NEXT 1.png" \
+		images\SEARCH_2.png \
 		images\FOCUS_FAR_2.png \
 		images\app_logo.png \
 		"images\CONG 1.png" \
 		"images\CONTRAST CONG 2.png" \
 		"images\RANGING 2.png" \
+		images\SEARCH_1.png \
 		"images\CONTRAST CONG  1.png" \
 		"images\FOCUS FAR 1.png" \
 		"images\RANGING 1.png"
