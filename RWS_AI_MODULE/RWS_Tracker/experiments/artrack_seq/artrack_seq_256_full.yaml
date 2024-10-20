@@ -40,7 +40,7 @@ MODEL:
   RANGE: 2
   PRENUM: 7
   PRETRAIN_FILE: "mae_pretrain_vit_base.pth"
-  PRETRAIN_PTH: "/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_AI_MODULE/models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar"
+  PRETRAIN_PTH: "/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar"
   EXTRA_MERGER: False
   RETURN_INTER: False
   BACKBONE:

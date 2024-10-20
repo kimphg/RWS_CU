@@ -33,7 +33,7 @@ class Tracker:
         display_name: Name to be displayed in the result plots.
     """
 
-    def __init__(self, name: str, parameter_name: str, dataset_name: str, run_id: int = None, display_name: str = None,
+    def __init__(self, name: str, parameter_name: str, dataset_name: str = "", run_id: int = None, display_name: str = None,
                  result_only=False):
         assert run_id is None or isinstance(run_id, int)
 

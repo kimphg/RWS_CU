@@ -19,8 +19,13 @@ from lib.utils.ce_utils import generate_mask_cond
 class ODTrack(BaseTracker):
     def __init__(self, params):
         super(ODTrack, self).__init__(params)
+        
         network = build_odtrack(params.cfg, training=False)
+        
+        # FIXED to model settings
+        self.params.checkpoint = params.cfg.MODEL.PRETRAIN_PTH
         network.load_state_dict(torch.load(self.params.checkpoint, map_location='cpu')['net'], strict=True)
+        
         self.cfg = params.cfg
         self.network = network.cuda()
         self.network.eval()

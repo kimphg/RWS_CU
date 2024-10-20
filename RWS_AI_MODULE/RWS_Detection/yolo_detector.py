@@ -2,6 +2,7 @@ import cv2
 import threading, os, json
 from ultralytics import YOLO
 
+
 import logging
 logging.getLogger('ultralytics').setLevel(logging.ERROR)
 
@@ -92,7 +93,7 @@ class YOLODetector:
         Internal method to process the video and track objects using YOLOv8's `model.track()` function.
         This method runs in a separate thread and continuously processes video frames.
         """
-        logger.debug(f'Start detect and tracking')
+        logger.debug(f'Start detect and tracking from videosource')
         
         if self.cap is None:
             logger.error("Video capcutre is not set.")
@@ -118,41 +119,40 @@ class YOLODetector:
             # Use YOLO model to detect and track objects in the current frame
             # logger.debug('Inference model....')
             results = self.model.track(frame, conf=self.conf, classes=self.class_ids)
+            
             self.current_result = results
+            self.update_current_frame(frame) # let drawing task for parent module
             
             # logger.debug(f'Tracking result: {self.get_current_result_json()}')
             
-            # Get the results for the current frame
-            for result in results:
-                # Get the bounding boxes, confidences, and tracking IDs from each result
-                boxes = result.boxes.xyxy if result.boxes is not None else []
-                confidences = result.boxes.conf if result.boxes is not None else []
-                class_ids = result.boxes.cls if result.boxes is not None else []
-                track_ids = result.boxes.id if result.boxes is not None else []
-                
-                # track_ids will be None when none of object is tracked
-                if boxes is None or confidences is None or class_ids is None or track_ids is None:
-                    continue
-                
-                # Loop through the detected objects
-                for box, confidence, class_id, track_id in zip(boxes, confidences, class_ids, track_ids):
-                    x1, y1, x2, y2 = map(int, box)
-                    label = f"ID: {track_id}, Conf: {confidence:.2f}, Class: {class_id}"
-
-                    # print(f'Tracking =============={label}==================')
-                    # Draw the bounding box and label on the frame
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                    cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-            
-            
-            self.update_current_frame(frame)
-            # Show the frame with detections and tracking
             if show:
-                cv2.imshow("Yolo detect and tracking preview", cv2.resize(frame, (frame.shape[1]//2, frame.shape[0]//2)))
+                # Get the results for the current frame
+                for result in results:
+                    # Get the bounding boxes, confidences, and tracking IDs from each result
+                    boxes = result.boxes.xyxy if result.boxes is not None else []
+                    confidences = result.boxes.conf if result.boxes is not None else []
+                    class_ids = result.boxes.cls if result.boxes is not None else []
+                    track_ids = result.boxes.id if result.boxes is not None else []
+                    
+                    # track_ids will be None when none of object is tracked
+                    if boxes is None or confidences is None or class_ids is None or track_ids is None:
+                        continue
+                    
+                    # Loop through the detected objects
+                    for box, confidence, class_id, track_id in zip(boxes, confidences, class_ids, track_ids):
+                        x1, y1, x2, y2 = map(int, box)
+                        label = f"ID: {track_id}, Conf: {confidence:.2f}, Class: {class_id}"
 
-                # Press 'q' to exit the loop
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
+                        # print(f'Tracking =============={label}==================')
+                        # Draw the bounding box and label on the frame
+                        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                        cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            
+                    cv2.imshow("Yolo detect and tracking preview", cv2.resize(frame, (frame.shape[1]//2, frame.shape[0]//2)))
+
+                    # Press 'q' to exit the loop
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
 
         # Release the video capture and close all OpenCV windows
         # cap.release() # let release task for parent
@@ -170,7 +170,7 @@ class YOLODetector:
             self.stop_event.set()  # Signal the thread to stop
             self.tracking_thread.join()  # Wait for the thread to finish
             self.tracking_thread = None
-            logger.debug("Tracking stopped.")
+            logger.info("Tracking stopped.")
 
     def get_current_tracking_result(self):
         """
@@ -180,7 +180,7 @@ class YOLODetector:
         if self.tracking_thread is not None and self.tracking_thread.is_alive():
             return self.current_result
         else:
-            logger.debug("Tracking thread is not running.")
+            logger.info("Tracking thread is not running.")
             return None
         
     def get_current_result_json(self):

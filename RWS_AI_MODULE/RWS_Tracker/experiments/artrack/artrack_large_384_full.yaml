@@ -42,6 +42,7 @@ MODEL:
   NUM_HEADS: 16
   RANGE: 2
   PRETRAIN_FILE: "mae_pretrain_vit_large.pth"
+  PRETRAIN_PTH: ""
   BACKBONE:
     TYPE: vit_large_patch16_224
     STRIDE: 16

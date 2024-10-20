@@ -87,11 +87,13 @@ def build_artrack(cfg, training=True):
         pix_head,
         hidden_dim,
     )
+    
     if cfg.MODEL.PRETRAIN_PTH != "":
+        print('Loading pretrained model from: ' + load_from)
         load_from = cfg.MODEL.PRETRAIN_PTH
         checkpoint = torch.load(load_from, map_location="cpu")
         missing_keys, unexpected_keys = model.load_state_dict(checkpoint["net"], strict=False)
-        print('Load pretrained model from: ' + load_from)
+    
     if 'ARTrack' in cfg.MODEL.PRETRAIN_FILE and training:
         checkpoint = torch.load(cfg.MODEL.PRETRAIN_FILE, map_location="cpu")
         missing_keys, unexpected_keys = model.load_state_dict(checkpoint["net"], strict=False)

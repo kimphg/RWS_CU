@@ -9,6 +9,7 @@ cfg = edict()
 # MODEL
 cfg.MODEL = edict()
 cfg.MODEL.PRETRAIN_FILE = "mae_pretrain_vit_base.pth"
+cfg.MODEL.PRETRAIN_PTH = ""
 cfg.MODEL.EXTRA_MERGER = False
 
 cfg.MODEL.RETURN_INTER = False

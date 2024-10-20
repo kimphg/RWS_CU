@@ -41,6 +41,7 @@ MODEL:
   BINS: 400
   RANGE: 2
   PRETRAIN_FILE: "mae_pretrain_vit_base.pth"
+  PRETRAIN_PTH: ""
   BACKBONE:
     TYPE: vit_base_patch16_224
     STRIDE: 16

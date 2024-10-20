@@ -12,7 +12,7 @@ def parameters(yaml_name: str, run_id=None):
     yaml_file = os.path.join(prj_dir, 'experiments/odtrack/%s.yaml' % yaml_name)
     update_config_from_file(yaml_file)
     params.cfg = cfg
-    print("test config: ", cfg)
+    # print("test config: ", cfg)
 
     # template and search region
     params.template_factor = cfg.TEST.TEMPLATE_FACTOR
@@ -20,9 +20,9 @@ def parameters(yaml_name: str, run_id=None):
     params.search_factor = cfg.TEST.SEARCH_FACTOR
     params.search_size = cfg.TEST.SEARCH_SIZE
 
-    if cfg.TEST.MODEL_PATH:
-        params.checkpoint = cfg.TEST.MODEL_PATH
-        print(f"Loading model checkpoint: ", params.checkpoint)
+    if cfg.MODEL.PRETRAIN_PTH:
+        params.checkpoint = cfg.MODEL.PRETRAIN_PTH
+        print(f"Loading odtrack model from: ", params.checkpoint)
     else:
         # Network checkpoint path
         if run_id is None:

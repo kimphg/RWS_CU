@@ -4,6 +4,13 @@
 ```
 conda env create -f rws_env_cuda113.yaml
 conda activate rws
+
+# create default local file for tracker
+cd RWS_AI_MODULE/RWS_Tracker/
+python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir ./output
+
+# run main file
+cd ../../
 python main.py
 ```
 ## Project tree

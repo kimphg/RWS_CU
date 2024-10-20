@@ -41,6 +41,7 @@ DATA:
     SAMPLE_PER_EPOCH: 5000
 MODEL:
   PRETRAIN_FILE: "mae_pretrain_vit_base.pth"
+  PRETRAIN_PTH: ""
   EXTRA_MERGER: False
   RETURN_INTER: False
   BACKBONE:

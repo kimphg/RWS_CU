@@ -111,10 +111,15 @@ class ODTrack(nn.Module):
 def build_odtrack(cfg, training=True):
     current_dir = os.path.dirname(os.path.abspath(__file__))  # This is your Project Root
     pretrained_path = os.path.join(current_dir, '../../../pretrained_networks')
+    
+    
     if cfg.MODEL.PRETRAIN_FILE and ('OSTrack' not in cfg.MODEL.PRETRAIN_FILE) and training:
         pretrained = os.path.join(pretrained_path, cfg.MODEL.PRETRAIN_FILE)
     else:
         pretrained = ''
+        
+    if not training:
+        pretrained_path = cfg.MODEL.PRETRAIN_PTH
 
     if cfg.MODEL.BACKBONE.TYPE == 'vit_base_patch16_224':
         backbone = vit_base_patch16_224(pretrained, drop_path_rate=cfg.TRAIN.DROP_PATH_RATE,

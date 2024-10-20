@@ -12,7 +12,7 @@ def parameters(yaml_name: str):
     yaml_file = os.path.join(prj_dir, 'experiments/artrack/%s.yaml' % yaml_name)
     update_config_from_file(yaml_file)
     params.cfg = cfg
-    print("test config atrack: ", cfg)
+    # print("test config atrack: ", cfg)
 
     # template and search region
     params.template_factor = cfg.TEST.TEMPLATE_FACTOR

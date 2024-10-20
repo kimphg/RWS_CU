@@ -1,24 +1,30 @@
 
 from RWS_Detection.yolo_detector import YOLODetector
-import os, threading
+import os, threading, sys
 import cv2
 import socket
 from module_config import ModuleConfig
-from logger import logger
+from logger import logger, detector_logger, tracker_logger
+import logging
 import configparser
 import numpy as np
 import time
+from drawer import *
 
-# Constants -- will be moved to config file soon
-MAX_PACKET_SIZE = 65507  # Max size of a UDP packet
-DEST_PORT = 12345
-DEST_ADDRESS = "127.0.0.1" # address to send frame
-MAX_CHUNKS = 10  # Maximum number of chunks expected per frame
+prj_path = os.path.join(os.path.dirname(__file__), 'RWS_Tracker')
+if prj_path not in sys.path:
+    sys.path.append(prj_path)
+from RWS_Tracker.rws_tracker import RWSTracker
 
 class RWSModule():
     def __init__(self, config_path='config.ini'):
         self.config = configparser.ConfigParser()
         self.config.read(config_path) 
+        
+        # set log level
+        logger.setLevel(self.config.get('settings', 'log_level', fallback=logging.INFO))
+        detector_logger.setLevel(self.config.get('detector', 'log_level', fallback=logging.INFO))
+        tracker_logger.setLevel(self.config.get('tracker', 'log_level', fallback=logging.INFO))
         
         # general settings
         self.video_source = self.config.get('settings', 'video_source', fallback=0)
@@ -40,7 +46,7 @@ class RWSModule():
         # detector settings
         self.detector = None
         if self.config.get('detector', 'type', fallback='yolo') == 'yolo':
-            logger.debug('Initialize moduule detector')
+            logger.info('Initializing moduule detector...')
             self.detector = YOLODetector()
             self.detector.set_model(self.config.get('detector','model_path', fallback=''))
             self.detector.set_class_ids(self.config.get('detector','class_ids', fallback=None))
@@ -50,7 +56,10 @@ class RWSModule():
         
         
         # tracker settings
-        self.tracker = None
+        self.tracker_name = self.config.get('tracker', 'name',fallback='artrack')
+        self.tracker_param = self.config.get('tracker', 'param',fallback='artrack_seq_256_full')
+        self.tracker_model = self.config.get('tracker', 'model_path',fallback='models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar')
+        self.tracker = RWSTracker(self.tracker_name, self.tracker_param, self.tracker_model)
         
         
         # socket settings
@@ -63,15 +72,16 @@ class RWSModule():
         self.dest_detection_port = int(self.config.get('socket', 'dest_detection_port', fallback=4000))
         self.recv_command_ip = self.config.get('socket', 'recv_command_ip', fallback='127.0.0.1')
         self.recv_command_port = int(self.config.get('socket', 'recv_command_port', fallback=4001))
-        # print("Configuration Values:")
-        # print(f"Max Package Size: {self.max_package_size}")
-        # print(f"Max Chunks: {self.max_chunks}")
-        # print(f"Destination Frame IP: {self.dest_frame_ip}")
-        # print(f"Destination Frame Port: {self.dest_frame_port}")
-        # print(f"Destination Detection IP: {self.dest_detection_ip}")
-        # print(f"Destination Detection Port: {self.dest_detection_port}")
-        # print(f"Receive Command IP: {self.recv_command_ip}")
-        # print(f"Receive Command Port: {self.recv_command_port}")
+        
+        logger.debug("Configuration Values:")
+        logger.debug(f"Max Package Size: {self.max_package_size}")
+        logger.debug(f"Max Chunks: {self.max_chunks}")
+        logger.debug(f"Destination Frame IP: {self.dest_frame_ip}")
+        logger.debug(f"Destination Frame Port: {self.dest_frame_port}")
+        logger.debug(f"Destination Detection IP: {self.dest_detection_ip}")
+        logger.debug(f"Destination Detection Port: {self.dest_detection_port}")
+        logger.debug(f"Receive Command IP: {self.recv_command_ip}")
+        logger.debug(f"Receive Command Port: {self.recv_command_port}")
         
         ## init socket
         self.send_frame_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -85,7 +95,7 @@ class RWSModule():
         data = buffer.tobytes()
         num_chunks = (len(data) // self.max_package_size) + 1
 
-        if num_chunks > 10:
+        if num_chunks > self.max_chunks:
             return  # Frame too large to send, skip
 
         for i in range(num_chunks):
@@ -93,8 +103,7 @@ class RWSModule():
             chunk = data[i * self.max_package_size:(i + 1) * self.max_package_size]
             self.send_frame_socket.sendto(chunk_header + chunk, address)
             
-            print(f'send {len(chunk_header + chunk)} bytes - index: {i}')
-            
+            # print(f'send {len(chunk_header + chunk)} bytes - index: {i}')
             # need to sleep, dont know why last UDP package loss when num_chunks >= 5
             # TODO: Fix it
             if num_chunks >= 5: 
@@ -123,24 +132,29 @@ class RWSModule():
             self.exploration_thread.start()
 
     def _start_send_exploration_result(self):
-        print('Start sendding exploration data to Controller...')
+        logger.info('Start sendding exploration data to Controller...')
         # get the result and send frame via socket
         import time
         
-        # t = time.time()
+        t = time.time()
         while True:
             if self.exploration_mode_stop_event.is_set():
                 break
             
             if self.detector.frame_update == True:
                 frame_send = np.copy(self.detector.current_frame) # copy new frame to send for prevent long time access to self.detector.current_frame, allow detector conituosly update frame
+                frame_send = draw_yolo_result(frame_send, self.detector.get_current_tracking_result()) # draw frame
+                
                 self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
-                print(f'Frame sent with id: {self.frame_counter}')
-                # cnt += 1
+                
+                logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
+                t = time.time()
                 
                 self.frame_counter = (self.frame_counter + 1)%255
                 # TODO: send current detection result
                 self.detector.frame_update = False
+                
+                # drawn frame
                 
                 cv2.imshow('FRAME', cv2.resize(frame_send, (600,800)))
                 cv2.waitKey(20)
@@ -151,18 +165,19 @@ class RWSModule():
             # MUST wait a bit for prevent thread resource blocking between rws module and detector
             cv2.waitKey(1)
             
-        
-        # stop tracking module
-        # print('frame count: ', cnt)
         self.detector.stop_tracking()
                 
 def test_exploration_mode():
     rws_module = RWSModule()
     # rws_module.test_exploration_mode()
     rws_module.start_exploration_mode()
-    # time.sleep(5)
+    time.sleep(10)
     # print('Stop tracking')
-    # rws_module.exploration_mode_stop_event.set()
+    rws_module.exploration_mode_stop_event.set()
+    
+def test_tracker():
+    rws_module = RWSModule()
+    rws_module.tracker.test_tracker_v2('videos/car2.mp4')
         
 def test_detector():
     module = RWSModule()
@@ -214,7 +229,8 @@ def test_detector():
         
 if __name__ == "__main__":
     # test_detector()
-    test_exploration_mode()
+    # test_exploration_mode()
+    test_tracker()
     
     
     
