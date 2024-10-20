@@ -89,6 +89,17 @@ class RWSModule():
         ## init socket
         self.send_frame_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         
+    def update_video_source(self, video_source):
+        self.video_source = video_source
+        if self.cap is not None and self.cap.isOpened():
+            self.cap.release() # release current video source
+        
+        self.cap = cv2.VideoCapture(self.video_source)
+        if not self.cap.isOpened():
+            logger.warning(f'Cannot connect to video source: {self.video_source}')
+        else:
+            logger.info(f'Succeed connect to video source: {self.video_source}')
+        
     def send_frame(self, frame, frame_counter, address):
         ret, buffer = cv2.imencode('.jpeg', frame, [cv2.IMWRITE_JPEG_QUALITY, 90])
         if not ret:
@@ -155,8 +166,8 @@ class RWSModule():
                 self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
                 # logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
                 t = time.time()
-                
                 self.frame_counter = (self.frame_counter + 1)%255
+
                 # TODO: send current detection result
                 self.detector.frame_update = False
                 
@@ -228,6 +239,8 @@ class RWSModule():
                 # logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
                 t = time.time()
                 
+                # TODO: send current tracking result
+                
                 self.frame_counter = (self.frame_counter + 1) % 255
                 self.tracker.frame_update = False
                 
@@ -295,8 +308,8 @@ def test_all_mode():
     rws_module.start_single_track_mode(init_frame, box)
     time.sleep(5)
     
-    rws_module.stop_single_track_mode()
-    
+    rws_module.update_video_source('./videos/car2.mp4')
+    rws_module.start_exploration_mode()
     
     
     

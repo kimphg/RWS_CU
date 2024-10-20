@@ -12,6 +12,11 @@ python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data
 # run main file
 cd ../../
 python main.py
+
+# to test receive frame data from main program, when running main.py, open a new cmd tab:
+cd UI_test
+python receiver.py
+
 ```
 ## Project tree
 
@@ -27,3 +32,7 @@ python main.py
 ├── UI_Test - PyQt5 UI for test interaction between tracker module and UI app
 └── videos - Video test files
 ```
+
+Models can be downloaded from the FTP AI server, please contact the project admin
+
+Models and data dir in FTP AI Server: `/rws/models` and `/rws/videos`
