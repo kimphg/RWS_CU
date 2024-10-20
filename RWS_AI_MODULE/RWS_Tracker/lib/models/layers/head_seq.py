@@ -436,7 +436,7 @@ class FeatureFusion(nn.Module):
         mlp_hidden_dim = int(dim * mlp_ratio)
         self.z_norm3 = norm_layer(dim)
         self.x_norm3 = norm_layer(dim)
-        print(mlp_ratio)
+        # print(mlp_ratio)
         self.z_mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop)
         self.x_mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop)
 

@@ -33,6 +33,9 @@ class RWSModule():
         self.exploration_mode_stop_event = threading.Event()
         self.exploration_thread = None
         
+        self.single_track_mode_stop_event = threading.Event()
+        self.single_track_thread = None
+        
         if self.video_source is not None:
             logger.info(f'Connecting to video source: {self.video_source}')
             self.cap = cv2.VideoCapture(self.video_source)
@@ -109,12 +112,16 @@ class RWSModule():
             if num_chunks >= 5: 
                 time.sleep(0.0005) 
             # time.sleep(0.001)
+            
+        # logger.debug(f'Sent frame to {address} id: {frame_counter} - size: {len(data)}')
 
     def start_exploration_mode(self):
-        # TODO: stop the current tracker if need
+        logger.debug('Starting exploration mode...')
+        # stop single tracking mode if running
+        self.stop_single_track_mode()
         
         if self.detector is None:
-            logger.error('Module tracker is not initalized')
+            logger.error('Module detector is not initalized')
             # TODO: send error to Controller
             return
         if not self.cap.isOpened():
@@ -132,7 +139,7 @@ class RWSModule():
             self.exploration_thread.start()
 
     def _start_send_exploration_result(self):
-        logger.info('Start sendding exploration data to Controller...')
+        logger.info('Start sendding exploration data to Controller')
         # get the result and send frame via socket
         import time
         
@@ -146,8 +153,7 @@ class RWSModule():
                 frame_send = draw_yolo_result(frame_send, self.detector.get_current_tracking_result()) # draw frame
                 
                 self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
-                
-                logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
+                # logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
                 t = time.time()
                 
                 self.frame_counter = (self.frame_counter + 1)%255
@@ -155,25 +161,144 @@ class RWSModule():
                 self.detector.frame_update = False
                 
                 # drawn frame
-                
-                cv2.imshow('FRAME', cv2.resize(frame_send, (600,800)))
-                cv2.waitKey(20)
+                # cv2.imshow('FRAME', cv2.resize(frame_send, (600,800)))
+                # cv2.waitKey(20)
                 
                 # print(f'FPS: {1/(time.time()-t)}')
                 # t = time.time()
 
             # MUST wait a bit for prevent thread resource blocking between rws module and detector
+            # give a change for detector access to it varibles and do it job
             cv2.waitKey(1)
             
         self.detector.stop_tracking()
+        
+    def stop_exploration_mode(self):
+        """
+            stop exploration mode
+        """
+        if self.exploration_thread is not None and self.exploration_thread.is_alive():
+            self.exploration_mode_stop_event.set()
+            self.exploration_thread.join()
+            self.exploration_thread = None
+            logger.info(f"Exploration mode stopped")
+            
+    def start_single_track_mode(self, frame, box):
+        """
+            Start tracking single object
+            params:
+                box: bounding box of object need to track
+        """
+        logger.debug('Starting single track object mode...')
+        
+        # Stop exploration mode, focus only one object
+        self.stop_exploration_mode()
+        
+        if self.tracker is None:
+            logger.error('Module tracker is not initalized')
+            # TODO: send error to Controller
+            return
+        
+        if not self.cap.isOpened():
+            logger.error('Video source is not activate')
+            # TODO: send error to Controller
+            return
+        
+        self.tracker.stop_tracking() # stop current tracking if running
+        self.tracker.set_videocapture(self.cap)
+        self.tracker.start_tracking(frame, box, show=False)
+            
+        if self.single_track_thread is None or not self.single_track_thread.is_alive():
+            self.single_track_mode_stop_event.clear()
+            self.single_track_thread = threading.Thread(target=self._start_send_tracking_result, args=())
+            self.single_track_thread.start()
+    
+    def _start_send_tracking_result(self):
+        logger.info('Start sendding focus tracking result to Controller')
+        t = time.time()
+        
+        while True:
+            if self.single_track_mode_stop_event.is_set():
+                break
+            if self.tracker.frame_update == True:
+                frame_send = np.copy(self.tracker.current_frame)
+                frame_send = draw_tracking_result(frame_send, self.tracker.get_current_tracking_result())
                 
+                self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
+                # logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
+                t = time.time()
+                
+                self.frame_counter = (self.frame_counter + 1) % 255
+                self.tracker.frame_update = False
+                
+                # cv2.imshow('FRAME', frame_send)
+                # cv2.waitKey(20)
+            
+            # MUST wait a bit for prevent thread resource blocking between rws module and tracker
+            # give a change for tracker access to it varibles and do it job
+            cv2.waitKey(1)
+        self.tracker.stop_tracking()
+    
+    def stop_single_track_mode(self):
+        if self.single_track_thread is not None and self.single_track_thread.is_alive():
+            self.single_track_mode_stop_event.set()
+            self.single_track_thread.join()
+            self.single_track_thread = None
+            logger.info(f"Single track mode stopped")
+    
 def test_exploration_mode():
     rws_module = RWSModule()
     # rws_module.test_exploration_mode()
     rws_module.start_exploration_mode()
     time.sleep(10)
     # print('Stop tracking')
-    rws_module.exploration_mode_stop_event.set()
+    # rws_module.exploration_mode_stop_event.set()
+    rws_module.stop_exploration_mode()
+    
+def test_single_track_mode():
+    rws_module = RWSModule()    
+    # ret, init_frame = rws_module.cap.read()
+    # # box = [614, 344, 37, 29]
+    # while True:
+    #     # cv2.waitKey()
+    #     frame_disp = init_frame.copy()
+
+    #     cv2.putText(frame_disp, 'Select target ROI and press ENTER', (20, 30), cv2.FONT_HERSHEY_COMPLEX_SMALL,
+    #                 1.5, (0, 0, 0), 1)
+
+    #     x, y, w, h = cv2.selectROI('select roi', frame_disp, fromCenter=False)
+    #     box = [x, y, w, h]
+    #     break 
+    
+    ret, init_frame = rws_module.cap.read()
+    box = [614, 344, 37, 29]
+    rws_module.start_single_track_mode(init_frame, box)
+    
+    time.sleep(10)
+    rws_module.stop_single_track_mode()
+    
+def test_all_mode():
+    rws_module = RWSModule()  
+    ret, init_frame = rws_module.cap.read()
+    box = [614, 344, 37, 29]
+    
+    # start exploration mode
+    rws_module.start_exploration_mode()
+    time.sleep(5)
+    
+    rws_module.start_single_track_mode(init_frame, box)
+    time.sleep(5)
+    
+    rws_module.start_exploration_mode()
+    time.sleep(2)
+    
+    rws_module.start_single_track_mode(init_frame, box)
+    time.sleep(5)
+    
+    rws_module.stop_single_track_mode()
+    
+    
+    
     
 def test_tracker():
     rws_module = RWSModule()
@@ -226,11 +351,64 @@ def test_detector():
         elif key == ord('q'):
             module.detector.stop_tracking()
             break        
+
+def test_tracker():
+    module = RWSModule()
+    
+    namedwindow = 'Object tracker: ' + module.tracker_name
+    cv2.namedWindow(namedwindow, cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
+    cv2.resizeWindow(namedwindow, 960, 720)
+    
+    import numpy as np
+    wait_update_frame = np.zeros((790, 960, 3), dtype=np.uint8)  # Create a black frame
+    cv2.putText(wait_update_frame, "WAIT FOR UPDATE", (250, 300), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+    
+    ret, init_frame = module.cap.read()
+    box = [614, 344, 37, 29]
+    
+    while True:
+        # cv2.waitKey()
+        frame_disp = init_frame.copy()
+
+        cv2.putText(frame_disp, 'Select target ROI and press ENTER', (20, 30), cv2.FONT_HERSHEY_COMPLEX_SMALL,
+                    1.5, (0, 0, 0), 1)
+
+        x, y, w, h = cv2.selectROI(namedwindow, frame_disp, fromCenter=False)
+        box = [x, y, w, h]
+        break
+    
+    module.tracker.set_videocapture(module.cap)
+    module.tracker.start_tracking(init_frame, box, False)
+    
+    while True:
+        if module.tracker.frame_update == True:
+            # test send frame
+            frame_send = np.copy(module.tracker.current_frame)
+            draw_tracking_result(frame_send, module.tracker.get_current_tracking_result())
+            
+            cv2.imshow(namedwindow, frame_send)
+            
+            module.send_frame(frame_send, module.frame_counter, (module.dest_frame_ip, module.dest_frame_port))
+            module.frame_counter = (module.frame_counter + 1) % 255
+            module.tracker.frame_update = False
+        else:
+            cv2.imshow(namedwindow, wait_update_frame)
+        
+        key = cv2.waitKey(30)
+        if key == ord('s'):
+            module.tracker.stop_tracking()
+        elif key == ord('r'):
+            module.tracker.start_tracking(init_frame, box, False)
+        elif key == ord('q'):
+            module.tracker.stop_tracking()
+            break
         
 if __name__ == "__main__":
     # test_detector()
     # test_exploration_mode()
-    test_tracker()
+    # test_tracker()
+    # test_single_track_mode()
+    test_all_mode()
     
     
     

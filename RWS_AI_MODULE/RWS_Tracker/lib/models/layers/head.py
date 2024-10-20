@@ -426,7 +426,7 @@ class FeatureFusion(nn.Module):
         mlp_hidden_dim = int(dim * mlp_ratio)
         self.z_norm3 = norm_layer(dim)
         self.x_norm3 = norm_layer(dim)
-        print(mlp_ratio)
+        # print(mlp_ratio)
         self.z_mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop)
         self.x_mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer, drop=drop)
 
@@ -780,7 +780,7 @@ class Pix2Track(nn.Module):
         self.bins = bins
         self.range = range
         self.word_embeddings = nn.Embedding(self.bins * self.range + 2, in_channel, padding_idx=self.bins * self.range, max_norm=1, norm_type=2.0)
-        print(self.bins)
+        # print(self.bins)cd ../
         self.position_embeddings = nn.Embedding(
             5, in_channel)
         self.output_bias = torch.nn.Parameter(torch.zeros(self.bins * self.range + 2))

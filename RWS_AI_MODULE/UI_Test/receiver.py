@@ -11,6 +11,10 @@ class FrameReceiver:
         self.max_package_size = 65450
 
     def receive_frame(self):
+        
+        namedwindow = 'Frame receiver'
+        cv2.namedWindow(namedwindow, cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
+        cv2.resizeWindow(namedwindow, 960, 720)
         while True:
             # Receive data from socket
             data, addr = self.socket.recvfrom(65507)  # Maximum UDP packet size
@@ -43,12 +47,12 @@ class FrameReceiver:
                 # Convert byte data to numpy array
                 np_array = np.frombuffer(self.buffer, np.uint8)
                 
+                print(f'Received frame with id: {self.expected_frame_counter} - size: {len(self.buffer)}')
                 # Decode the image from the array
                 frame = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
 
-                print(frame.shape)
                 if frame is not None:
-                    cv2.imshow('Received Frame', cv2.resize(frame, (600,800)))
+                    cv2.imshow(namedwindow, frame)
                 
                 # Clear the buffer after processing the frame
                 self.buffer = b''

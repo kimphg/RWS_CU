@@ -21,7 +21,6 @@ class YOLODetector:
         self.current_result = None  # Stores the latest tracking results
         self.current_frame = None # Stores the last frame
         self.frame_update = False
-        self.lock = threading.Lock()
         
         self.conf = 0.2
         if model_path:

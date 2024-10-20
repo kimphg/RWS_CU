@@ -1,5 +1,41 @@
 import cv2
 
+def draw_tracking_result(frame, box):
+    
+    if box is None:
+        return frame
+    
+    # Unpack the box coordinates
+    x, y, w, h = box
+    
+    # Calculate the center point of the bounding box
+    center_x = x + w // 2
+    center_y = y + h // 2
+    
+    # Draw the corners of the rectangle
+    if w > 50:
+        corner_length = 15  # Length of the corner lines
+    else: 
+        corner_length = 10
+        
+    
+    cv2.line(frame, (x, y), (x + corner_length, y), (0, 255, 0), 2)  # Top side
+    cv2.line(frame, (x, y), (x, y + corner_length), (0, 255, 0), 2)  # Left side
+    cv2.line(frame, (x + w, y), (x + w - corner_length, y), (0, 255, 0), 2)  # Top right
+    cv2.line(frame, (x + w, y), (x + w, y + corner_length), (0, 255, 0), 2)  # Right side
+    cv2.line(frame, (x, y + h), (x + corner_length, y + h), (0, 255, 0), 2)  # Bottom left
+    cv2.line(frame, (x, y + h), (x, y + h - corner_length), (0, 255, 0), 2)  # Bottom side
+    cv2.line(frame, (x + w, y + h), (x + w - corner_length, y + h), (0, 255, 0), 2)  # Bottom right
+    cv2.line(frame, (x + w, y + h), (x + w, y + h - corner_length), (0, 255, 0), 2)  # Bottom right
+    
+    # Draw a cross in the center
+    cv2.line(frame, (center_x - 10, center_y), (center_x + 10, center_y), (0, 0, 255), 2)  # Horizontal line
+    cv2.line(frame, (center_x, center_y - 10), (center_x, center_y + 10), (0, 0, 255), 2)  # Vertical line
+    
+    cv2.putText(frame, 'TRACKING', (20, 50), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
+                       (255,255,0), 2)
+    return frame
+
 def draw_yolo_result(frame, results):
     """
     Draws bounding boxes and labels from YOLO detection/tracking results on the provided frame.
@@ -35,4 +71,12 @@ def draw_yolo_result(frame, results):
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
+    cv2.putText(frame, 'EXPLORATION', (20, 50), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
+                       (0,255,0), 2)
     return frame
+
+if __name__ == "__main__":
+    img = cv2.imread('/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/TaiLieu/app_logo.png')
+    img = draw_tracking_result(img, [100,100, 120, 65])
+    cv2.imshow('img', img)
+    cv2.waitKey(0)
