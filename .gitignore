@@ -11,6 +11,8 @@
 /RWS_AI_MODULE/.git
 /RWS_AI_MODULE/.gitignore
 /RWS_AI_MODULE/RWS_Detection/test/
+/RWS_AI_MODULE/RWS_Tracker/lib/test/evaluation/local.py
+/RWS_AI_MODULE/RWS_Tracker/lib/train/admin/local.py
 __pycache__/
 *.py[cod]
 *$py.class
