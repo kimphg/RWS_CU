@@ -50,7 +50,18 @@ class RWSModule():
         self.detector = None
         if self.config.get('detector', 'type', fallback='yolo') == 'yolo':
             logger.info('Initializing moduule detector...')
-            self.detector = YOLODetector()
+            
+            # configuration for deepsort realtime tracker
+            max_iou_distance = float(self.config.get('detector', 'max_iou_distance', fallback=0.7))
+            max_age = int(self.config.get('detector', 'max_age', fallback=30))
+            n_init = int(self.config.get('detector', 'n_init', fallback=3))
+            nms_max_overlap = float(self.config.get('detector', 'nms_max_overlap', fallback=1.0))
+            detect_conf = float(self.config.get('detector', 'detect_conf', fallback=0.2))
+            deepsort_track_conf = float(self.config.get('detector', 'track_conf', fallback=0.5))
+            
+            self.detector = YOLODetector(detect_conf=detect_conf, max_iou_distance=max_iou_distance, max_age=max_age, 
+                                         n_init=n_init, nms_max_overlap=nms_max_overlap, track_conf=deepsort_track_conf)
+            
             self.detector.set_model(self.config.get('detector','model_path', fallback=''))
             self.detector.set_class_ids(self.config.get('detector','class_ids', fallback=None))
             self.detector.set_videocapture(self.cap)
@@ -59,10 +70,10 @@ class RWSModule():
         
         
         # tracker settings
-        self.tracker_name = self.config.get('tracker', 'name',fallback='artrack')
-        self.tracker_param = self.config.get('tracker', 'param',fallback='artrack_seq_256_full')
-        self.tracker_model = self.config.get('tracker', 'model_path',fallback='models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar')
-        self.tracker = RWSTracker(self.tracker_name, self.tracker_param, self.tracker_model)
+        tracker_name = self.config.get('tracker', 'name',fallback='artrack')
+        tracker_param = self.config.get('tracker', 'param',fallback='artrack_seq_256_full')
+        tracker_model = self.config.get('tracker', 'model_path',fallback='models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar')
+        self.tracker = RWSTracker(tracker_name, tracker_param, tracker_model)
         
         
         # socket settings
@@ -161,7 +172,7 @@ class RWSModule():
             
             if self.detector.frame_update == True:
                 frame_send = np.copy(self.detector.current_frame) # copy new frame to send for prevent long time access to self.detector.current_frame, allow detector conituosly update frame
-                frame_send = draw_yolo_result(frame_send, self.detector.get_current_tracking_result()) # draw frame
+                frame_send = draw_yolo_deepsort_results(frame_send, self.detector.get_current_tracking_result()) # draw frame
                 
                 self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
                 # logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
@@ -263,10 +274,10 @@ def test_exploration_mode():
     rws_module = RWSModule()
     # rws_module.test_exploration_mode()
     rws_module.start_exploration_mode()
-    time.sleep(10)
+    # time.sleep(10)
     # print('Stop tracking')
     # rws_module.exploration_mode_stop_event.set()
-    rws_module.stop_exploration_mode()
+    # rws_module.stop_exploration_mode()
     
 def test_single_track_mode():
     rws_module = RWSModule()    
@@ -418,10 +429,10 @@ def test_tracker():
         
 if __name__ == "__main__":
     # test_detector()
-    # test_exploration_mode()
+    test_exploration_mode()
     # test_tracker()
     # test_single_track_mode()
-    test_all_mode()
+    # test_all_mode()
     
     
     

@@ -1,28 +1,36 @@
 import cv2
 import threading, os, json
 from ultralytics import YOLO
+from deep_sort_realtime.deepsort_tracker import DeepSort
 
 
 import logging
 logging.getLogger('ultralytics').setLevel(logging.ERROR)
 
+import sys
+prj_path = os.path.join(os.path.dirname(__file__), '..')
+if prj_path not in sys.path:
+    sys.path.append(prj_path)
 from logger import detector_logger as logger
 
 class YOLODetector:
-    def __init__(self, model_path=None):
+    def __init__(self, model_path=None, detect_conf=0.2, class_ids=None, conf=0.2, max_iou_distance=0.7, max_age=30, n_init=3, nms_max_overlap=1.0, track_conf=0.5):
         self.model = None
-        self.source = None
+        self.source = None # video source path, parent assign if needed
         self.class_ids = None  # Initialize class_ids as None to detect all classes by default
         self.tracking_thread = None
         self.stop_event = threading.Event()  # Event to control thread stopping
-        self.cap : cv2.VideoCapture = None
-        
+        self.cap : cv2.VideoCapture = None # for parent assign
         
         self.current_result = None  # Stores the latest tracking results
         self.current_frame = None # Stores the last frame
         self.frame_update = False
+        self.class_ids = class_ids
+        self.detect_conf = detect_conf
+        self.track_conf = track_conf
         
-        self.conf = 0.2
+        self.deepsort_tracker = DeepSort(max_age=max_age, max_iou_distance=max_iou_distance, n_init=n_init, nms_max_overlap=nms_max_overlap)
+
         if model_path:
             self.set_model(model_path)
             
@@ -40,12 +48,19 @@ class YOLODetector:
         except Exception as e:
             logger.error(f"Error loading model: {e}")
 
-    def set_tracking_conf(self, conf):
+    def set_detect_conf(self, conf):
+        """
+        Set detect conf.
+        """
+        self.detect_conf = conf
+        logger.debug(f'Set yolo detection conf to: {self.detect_conf}')
+    
+    def set_deepsort_tracking_conf(self, conf):
         """
         Set tracking conf.
         """
-        self.conf = conf
-        logger.debug(f'Set yolo tracking conf to: {self.conf}')
+        self.track_conf = conf
+        logger.debug(f'Set yolo deepsort tracking conf to: {self.track_conf}')
 
     def set_class_ids(self, class_ids):
         """
@@ -66,7 +81,7 @@ class YOLODetector:
             return None
 
         # Detect objects in the frame using `model()`
-        results = self.model(frame, classes=self.class_ids, stream=True, conf=self.conf)
+        results = self.model(frame, classes=self.class_ids, stream=True, conf=self.detect_conf)
 
         detections = []
         for result in results:
@@ -80,6 +95,10 @@ class YOLODetector:
         """
         if self.model is None:
             logger.error("Model is not set. Use set_model() to load a YOLO model.")
+            return
+        
+        if self.deepsort_tracker is None:
+            logger.error("Tracker of yolo detector is not set")
             return
         
         if self.tracking_thread is None or not self.tracking_thread.is_alive():
@@ -117,36 +136,37 @@ class YOLODetector:
 
             # Use YOLO model to detect and track objects in the current frame
             # logger.debug('Inference model....')
-            results = self.model.track(frame, conf=self.conf, classes=self.class_ids)
+            # results = self.model.track(frame, conf=self.conf, classes=self.class_ids)
+            results = self.model(frame, save=False, conf=self.detect_conf)[0]
             
-            self.current_result = results
+            detections = []
+            for det in results.boxes:
+                label, confidence, bbox = det.cls, det.conf, det.xyxy[0]
+                x1, y1, x2, y2 = map(int, bbox)
+                class_id = int(label)
+
+                detections.append([[x1, y1, x2 - x1, y2 - y1], confidence, class_id])
+                
+            tracks = self.deepsort_tracker.update_tracks(detections, frame=frame)
+
+            
+            self.current_result = tracks
             self.update_current_frame(frame) # let drawing task for parent module
             
             # logger.debug(f'Tracking result: {self.get_current_result_json()}')
+            # print('Tracks: ', self.get_current_result_json())
             
             if show:
                 # Get the results for the current frame
-                for result in results:
-                    # Get the bounding boxes, confidences, and tracking IDs from each result
-                    boxes = result.boxes.xyxy if result.boxes is not None else []
-                    confidences = result.boxes.conf if result.boxes is not None else []
-                    class_ids = result.boxes.cls if result.boxes is not None else []
-                    track_ids = result.boxes.id if result.boxes is not None else []
-                    
-                    # track_ids will be None when none of object is tracked
-                    if boxes is None or confidences is None or class_ids is None or track_ids is None:
+                for track in tracks:
+                    if not track.is_confirmed():
                         continue
-                    
-                    # Loop through the detected objects
-                    for box, confidence, class_id, track_id in zip(boxes, confidences, class_ids, track_ids):
-                        x1, y1, x2, y2 = map(int, box)
-                        label = f"ID: {track_id}, Conf: {confidence:.2f}, Class: {class_id}"
+                    track_id = track.track_id  # Unique ID for the object
+                    x1, y1, w, h = track.to_ltwh()  # Bounding box (left, top, width, height)
 
-                        # print(f'Tracking =============={label}==================')
-                        # Draw the bounding box and label on the frame
-                        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                        cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-            
+                    # Draw bounding box and object ID on the frame
+                    cv2.rectangle(frame, (int(x1), int(y1)), (int(x1 + w), int(y1 + h)), (0, 255, 0), 2)
+                    cv2.putText(frame, f'ID: {track_id}', (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
                     cv2.imshow("Yolo detect and tracking preview", cv2.resize(frame, (frame.shape[1]//2, frame.shape[0]//2)))
 
                     # Press 'q' to exit the loop
@@ -169,6 +189,7 @@ class YOLODetector:
             self.stop_event.set()  # Signal the thread to stop
             self.tracking_thread.join()  # Wait for the thread to finish
             self.tracking_thread = None
+            self.deepsort_tracker.delete_all_tracks() # delete all current tracks, reset all ids
             logger.info("Tracking stopped.")
 
     def get_current_tracking_result(self):
@@ -194,31 +215,32 @@ class YOLODetector:
 
         parsed_results = []
 
-        for result in self.current_result:
-            # Get the bounding boxes, confidences, and tracking IDs from each result
-            boxes = result.boxes.xyxy if result.boxes is not None else []
-            confidences = result.boxes.conf if result.boxes is not None else []
-            class_ids = result.boxes.cls if result.boxes is not None else []
-            track_ids = result.boxes.id if result.boxes is not None else []
+        for track in self.current_result:
+            if not track.is_confirmed():
+                continue  # Skip unconfirmed tracks
             
-            # Loop through the detected objects
-            if boxes is not None and track_ids is not None:
-                for box, conf, class_id, track_id in zip(boxes, confidences, class_ids, track_ids):
-                    x1, y1, x2, y2 = map(int, box)  # Convert to integers
-                    parsed_results.append({
-                        "id": int(track_id),
-                        "class_id": int(class_id),
-                        "conf" : float(conf),
-                        "bounding_box": {
-                            "x1": x1,
-                            "y1": y1,
-                            "x2": x2,
-                            "y2": y2
-                        }
-                    })
+            # Extract track details
+            track_id = track.track_id  # Unique ID for the object
+            x1, y1, w, h = track.to_ltwh()  # Bounding box (left, top, width, height)
+            conf = track.get_det_conf()
+            if conf is None: # there are no associated detection the round of this track
+                conf = 0
+            class_id = track.get_det_class()
+
+            # Prepare the result entry
+            parsed_results.append({
+                "id": int(track_id),
+                "bounding_box": {
+                    "x1": int(x1),
+                    "y1": int(y1),
+                    "w": int(w),
+                    "h": int(h)
+                },
+                "conf": float(conf),  # Assuming confidence is an attribute
+                "class_id": class_id  # Get class ID if available
+            })
 
         return json.dumps(parsed_results)  # Convert the list of dicts to a JSON string
-
 
 # Example usage
 if __name__ == "__main__":
@@ -238,8 +260,8 @@ if __name__ == "__main__":
 
     # Example: Get current tracking result
     import time
-    time.sleep(5)  # Allow tracking to run for a bit
-    print("Current tracking result:", detector.get_current_result_json())
+    # time.sleep(5)  # Allow tracking to run for a bit
+    # print("Current tracking result:", detector.get_current_result_json())
 
     # Stop tracking after some time
     time.sleep(10)

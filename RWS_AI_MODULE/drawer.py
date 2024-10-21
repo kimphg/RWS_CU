@@ -36,6 +36,45 @@ def draw_tracking_result(frame, box):
                        (255,255,0), 2)
     return frame
 
+def draw_yolo_deepsort_results(frame, tracks):
+    """
+    Draws bounding boxes and labels from DeepSort tracking results on the provided frame.
+
+    Parameters:
+        frame (numpy.ndarray): The frame on which to draw the results.
+        tracks (list): List of tracking results from DeepSort.
+
+    Returns:
+        numpy.ndarray: The frame with bounding boxes and labels drawn.
+    """
+    if tracks is None:
+        return frame
+    
+    # Loop through each track in the current frame
+    for track in tracks:
+        if not track.is_confirmed():  # Skip unconfirmed tracks
+            continue
+        
+        # Extract track details
+        track_id = track.track_id  # Unique ID for the object
+        x1, y1, w, h = track.to_ltwh()  # Bounding box (left, top, width, height)
+        confidence = track.get_det_conf() if hasattr(track, 'get_det_conf') else None
+        if confidence is None:
+            confidence = 0.0
+        class_id = track.get_det_class() if hasattr(track, 'get_det_class') else None
+
+        # Prepare label
+        label = f"ID: {track_id}, Conf: {confidence:.2f}, Class: {class_id}"
+
+        # Draw the bounding box and label on the frame
+        cv2.rectangle(frame, (int(x1), int(y1)), (int(x1 + w), int(y1 + h)), (0, 255, 0), 2)
+        cv2.putText(frame, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+
+    # Optionally add a title or indicator for exploration mode
+    cv2.putText(frame, 'EXPLORATION', (20, 50), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5, (0, 255, 0), 2)
+    
+    return frame
+
 def draw_yolo_result(frame, results):
     """
     Draws bounding boxes and labels from YOLO detection/tracking results on the provided frame.
@@ -69,7 +108,7 @@ def draw_yolo_result(frame, results):
 
             # Draw the bounding box and label on the frame
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+            cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 2)
 
     cv2.putText(frame, 'EXPLORATION', (20, 50), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
                        (0,255,0), 2)
