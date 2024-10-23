@@ -200,8 +200,46 @@ class YOLODetector:
         if self.tracking_thread is not None and self.tracking_thread.is_alive():
             return self.current_result
         else:
-            logger.info("Tracking thread is not running.")
+            logger.info("Yolo Tracking thread is not running.")
             return None
+        
+    def get_current_result_string(self):
+        """
+        Parse the current tracking results into a string format:
+        TTM,n_target, bb1id, bb1x,bb1y,bb1w,bb1h, ..., bbnid,bbnx,bbny,bbnw,bbnh
+
+        Returns:
+            str: A formatted string containing the tracking results for each object.
+        """
+        if not self.current_result:
+            return "TTM,0"  # Return the header with no targets if no results are available
+
+        result_parts = ["TTM"]  # Start with the header
+        n_target = 0  # Counter for the number of valid tracks
+
+        # Iterate through the tracking results
+        for track in self.current_result:
+            if not track.is_confirmed():
+                continue  # Skip unconfirmed tracks
+
+            # Extract track details
+            track_id = track.track_id  # Unique ID for the object
+            x1, y1, w, h = track.to_ltwh()  # Bounding box (left, top, width, height)
+            conf = track.get_det_conf()
+            if conf is None:
+                conf = 0  # If there's no associated detection, set confidence to 0
+            
+            # Increment the valid track counter
+            n_target += 1
+
+            # Append the bounding box and ID info to the result
+            result_parts.append(f"{track_id},{int(x1)},{int(y1)},{int(w)},{int(h)}")
+
+        # Add the target count at the second position
+        result_parts.insert(1, str(n_target))
+
+        # Join the result parts into a comma-separated string
+        return ",".join(result_parts)
         
     def get_current_result_json(self):
         """

@@ -36,6 +36,9 @@ class RWSModule():
         self.single_track_mode_stop_event = threading.Event()
         self.single_track_thread = None
         
+        self.listen_controller_cmd_stop_event = threading.Event()
+        self.listen_controller_cmd_thread = None
+        
         if self.video_source is not None:
             logger.info(f'Connecting to video source: {self.video_source}')
             self.cap = cv2.VideoCapture(self.video_source)
@@ -82,8 +85,12 @@ class RWSModule():
         self.max_chunks = int(self.config.get('socket', 'max_chunks', fallback=10))
         self.dest_frame_ip = self.config.get('socket', 'dest_frame_ip', fallback='127.0.0.1')
         self.dest_frame_port = int(self.config.get('socket', 'dest_frame_port', fallback=12345))
+        
+        # TODO: Change varibles name
         self.dest_detection_ip = self.config.get('socket', 'dest_detection_ip', fallback='127.0.0.1')
         self.dest_detection_port = int(self.config.get('socket', 'dest_detection_port', fallback=4000))
+        self.dest_noti_ip = self.config.get('socket', 'dest_noti_ip', fallback='127.0.0.1')
+        self.dest_noti_port = int(self.config.get('socket', 'dest_noti_port', fallback=4001))
         self.recv_command_ip = self.config.get('socket', 'recv_command_ip', fallback='127.0.0.1')
         self.recv_command_port = int(self.config.get('socket', 'recv_command_port', fallback=4001))
         
@@ -99,6 +106,9 @@ class RWSModule():
         
         ## init socket
         self.send_frame_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.send_data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.recv_command_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.recv_command_socket.bind((self.recv_command_ip, self.recv_command_port))
         
     def update_video_source(self, video_source):
         self.video_source = video_source
@@ -110,6 +120,18 @@ class RWSModule():
             logger.warning(f'Cannot connect to video source: {self.video_source}')
         else:
             logger.info(f'Succeed connect to video source: {self.video_source}')
+            
+    def send_current_detection(self):
+        # print(f"Need to send: {self.detector.get_current_result_string()}")
+        result_str = self.detector.get_current_result_string()
+        data_to_send = result_str.encode('utf-8')
+        self.send_data_socket.sendto(data_to_send, (self.dest_detection_ip, self.dest_detection_port))
+        
+    def send_notification(self, notify_str : str):
+        logger.debug(f'Send notify: {notify_str}')
+        data = f'TNO,{notify_str}'
+        data_to_send = data.encode('utf-8')
+        self.send_data_socket.sendto(data_to_send, (self.dest_detection_ip, self.dest_detection_port))
         
     def send_frame(self, frame, frame_counter, address):
         ret, buffer = cv2.imencode('.jpeg', frame, [cv2.IMWRITE_JPEG_QUALITY, 90])
@@ -136,7 +158,70 @@ class RWSModule():
             # time.sleep(0.001)
             
         # logger.debug(f'Sent frame to {address} id: {frame_counter} - size: {len(data)}')
+        
+    def start_listen_controller_command(self):
+        logger.debug(f'Listening controller command at ({self.recv_command_ip}:{self.recv_command_port})')
+        if self.listen_controller_cmd_thread is None or not self.listen_controller_cmd_thread.is_alive():
+            self.listen_controller_cmd_stop_event.clear()
+            self.listen_controller_cmd_thread = threading.Thread(target=self._start_listen_controller_cmd, args=())
+            self.listen_controller_cmd_thread.start()
 
+    def _start_listen_controller_cmd(self):
+        while True:
+            if self.listen_controller_cmd_stop_event.is_set():
+                break
+            data, addr = self.recv_command_socket.recvfrom(65507)
+            if not data:
+                continue
+            data_str = data.decode('utf-8')
+            
+            logger.debug(f'Receive command from controller: {data_str}')
+            parts = data_str.split(",")
+            if not parts:
+                print('invalid data received.')
+                continue
+            
+            print('parts 0: ', parts[0])
+            
+            if parts[0] == "CTC": # controller tracking command
+                
+                target_id = int(parts[1])
+                track_status = int(parts[2])
+                
+                if track_status == 0: # track object
+                    # ignore tracking object command when currently tracking an object
+                    if self.single_track_thread is not None and self.single_track_thread.is_alive():
+                        self.send_notification("On tracking other object, ignore controller tracking command.")
+                        continue
+                    
+                    # check if current object with "target_id" exist
+                    current_detection = self.detector.get_current_tracking_result()
+                    if current_detection is None:
+                        self.send_notification('Current detection is empty!')
+                        continue
+                    
+                    current_frame = np.copy(self.detector.current_frame)
+                    have_object = False
+                    for track in current_detection:
+                        if not track.is_confirmed():
+                            continue  # Skip unconfirmed tracks
+                        track_id = int(track.track_id)
+                        if track_id == target_id:
+                            x1, y1, w, h = track.to_ltwh()
+                            self.start_single_track_mode(current_frame, [int(x1), int(y1), int(w), int(h)])
+                            self.send_notification(f'Start tracking object with id: {target_id}')
+                            have_object = True
+                            break
+                    if not have_object:
+                        self.send_notification(f'No object with id: {target_id}')
+                
+                elif track_status == 1: # stop tracking
+                    self.send_notification(f'Stoping tracking single object and start exploration mode')
+                    self.stop_single_track_mode()
+                    self.start_exploration_mode()
+                
+        logger.debug('Stopped listen command from controller.')
+    
     def start_exploration_mode(self):
         logger.debug('Starting exploration mode...')
         # stop single tracking mode if running
@@ -175,6 +260,7 @@ class RWSModule():
                 frame_send = draw_yolo_deepsort_results(frame_send, self.detector.get_current_tracking_result()) # draw frame
                 
                 self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
+                self.send_current_detection()
                 # logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
                 t = time.time()
                 self.frame_counter = (self.frame_counter + 1)%255
@@ -274,6 +360,7 @@ def test_exploration_mode():
     rws_module = RWSModule()
     # rws_module.test_exploration_mode()
     rws_module.start_exploration_mode()
+    rws_module.start_listen_controller_command()
     # time.sleep(10)
     # print('Stop tracking')
     # rws_module.exploration_mode_stop_event.set()
@@ -430,6 +517,7 @@ def test_tracker():
 if __name__ == "__main__":
     # test_detector()
     test_exploration_mode()
+    
     # test_tracker()
     # test_single_track_mode()
     # test_all_mode()
