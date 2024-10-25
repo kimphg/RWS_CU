@@ -2,12 +2,14 @@ import sys
 import socket
 import numpy as np
 import cv2
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QHBoxLayout, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, \
+    QHBoxLayout, QPushButton, QMessageBox, QGridLayout, QLineEdit, QDialog
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal, QPoint
 
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import pyqtSignal, QPoint
+import random, time
 
 class ClickableLabel(QLabel):
     # Custom signal to send the click coordinates
@@ -21,9 +23,128 @@ class ClickableLabel(QLabel):
     def mouseDoubleClickEvent(self, event):
         # Emit signal with the mouse click position when a double-click happens
         self.doubleClicked.emit(event.pos())
+        
+class ControlCenter(QDialog):
+    def __init__(self, parent, cmd_ip="127.0.0.1", cmd_port=5000):
+        super().__init__(parent)
+        self.setWindowTitle("CONTROL CENTER")
+        self.cmd_ip = cmd_ip
+        self.cmd_port = cmd_port
+        self.cmd_addr = (cmd_ip, cmd_port)
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        
+        main_layout = QGridLayout()
+        
+        # Row 0: Video Source
+        self.set_vidsrc_lineedit = QLineEdit()
+        self.set_vidsrc_button = QPushButton("Set Video source")
+        main_layout.addWidget(QLabel("Set videosource"), 0,0)
+        main_layout.addWidget(self.set_vidsrc_lineedit, 0,1)
+        main_layout.addWidget(self.set_vidsrc_button, 0,2)
+        self.set_vidsrc_button.clicked.connect(self.set_videosrc)
+        
+        # Row 1: Detection Confidence
+        self.dconf_lineedit = QLineEdit()
+        self.dconf_button = QPushButton("Set Detection Confidence")
+        main_layout.addWidget(QLabel("Detection Confidence"), 1, 0)
+        main_layout.addWidget(self.dconf_lineedit, 1, 1)
+        main_layout.addWidget(self.dconf_button, 1, 2)
+        self.dconf_button.clicked.connect(self.set_dconf)
 
+        # Row 2: Tracking Confidence
+        self.tconf_lineedit = QLineEdit()
+        self.tconf_button = QPushButton("Set Tracking Confidence")
+        main_layout.addWidget(QLabel("Tracking Confidence"), 2, 0)
+        main_layout.addWidget(self.tconf_lineedit, 2, 1)
+        main_layout.addWidget(self.tconf_button, 2, 2)
+        self.tconf_button.clicked.connect(self.set_tconf)
 
-class FrameReceiver(QMainWindow):
+        # Row 3: Detection Model
+        self.dmodel_lineedit = QLineEdit()
+        self.dmodel_button = QPushButton("Set Detection Model")
+        main_layout.addWidget(QLabel("Detection Model"), 3, 0)
+        main_layout.addWidget(self.dmodel_lineedit, 3, 1)
+        main_layout.addWidget(self.dmodel_button, 3, 2)
+        self.dmodel_button.clicked.connect(self.set_dmodel)
+
+        # Row 4: Tracking Model
+        self.tmodel_lineedit = QLineEdit()
+        self.tmodel_button = QPushButton("Set Tracking Model")
+        main_layout.addWidget(QLabel("Tracking Model"), 4, 0)
+        main_layout.addWidget(self.tmodel_lineedit, 4, 1)
+        main_layout.addWidget(self.tmodel_button, 4, 2)
+        self.tmodel_button.clicked.connect(self.set_tmodel)
+
+        # Row 5: Show FPS
+        self.showfps_lineedit = QLineEdit()
+        self.showfps_button = QPushButton("Set Show FPS")
+        main_layout.addWidget(QLabel("Show FPS (1: Yes, 0: No)"), 5, 0)
+        main_layout.addWidget(self.showfps_lineedit, 5, 1)
+        main_layout.addWidget(self.showfps_button, 5, 2)
+        self.showfps_button.clicked.connect(self.set_showfps)
+
+        # Row 6: Show Detection/Tracking Result
+        self.showresult_lineedit = QLineEdit()
+        self.showresult_button = QPushButton("Set Show Result")
+        main_layout.addWidget(QLabel("Show Result (1: Yes, 0: No)"), 6, 0)
+        main_layout.addWidget(self.showresult_lineedit, 6, 1)
+        main_layout.addWidget(self.showresult_button, 6, 2)
+        self.showresult_button.clicked.connect(self.set_showresult)
+
+        # Row 7: Reconnect Video Source
+        self.recvid_button = QPushButton("Reconnect Video Source")
+        main_layout.addWidget(QLabel("Reconnect Video"), 7, 0)
+        main_layout.addWidget(self.recvid_button, 7, 1)
+        self.recvid_button.clicked.connect(self.reconnect_video)
+        
+        self.setLayout(main_layout)
+        
+    def send_command(self, command):
+        print(f'Sending command: {command}')
+        self.socket.sendto(command.encode('utf-8'), (self.cmd_ip, self.cmd_port))
+    
+    # Video Source
+    def set_videosrc(self):
+        cmd = f'CCS,VIDSRC,{self.set_vidsrc_lineedit.text()}'
+        self.send_command(cmd)
+
+    # Detection Confidence
+    def set_dconf(self):
+        cmd = f'CCS,DCONF,{self.dconf_lineedit.text()}'
+        self.send_command(cmd)
+
+    # Tracking Confidence
+    def set_tconf(self):
+        cmd = f'CCS,TCONF,{self.tconf_lineedit.text()}'
+        self.send_command(cmd)
+
+    # Detection Model
+    def set_dmodel(self):
+        cmd = f'CCS,DMODEL,{self.dmodel_lineedit.text()}'
+        self.send_command(cmd)
+
+    # Tracking Model
+    def set_tmodel(self):
+        cmd = f'CCS,TMODEL,{self.tmodel_lineedit.text()}'
+        self.send_command(cmd)
+
+    # Show FPS
+    def set_showfps(self):
+        cmd = f'CCS,SHOWFPS,{self.showfps_lineedit.text()}'
+        self.send_command(cmd)
+
+    # Show Detection/Tracking Result
+    def set_showresult(self):
+        cmd = f'CCS,SHOWRESULT,{self.showresult_lineedit.text()}'
+        self.send_command(cmd)
+
+    # Reconnect Video Source
+    def reconnect_video(self):
+        cmd = 'CCS,RECVID'
+        self.send_command(cmd)
+            
+
+class RWSController(QMainWindow):
     def __init__(self, frame_ip="127.0.0.1", frame_port=12345, data_ip="127.0.0.1", data_port=4000, cmd_ip="127.0.0.1", cmd_port=5000):
         super().__init__()
 
@@ -41,6 +162,7 @@ class FrameReceiver(QMainWindow):
         self.buffer = b''  # Buffer to hold incoming data
         self.expected_frame_counter = None
         self.max_package_size = 65450
+        self.max_chunks = 10
         self.setMinimumSize(800,600)
 
         # Setup PyQt5 window and QLabel for displaying video
@@ -52,7 +174,11 @@ class FrameReceiver(QMainWindow):
         # Connect the double-click signal to a handler function
         self.video_label.doubleClicked.connect(self.on_double_click)
         
-        self.current_detection = []
+        # detection
+        self.current_detection = [] # list of objects [id,x,y,w,h]
+        # tracking
+        self.current_tracking = [] # current tracking result [conf,x,y,w,h]
+        
         self.current_frame = None
 
         # Layout setup
@@ -62,21 +188,29 @@ class FrameReceiver(QMainWindow):
         start_track_button = QPushButton('Start track (First object)')
         stop_track_button = QPushButton('Stop track')
         select_target_to_track = QPushButton('Select target to track')
+        control_center = QPushButton('Control center')
+        
         
         tools_layout.addWidget(start_track_button)
         tools_layout.addWidget(stop_track_button)
         tools_layout.addWidget(select_target_to_track)
+        tools_layout.addWidget(control_center)
         
         start_track_button.clicked.connect(self.start_track)
         start_track_button.setVisible(False)
         stop_track_button.clicked.connect(self.stop_track)
         select_target_to_track.clicked.connect(self.select_target_to_track)
+        control_center.clicked.connect(self.open_control_center)
         
         layout.addLayout(tools_layout)
         layout.addWidget(self.video_label)
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
+        
+    def open_control_center(self):
+        widget = ControlCenter(self, self.cmd_ip, self.cmd_port)
+        widget.show()
         
     def start_track(self):
         print('start tracking')
@@ -99,6 +233,51 @@ class FrameReceiver(QMainWindow):
         
     def select_target_to_track(self):
         print('select target to track')
+        if self.current_frame is None:
+            QMessageBox.information(self, "Error", "No stream!")
+            print('No stream!')
+            return
+        
+        # select target
+        frame_select = self.current_frame.copy()
+        while True:
+            cv2.putText(frame_select, 'Select target ROI and press ENTER', (20, 30), cv2.FONT_HERSHEY_COMPLEX_SMALL,
+                        1.5, (0, 0, 0), 1)
+
+            x, y, w, h = cv2.selectROI("Select frame", frame_select, fromCenter=False)
+            bbox_selected = [x, y, w, h]
+            break
+        cv2.destroyAllWindows()
+        
+        print('Selected: ', bbox_selected)
+        # send tracking command CCT,bbx,bby,bbw,bbh
+        assign_target_id = random.randint(0,255)
+        cmd = f'CCT,{x},{y},{w},{h}'
+        self.cmd_socket.sendto(cmd.encode('utf-8'), (self.cmd_ip, self.cmd_port))
+        
+        # send tracking frame
+        ret, buffer = cv2.imencode('.jpeg', frame_select, [cv2.IMWRITE_JPEG_QUALITY, 90])
+        if not ret:
+            print("Failed to encode image")
+            return
+        
+        data = buffer.tobytes()
+        num_chunks = (len(data) // self.max_package_size) + 1
+
+        if num_chunks > self.max_chunks:
+            return  # Frame too large to send, skip
+
+        for i in range(num_chunks):
+            chunk_header = bytes([0x46, 0x52, i, num_chunks])
+            chunk = data[i * self.max_package_size:(i + 1) * self.max_package_size]
+            self.cmd_socket.sendto(chunk_header + chunk, (self.cmd_ip, self.cmd_port))
+            
+            # print(f'send {len(chunk_header + chunk)} bytes - index: {i}')
+            # need to sleep, dont know why last UDP package loss when num_chunks >= 5
+            # TODO: Fix it
+            if num_chunks >= 5: 
+                time.sleep(0.0005) 
+            print(f'Send frame part to tracker index: {i} - total {num_chunks}, length: {len(chunk_header) + len(chunk)}')
         
 
     def receive_frame(self):
@@ -234,6 +413,14 @@ class FrameReceiver(QMainWindow):
                 self.current_detection = parsed_results
                 # print('detection data: ', parsed_results)
                 
+            elif parts[0] == "TFT": # tracker focus target - bouding box of current tracking target
+                conf = float(parts[1])
+                x = int(parts[2])
+                y = int(parts[3])
+                w = int(parts[4])
+                h = int(parts[5])
+                self.current_tracking = [conf, x, y, w, h]
+            
             elif parts[0] == "TNO":
                 notify_str = parts[1]
                 print(f'Get notify: {notify_str}')
@@ -244,7 +431,7 @@ class FrameReceiver(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
-    receiver = FrameReceiver()
+    receiver = RWSController()
     receiver.show()
 
     # Run the frame receiving in a background thread (not blocking the UI)

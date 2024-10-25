@@ -10,6 +10,12 @@ import configparser
 import numpy as np
 import time
 from drawer import *
+from utils import *
+from enum import Enum
+
+class ModuleMode(Enum):
+    TRACKING = 0
+    EXPLORATION = 1
 
 prj_path = os.path.join(os.path.dirname(__file__), 'RWS_Tracker')
 if prj_path not in sys.path:
@@ -39,6 +45,8 @@ class RWSModule():
         self.listen_controller_cmd_stop_event = threading.Event()
         self.listen_controller_cmd_thread = None
         
+        self.current_mode = ModuleMode.EXPLORATION.value # 1 for exloration, 0 for focus tracking
+        
         if self.video_source is not None:
             logger.info(f'Connecting to video source: {self.video_source}')
             self.cap = cv2.VideoCapture(self.video_source)
@@ -65,7 +73,8 @@ class RWSModule():
             self.detector = YOLODetector(detect_conf=detect_conf, max_iou_distance=max_iou_distance, max_age=max_age, 
                                          n_init=n_init, nms_max_overlap=nms_max_overlap, track_conf=deepsort_track_conf)
             
-            self.detector.set_model(self.config.get('detector','model_path', fallback=''))
+            self.detector_model = self.config.get('detector','model_path', fallback='')
+            self.detector.set_model(self.detector_model)
             self.detector.set_class_ids(self.config.get('detector','class_ids', fallback=None))
             self.detector.set_videocapture(self.cap)
         else:
@@ -73,11 +82,14 @@ class RWSModule():
         
         
         # tracker settings
-        tracker_name = self.config.get('tracker', 'name',fallback='artrack')
-        tracker_param = self.config.get('tracker', 'param',fallback='artrack_seq_256_full')
-        tracker_model = self.config.get('tracker', 'model_path',fallback='models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar')
-        self.tracker = RWSTracker(tracker_name, tracker_param, tracker_model)
+        self.tracker_name = self.config.get('tracker', 'name',fallback='artrack')
+        self.tracker_param = self.config.get('tracker', 'param',fallback='artrack_seq_256_full')
+        self.tracker_model = self.config.get('tracker', 'model_path',fallback='models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar')
+        self.tracker = RWSTracker(self.tracker_name, self.tracker_param, self.tracker_model)
         
+        # for receive custom tracking frame
+        self.custom_tracking_frame_buffer = b''
+        self.custom_tracking_box = None
         
         # socket settings
         ## setting for seding a frame
@@ -110,8 +122,12 @@ class RWSModule():
         self.recv_command_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.recv_command_socket.bind((self.recv_command_ip, self.recv_command_port))
         
-    def update_video_source(self, video_source):
-        self.video_source = video_source
+    def update_video_source(self, video_source: str):
+        if video_source.isdigit():
+            self.video_source = int(video_source)
+        else:
+            self.video_source = video_source
+            
         if self.cap is not None and self.cap.isOpened():
             self.cap.release() # release current video source
         
@@ -120,10 +136,19 @@ class RWSModule():
             logger.warning(f'Cannot connect to video source: {self.video_source}')
         else:
             logger.info(f'Succeed connect to video source: {self.video_source}')
+            # auto update tracker and detector video capture
+            self.tracker.set_videocapture(self.cap)
+            self.detector.set_videocapture(self.cap)
             
     def send_current_detection(self):
         # print(f"Need to send: {self.detector.get_current_result_string()}")
         result_str = self.detector.get_current_result_string()
+        data_to_send = result_str.encode('utf-8')
+        self.send_data_socket.sendto(data_to_send, (self.dest_detection_ip, self.dest_detection_port))
+        
+    def send_current_tracking_object(self):
+        # print(f"Need to send: {self.tracker.get_current_result_string()}")
+        result_str = self.tracker.get_current_result_string()
         data_to_send = result_str.encode('utf-8')
         self.send_data_socket.sendto(data_to_send, (self.dest_detection_ip, self.dest_detection_port))
         
@@ -166,6 +191,32 @@ class RWSModule():
             self.listen_controller_cmd_thread = threading.Thread(target=self._start_listen_controller_cmd, args=())
             self.listen_controller_cmd_thread.start()
 
+    def handle_selected_tracking_frame(self, data):
+        if self.custom_tracking_box is None:
+            logger.error(f'Cannot received CCT (controller custom tracking) command')
+            return
+        chunk_index = data[2]
+        total_chunk = data[3]
+        chunk_data = data[4:]
+        
+        if chunk_index == 0:
+            self.custom_tracking_frame_buffer = b''
+        
+        self.custom_tracking_frame_buffer += chunk_data
+        
+        if chunk_index+1 == total_chunk: # index start from 0
+            np_array = np.frombuffer(self.custom_tracking_frame_buffer, np.uint8)
+            frame = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
+            
+            if frame is not None:
+                self.start_single_track_mode(frame, self.custom_tracking_box)
+            else:
+                logger.error(f'Error when decoding frame for custom tracking')
+                
+            # clean up for next CCT command
+            self.custom_tracking_box = None
+            self.custom_tracking_frame_buffer = b''
+
     def _start_listen_controller_cmd(self):
         while True:
             if self.listen_controller_cmd_stop_event.is_set():
@@ -173,17 +224,25 @@ class RWSModule():
             data, addr = self.recv_command_socket.recvfrom(65507)
             if not data:
                 continue
+            if len(data) < 3:
+                continue
+
+            # first check if it is a frame data
+            if data[0] == 0x46 and data[1]==0x52 and len(data) > 4: # min 4 byte for header
+                self.handle_selected_tracking_frame(data)
+                continue
+
             data_str = data.decode('utf-8')
             
             logger.debug(f'Receive command from controller: {data_str}')
             parts = data_str.split(",")
             if not parts:
-                print('invalid data received.')
+                logger.debug(f'invalid data received: {data_str}')
                 continue
             
-            print('parts 0: ', parts[0])
-            
             if parts[0] == "CTC": # controller tracking command
+                if len(parts) < 3:
+                    logger.error(f"Invalid CTC command: {data_str}")
                 
                 target_id = int(parts[1])
                 track_status = int(parts[2])
@@ -219,7 +278,73 @@ class RWSModule():
                     self.send_notification(f'Stoping tracking single object and start exploration mode')
                     self.stop_single_track_mode()
                     self.start_exploration_mode()
+                    
+            elif parts[0] == "CCT": # controller custom tracking
+                if len(parts) < 5:
+                    logger.error(f'Invalid CCT command {data_str}')
+                    continue
                 
+                x1, y1, w, h = parts[1], parts[2], parts[3], parts[4]
+                
+                # storage custom tracking box, when receive full frame, start tracking mode
+                self.custom_tracking_box = [int(x1), int(y1), int(w), int(h)]
+                
+            elif parts[0] == "CCS": # controller config set
+                if len(parts) < 2:
+                    logger.error(f'Invalid CCS command {data_str}')
+                    continue
+
+                if parts[1] == "RECVID": # reconnect video
+                    logger.debug(f"Handle reconnect video source command")
+                    self.update_video_source(self.video_source)
+                    continue
+                
+                # only above command dont have param (RECVID)
+                if len(parts) < 3:
+                    logger.error(f'Invalid CCS command (missing param) {data_str}')
+                    continue
+                
+                # set video source
+                if parts[1] == "VIDSRC":
+                    logger.debug(f'Handle update videosource command: {data_str}')
+                    vidsrc = parts[2]
+                    self.update_video_source(vidsrc)
+                    continue
+                
+                if parts[1] == "DCONF":
+                    if not is_float(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                    else:
+                        logger.debug(f'Set detector confidence to {parts[2]}')
+                        self.detector.set_detect_conf(float(parts[2]))
+                    continue
+                
+                if parts[1] == "TCONF":
+                    if not is_float(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                    else:
+                        logger.debug(f'Set tracking confidence to {parts[2]}')
+                        self.tracker.tracker_conf = float(parts[2])
+                    continue
+                
+                if parts[1] == "DMODEL":
+                    model_path = parts[2]
+                    logger.debug(f'Set detector model path {model_path}')
+                    self.detector.set_model(model_path)
+                    continue
+                
+                if parts[1] == "TMODEL":
+                    if len(parts) < 5:
+                        logger.error(f'Invalid CCS tracking model set command {data_str}')
+                        continue
+                    model_name = parts[2]
+                    model_param = parts[3]
+                    model_path = parts[4]
+                    logger.debug(f'Set tracker  name - param - path {model_name} - {model_param} - {model_path}')
+                    # TODO: set tracker model name & param, may be reinit tracker - need to test carefully
+                    continue
+                
+            
         logger.debug('Stopped listen command from controller.')
     
     def start_exploration_mode(self):
@@ -228,12 +353,10 @@ class RWSModule():
         self.stop_single_track_mode()
         
         if self.detector is None:
-            logger.error('Module detector is not initalized')
-            # TODO: send error to Controller
+            self.send_notification('Module detector is not initalized')
             return
         if not self.cap.isOpened():
-            logger.error('Video source is not activate')
-            # TODO: send error to Controller
+            self.send_notification('Video source is not activate')
             return
         
         self.detector.stop_tracking() # stop current tracking if running
@@ -244,6 +367,8 @@ class RWSModule():
             self.exploration_mode_stop_event.clear()
             self.exploration_thread = threading.Thread(target=self._start_send_exploration_result, args=())
             self.exploration_thread.start()
+            
+        self.current_mode = ModuleMode.EXPLORATION.value
 
     def _start_send_exploration_result(self):
         logger.info('Start sendding exploration data to Controller')
@@ -265,7 +390,6 @@ class RWSModule():
                 t = time.time()
                 self.frame_counter = (self.frame_counter + 1)%255
 
-                # TODO: send current detection result
                 self.detector.frame_update = False
                 
                 # drawn frame
@@ -303,13 +427,11 @@ class RWSModule():
         self.stop_exploration_mode()
         
         if self.tracker is None:
-            logger.error('Module tracker is not initalized')
-            # TODO: send error to Controller
+            self.send_notification('Module tracker is not initalized')
             return
         
         if not self.cap.isOpened():
-            logger.error('Video source is not activate')
-            # TODO: send error to Controller
+            self.send_notification('Video source is not activate')
             return
         
         self.tracker.stop_tracking() # stop current tracking if running
@@ -320,6 +442,9 @@ class RWSModule():
             self.single_track_mode_stop_event.clear()
             self.single_track_thread = threading.Thread(target=self._start_send_tracking_result, args=())
             self.single_track_thread.start()
+            
+        self.current_mode = ModuleMode.TRACKING.value
+
     
     def _start_send_tracking_result(self):
         logger.info('Start sendding focus tracking result to Controller')
@@ -333,10 +458,9 @@ class RWSModule():
                 frame_send = draw_tracking_result(frame_send, self.tracker.get_current_tracking_result())
                 
                 self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
+                self.send_current_tracking_object()
                 # logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
                 t = time.time()
-                
-                # TODO: send current tracking result
                 
                 self.frame_counter = (self.frame_counter + 1) % 255
                 self.tracker.frame_update = False

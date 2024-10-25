@@ -32,6 +32,7 @@ class RWSTracker(Tracker):
         self.current_result = None  # Stores the latest tracking results
         self.current_frame = None # Stores the last frame
         self.frame_update = False
+        self.tracker_conf = 0.0
         
     def init_tracker(self):
         params = self.get_parameters()
@@ -163,6 +164,24 @@ class RWSTracker(Tracker):
         state = [int(s) for s in out['target_bbox']]
         x, y, w, h = state        
         return (x, y, w, h)
+    
+
+    def get_current_result_string(self):
+        """
+        Parse the current tracking results into a string format:
+        TFT,conf,bbx,bby,bbw,bbh
+
+        Returns:
+            str: A formatted string containing the tracking results.
+        """
+        if not self.current_result:
+            return "TFT,0,0,0,0"  # Return the header with no targets if no results are available
+
+        result_parts = ["TFT"]  # Start with the header
+        x,y,w,h = self.current_result
+        result_parts.append(f"{1},{int(x)},{int(y)},{int(w)},{int(h)}")
+        
+        return ",".join(result_parts)
         
         
     def test_tracker(self, videofilepath, optional_box=None):
