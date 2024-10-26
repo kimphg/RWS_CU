@@ -35,6 +35,8 @@ class RWSModule():
         # general settings
         self.video_source = self.config.get('settings', 'video_source', fallback=0)
         self.frame_counter = 0 # index of frame for seding via UDP
+        self.draw_fps = True
+        self.draw_result = True # draw bounding box of detecor or tracker to frame (before send)
         
         self.exploration_mode_stop_event = threading.Event()
         self.exploration_thread = None
@@ -46,7 +48,6 @@ class RWSModule():
         self.listen_controller_cmd_thread = None
         
         self.current_mode = ModuleMode.EXPLORATION.value # 1 for exloration, 0 for focus tracking
-        
         if self.video_source is not None:
             logger.info(f'Connecting to video source: {self.video_source}')
             self.cap = cv2.VideoCapture(self.video_source)
@@ -56,7 +57,7 @@ class RWSModule():
                 logger.info(f'Succeed connect to video source: {self.video_source}')
         else:
             self.cap = None
-    
+        
         # detector settings
         self.detector = None
         if self.config.get('detector', 'type', fallback='yolo') == 'yolo':
@@ -85,11 +86,19 @@ class RWSModule():
         self.tracker_name = self.config.get('tracker', 'name',fallback='artrack')
         self.tracker_param = self.config.get('tracker', 'param',fallback='artrack_seq_256_full')
         self.tracker_model = self.config.get('tracker', 'model_path',fallback='models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar')
-        self.tracker = RWSTracker(self.tracker_name, self.tracker_param, self.tracker_model)
+        self.tracker_alpha = float(self.config.get('tracker', 'alpha', fallback=0.02))
+        self.tracker_hist_diff_threshold = float(self.config.get('tracker', 'hist_diff_threshold', fallback=0.7))
+        self.tracker_iou_threshold = float(self.config.get('tracker', 'iou_threshold', fallback=0.5))
+        self.tracker = RWSTracker(self.tracker_name, self.tracker_param, self.tracker_model, \
+                                iou_threshold=self.tracker_iou_threshold, alpha=self.tracker_alpha, hist_diff_threshold=self.tracker_hist_diff_threshold)
         
         # for receive custom tracking frame
         self.custom_tracking_frame_buffer = b''
         self.custom_tracking_box = None
+        
+        # for checking changes of object from previous frame and current frame in focus tracking mode
+        self.previous_crop = None
+        self.previous_bbox = None
         
         # socket settings
         ## setting for seding a frame
@@ -123,7 +132,7 @@ class RWSModule():
         self.recv_command_socket.bind((self.recv_command_ip, self.recv_command_port))
         
     def update_video_source(self, video_source: str):
-        if video_source.isdigit():
+        if is_int(video_source):
             self.video_source = int(video_source)
         else:
             self.video_source = video_source
@@ -153,7 +162,7 @@ class RWSModule():
         self.send_data_socket.sendto(data_to_send, (self.dest_detection_ip, self.dest_detection_port))
         
     def send_notification(self, notify_str : str):
-        logger.debug(f'Send notify: {notify_str}')
+        logger.debug(f'Notify: {notify_str}')
         data = f'TNO,{notify_str}'
         data_to_send = data.encode('utf-8')
         self.send_data_socket.sendto(data_to_send, (self.dest_detection_ip, self.dest_detection_port))
@@ -295,27 +304,38 @@ class RWSModule():
                     continue
 
                 if parts[1] == "RECVID": # reconnect video
-                    logger.debug(f"Handle reconnect video source command")
+                    self.send_notification(f"Reconnect video source: {self.video_source}")
                     self.update_video_source(self.video_source)
+                    self.start_exploration_mode()
+                    
                     continue
                 
-                # only above command dont have param (RECVID)
+                if parts[1] == "CONFIRMTRACK": # confirm that tracker is tracking right object (handle case when tracker not confirm object due to histogram diff)
+                    if self.current_mode != ModuleMode.TRACKING.value:
+                        self.send_notification(f'Current in exploration mode, ignore')
+                    else:
+                        self.tracker.initialize_baseline_histogram(self.tracker.current_frame, self.tracker.current_result)
+                        self.send_notification(f'Confirmed tracking object, updated baseline histogram')
+                    continue
+                
+                # only above command dont have param (RECVID, CONFIRMTRACK)
                 if len(parts) < 3:
                     logger.error(f'Invalid CCS command (missing param) {data_str}')
                     continue
                 
                 # set video source
                 if parts[1] == "VIDSRC":
-                    logger.debug(f'Handle update videosource command: {data_str}')
+                    self.send_notification(f'Update video source to: {data_str}')
                     vidsrc = parts[2]
                     self.update_video_source(vidsrc)
+                    self.start_exploration_mode()
                     continue
                 
                 if parts[1] == "DCONF":
                     if not is_float(parts[2]):
                         logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     else:
-                        logger.debug(f'Set detector confidence to {parts[2]}')
+                        self.send_notification(f'Set detector confidence to {parts[2]}')
                         self.detector.set_detect_conf(float(parts[2]))
                     continue
                 
@@ -323,13 +343,13 @@ class RWSModule():
                     if not is_float(parts[2]):
                         logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     else:
-                        logger.debug(f'Set tracking confidence to {parts[2]}')
+                        self.send_notification(f'Set tracking confidence to {parts[2]}')
                         self.tracker.tracker_conf = float(parts[2])
                     continue
                 
                 if parts[1] == "DMODEL":
                     model_path = parts[2]
-                    logger.debug(f'Set detector model path {model_path}')
+                    self.send_notification(f'Set detector model path {model_path}')
                     self.detector.set_model(model_path)
                     continue
                 
@@ -340,11 +360,65 @@ class RWSModule():
                     model_name = parts[2]
                     model_param = parts[3]
                     model_path = parts[4]
-                    logger.debug(f'Set tracker  name - param - path {model_name} - {model_param} - {model_path}')
+                    self.send_notification(f'Set tracker  name - param - path {model_name} - {model_param} - {model_path}')
                     # TODO: set tracker model name & param, may be reinit tracker - need to test carefully
                     continue
+                if parts[1] == "DRAWFPS": # 1 for draw fps, 0 for not
+                    show : str = parts[2]
+                    if show.isdigit():
+                        if int(show) == 0:
+                            self.send_notification(f'Draw FPS before send frame: OFF')
+                            self.draw_fps = False
+                        elif int(show) == 1:
+                            self.send_notification(f'Draw FPS before send frame: ON')
+                            self.draw_fps = True
+                        else:
+                            logger.error(f'Invalid CCS draw fps set command: {data_str}')
+                    else:
+                        logger.error(f'Invalid CCS show fps set command: {data_str}')
+                    continue
                 
-            
+                if parts[1] == "DRAWRESULT": # 1 for draw result, 0 for not
+                    show : str = parts[2]
+                    if show.isdigit():
+                        if int(show) == 0:
+                            self.send_notification(f'Draw RESULT before send frame: OFF')
+                            self.draw_result = False
+                        elif int(show) == 1:
+                            self.send_notification(f'Draw RESULT before send frame: ON')
+                            self.draw_result = True
+                        else:
+                            logger.error(f'Invalid CCS draw RESULT set command: {data_str}')
+                    else:
+                        logger.error(f'Invalid CCS draw RESULT set command: {data_str}')
+                    continue
+                
+                if parts[1] == "TIOU": # tracker iou thresh
+                    if not is_float(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                    else:
+                        self.send_notification(f'Set tracker iou to {parts[2]}')
+                        self.tracker.iou_threshold = float(parts[2])
+                    continue
+                
+                if parts[1] == "TALPHA": # tracker iou thresh
+                    if not is_float(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                    else:
+                        self.send_notification(f'Set tracker alpha to {parts[2]}')
+                        self.tracker.alpha = float(parts[2])
+                    continue
+                
+                if parts[1] == "THIST": # tracker iou thresh
+                    if not is_float(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                    else:
+                        self.send_notification(f'Set tracker histogram diff threshold to {parts[2]}')
+                        self.tracker.hist_diff_threshold = float(parts[2])
+                    continue
+                
+                logger.error(f'Unsupport or invalid CCS command: {data_str}')
+                
         logger.debug('Stopped listen command from controller.')
     
     def start_exploration_mode(self):
@@ -376,21 +450,36 @@ class RWSModule():
         import time
         
         t = time.time()
+        fps_values = []  
         while True:
             if self.exploration_mode_stop_event.is_set():
                 break
             
             if self.detector.frame_update == True:
                 frame_send = np.copy(self.detector.current_frame) # copy new frame to send for prevent long time access to self.detector.current_frame, allow detector conituosly update frame
-                frame_send = draw_yolo_deepsort_results(frame_send, self.detector.get_current_tracking_result()) # draw frame
+                
+                if self.draw_fps:
+                    # Calculate FPS for the current frame
+                    fps = 1 / (time.time() - t)
+                    # Add FPS to the list and keep only the last 10 values
+                    fps_values.append(fps)
+                    if len(fps_values) > 10:
+                        fps_values.pop(0)  # Remove the oldest value if the list has more than 10 values
+                    # Calculate the average FPS over the last 10 frames
+                    avg_fps = sum(fps_values) / len(fps_values)
+                    cv2.putText(frame_send, f'FPS: {avg_fps:.2f}', (frame_send.shape[1]-200, 50), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0,0,255), 1)
+                
+                if self.draw_result:
+                    frame_send = draw_yolo_deepsort_results(frame_send, self.detector.get_current_tracking_result()) # draw frame
                 
                 self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
                 self.send_current_detection()
                 # logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
-                t = time.time()
+                
+                
                 self.frame_counter = (self.frame_counter + 1)%255
-
                 self.detector.frame_update = False
+                t = time.time()
                 
                 # drawn frame
                 # cv2.imshow('FRAME', cv2.resize(frame_send, (600,800)))
@@ -449,21 +538,34 @@ class RWSModule():
     def _start_send_tracking_result(self):
         logger.info('Start sendding focus tracking result to Controller')
         t = time.time()
-        
+        fps_values = []
         while True:
             if self.single_track_mode_stop_event.is_set():
                 break
             if self.tracker.frame_update == True:
                 frame_send = np.copy(self.tracker.current_frame)
-                frame_send = draw_tracking_result(frame_send, self.tracker.get_current_tracking_result())
+                
+                if self.draw_fps:
+                    # Calculate FPS for the current frame
+                    fps = 1 / (time.time() - t)
+                    # Add FPS to the list and keep only the last 10 values
+                    fps_values.append(fps)
+                    if len(fps_values) > 10:
+                        fps_values.pop(0)  # Remove the oldest value if the list has more than 10 values
+                    # Calculate the average FPS over the last 10 frames
+                    avg_fps = sum(fps_values) / len(fps_values)
+                    cv2.putText(frame_send, f'FPS: {avg_fps:.2f}', (frame_send.shape[1]-200, 50), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0,0,255), 1)
+
+                if self.draw_result:
+                    frame_send = draw_tracking_result(frame_send, self.tracker.get_current_tracking_result(), self.tracker.confirmed, self.tracker.name)
                 
                 self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
                 self.send_current_tracking_object()
                 # logger.debug(f'Frame sent with id: {self.frame_counter} - FPS: {1/(time.time()-t)}')
-                t = time.time()
                 
                 self.frame_counter = (self.frame_counter + 1) % 255
                 self.tracker.frame_update = False
+                t = time.time()
                 
                 # cv2.imshow('FRAME', frame_send)
                 # cv2.waitKey(20)

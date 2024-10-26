@@ -77,16 +77,16 @@ class ControlCenter(QDialog):
 
         # Row 5: Show FPS
         self.showfps_lineedit = QLineEdit()
-        self.showfps_button = QPushButton("Set Show FPS")
-        main_layout.addWidget(QLabel("Show FPS (1: Yes, 0: No)"), 5, 0)
+        self.showfps_button = QPushButton("Set Draw FPS")
+        main_layout.addWidget(QLabel("Draw FPS (1: Yes, 0: No)"), 5, 0)
         main_layout.addWidget(self.showfps_lineedit, 5, 1)
         main_layout.addWidget(self.showfps_button, 5, 2)
         self.showfps_button.clicked.connect(self.set_showfps)
 
         # Row 6: Show Detection/Tracking Result
         self.showresult_lineedit = QLineEdit()
-        self.showresult_button = QPushButton("Set Show Result")
-        main_layout.addWidget(QLabel("Show Result (1: Yes, 0: No)"), 6, 0)
+        self.showresult_button = QPushButton("Set Draw Result")
+        main_layout.addWidget(QLabel("Draw Result (1: Yes, 0: No)"), 6, 0)
         main_layout.addWidget(self.showresult_lineedit, 6, 1)
         main_layout.addWidget(self.showresult_button, 6, 2)
         self.showresult_button.clicked.connect(self.set_showresult)
@@ -96,6 +96,38 @@ class ControlCenter(QDialog):
         main_layout.addWidget(QLabel("Reconnect Video"), 7, 0)
         main_layout.addWidget(self.recvid_button, 7, 1)
         self.recvid_button.clicked.connect(self.reconnect_video)
+        
+        # Row 8: Confirm track
+        self.confirm_track_button = QPushButton("Confirm track")
+        main_layout.addWidget(QLabel("Confirm track"), 8, 0)
+        main_layout.addWidget(self.confirm_track_button, 8, 1)
+        self.confirm_track_button.clicked.connect(self.confirm_track)
+        
+        # Row 9: Tracking IOU Thresh
+        self.tiou_lineedit = QLineEdit()
+        self.tiou_button = QPushButton("Set Tracking IOU")
+        main_layout.addWidget(QLabel("Tracking IOU threshold"), 9, 0)
+        main_layout.addWidget(self.tiou_lineedit, 9, 1)
+        main_layout.addWidget(self.tiou_button, 9, 2)
+        self.tiou_button.clicked.connect(self.set_tiou)
+        
+        
+        # Row 10: Tracking ALPHA (Histogram adapt rate)
+        self.talpha_lineedit = QLineEdit()
+        self.talpha_button = QPushButton("Set Tracking Alpha")
+        main_layout.addWidget(QLabel("Tracking Alpha"), 10, 0)
+        main_layout.addWidget(self.talpha_lineedit, 10, 1)
+        main_layout.addWidget(self.talpha_button, 10, 2)
+        self.talpha_button.clicked.connect(self.set_talpha)
+        
+        # Row 11: Tracking hist (Histogram diff thresh)
+        self.thist_lineedit = QLineEdit()
+        self.thist_button = QPushButton("Set Tracking Hist")
+        main_layout.addWidget(QLabel("Tracking Histogram Threshold"), 11, 0)
+        main_layout.addWidget(self.thist_lineedit, 11, 1)
+        main_layout.addWidget(self.thist_button, 11, 2)
+        self.thist_button.clicked.connect(self.set_thist)
+
         
         self.setLayout(main_layout)
         
@@ -117,6 +149,18 @@ class ControlCenter(QDialog):
     def set_tconf(self):
         cmd = f'CCS,TCONF,{self.tconf_lineedit.text()}'
         self.send_command(cmd)
+        
+    def set_tiou(self):
+        cmd = f'CCS,TIOU,{self.tiou_lineedit.text()}'
+        self.send_command(cmd)
+    
+    def set_talpha(self):
+        cmd = f'CCS,TALPHA,{self.talpha_lineedit.text()}'
+        self.send_command(cmd)
+    
+    def set_thist(self):
+        cmd = f'CCS,THIST,{self.thist_lineedit.text()}'
+        self.send_command(cmd)
 
     # Detection Model
     def set_dmodel(self):
@@ -130,18 +174,24 @@ class ControlCenter(QDialog):
 
     # Show FPS
     def set_showfps(self):
-        cmd = f'CCS,SHOWFPS,{self.showfps_lineedit.text()}'
+        cmd = f'CCS,DRAWFPS,{self.showfps_lineedit.text()}'
         self.send_command(cmd)
 
     # Show Detection/Tracking Result
     def set_showresult(self):
-        cmd = f'CCS,SHOWRESULT,{self.showresult_lineedit.text()}'
+        cmd = f'CCS,DRAWRESULT,{self.showresult_lineedit.text()}'
         self.send_command(cmd)
 
     # Reconnect Video Source
     def reconnect_video(self):
         cmd = 'CCS,RECVID'
         self.send_command(cmd)
+        
+    def confirm_track(self):
+        cmd = 'CCS,CONFIRMTRACK'
+        self.send_command(cmd)
+        
+    
             
 
 class RWSController(QMainWindow):
@@ -202,7 +252,9 @@ class RWSController(QMainWindow):
         select_target_to_track.clicked.connect(self.select_target_to_track)
         control_center.clicked.connect(self.open_control_center)
         
+        self.result_label = QLabel("Received result")
         layout.addLayout(tools_layout)
+        layout.addWidget(self.result_label)
         layout.addWidget(self.video_label)
         container = QWidget()
         container.setLayout(layout)
@@ -411,20 +463,22 @@ class RWSController(QMainWindow):
                     # Move to the next set of track data (each track has 5 parts: id, x1, y1, w, h)
                     index += 5
                 self.current_detection = parsed_results
-                # print('detection data: ', parsed_results)
+                self.result_label.setText(", ".join([str(item) for sublist in self.current_detection for item in sublist]))
                 
             elif parts[0] == "TFT": # tracker focus target - bouding box of current tracking target
-                conf = float(parts[1])
+                confirm = int(parts[1])
                 x = int(parts[2])
                 y = int(parts[3])
                 w = int(parts[4])
                 h = int(parts[5])
-                self.current_tracking = [conf, x, y, w, h]
+                self.current_tracking = [confirm, x, y, w, h]
+                self.result_label.setText(", ".join(map(str, self.current_tracking)))
             
             elif parts[0] == "TNO":
                 notify_str = parts[1]
                 print(f'Get notify: {notify_str}')
                 self.statusBar().showMessage(notify_str)
+                
 
         # return parsed_results
         

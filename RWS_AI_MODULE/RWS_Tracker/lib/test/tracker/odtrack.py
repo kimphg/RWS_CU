@@ -154,14 +154,16 @@ class ODTrack(BaseTracker):
                         self.step = False
                         break
 
+        confidence = pred_score_map.max().item() # consider using from tracker, only odtrack have, artrack dont have it
         if self.save_all_boxes:
             '''save all predictions'''
             all_boxes = self.map_box_back_batch(pred_boxes * self.params.search_size / resize_factor, resize_factor)
             all_boxes_save = all_boxes.view(-1).tolist()  # (4N, )
             return {"target_bbox": self.state,
+                    "confidence": confidence ,
                     "all_boxes": all_boxes_save}
         else:
-            return {"target_bbox": self.state}
+            return {"target_bbox": self.state, "confidence": confidence}
 
     def select_memory_frames(self):
         num_segments = self.cfg.TEST.TEMPLATE_NUMBER

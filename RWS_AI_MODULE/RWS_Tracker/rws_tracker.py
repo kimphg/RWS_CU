@@ -8,9 +8,10 @@ prj_path = os.path.join(os.path.dirname(__file__), '..')
 if prj_path not in sys.path:
     sys.path.append(prj_path)
 from logger import tracker_logger as logger
+from utils import calculate_iou
 
 class RWSTracker(Tracker):
-    def __init__(self, tracker_name, tracker_param, model_path):
+    def __init__(self, tracker_name, tracker_param, model_path, alpha=0.02, hist_diff_threshold=0.7, iou_threshold=0.5):
         """
             rws single tracker
         args:
@@ -29,10 +30,19 @@ class RWSTracker(Tracker):
         self.stop_event = threading.Event()  # Event to control thread stopping
         self.cap : cv2.VideoCapture = None
         
+        self.confirmed = True # confirmed that this bbox is tracking object
         self.current_result = None  # Stores the latest tracking results
         self.current_frame = None # Stores the last frame
         self.frame_update = False
         self.tracker_conf = 0.0
+
+        # detect anormally using iou
+        self.iou_threshold = iou_threshold
+        
+        # detect anormally using histogram
+        self.alpha = alpha # adapt histogram rate
+        self.hist_diff_threshold = hist_diff_threshold # detect anormally 
+        self.baseline_hist = None    
         
     def init_tracker(self):
         params = self.get_parameters()
@@ -50,6 +60,39 @@ class RWSTracker(Tracker):
         logger.debug('Video capture source set.')
         self.cap = cap
         
+    def initialize_baseline_histogram(self, frame, bbox):
+        x, y, w, h = bbox
+        roi = frame[y:y+h, x:x+w]
+        roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+        self.baseline_hist = cv2.calcHist([roi_hsv], [0, 1, 2], None, [8, 8, 8], [0, 256, 0, 256, 0, 256])
+        cv2.normalize(self.baseline_hist, self.baseline_hist)
+        
+    def detect_histogram_anomaly(self, frame, bbox):
+        x, y, w, h = bbox
+        roi = frame[y:y+h, x:x+w]
+        roi_hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+        current_hist = cv2.calcHist([roi_hsv], [0, 1, 2], None, [8, 8, 8], [0, 256, 0, 256, 0, 256])
+        cv2.normalize(current_hist, current_hist)
+        
+        # Calculate similarity (Bhattacharyya distance)
+        similarity = cv2.compareHist(self.baseline_hist, current_hist, cv2.HISTCMP_CORREL)
+        
+        # Check for anomaly
+        is_anomaly = similarity < self.hist_diff_threshold
+        # if is_anomaly:
+        # print(f'Similarity: {similarity:2f} - anormal: {is_anomaly}')
+
+        # Update baseline histogram if no anomaly detected
+        if not is_anomaly:
+            self.baseline_hist = (1 - self.alpha) * self.baseline_hist + self.alpha * current_hist
+        
+        return is_anomaly, similarity
+        
+    def detect_iou_anomaly(self, pre_iou, cur_iou):
+        iou = calculate_iou(cur_iou, pre_iou)
+        is_anormal_iou = iou < self.iou_threshold
+        return is_anormal_iou, iou
+        
     def start_tracking(self, frame, box, show=False):
         """
         Start tracking object in video stream, init with bounding box
@@ -64,7 +107,7 @@ class RWSTracker(Tracker):
             logger.error("Tracker not initalized!")
                 
         self.initalize_track_object(frame, box)
-            
+        
         if self.tracking_thread is None or not self.tracking_thread.is_alive():
             self.stop_event.clear()  # Clear any previous stop event
             self.tracking_thread = threading.Thread(target=self._track_video, args=(show,))
@@ -102,8 +145,8 @@ class RWSTracker(Tracker):
             if not ret:
                 break
 
-            result = self.frame_track(frame) # predict bounding box of tracking object, format: [x,y,w,h]
-            
+            confirmed, result = self.frame_track(frame) # predict bounding box of tracking object, format: [x,y,w,h]
+            self.confirmed = confirmed
             self.current_result = result
             self.update_current_frame(frame) # let drawing task for parent module
             
@@ -150,6 +193,9 @@ class RWSTracker(Tracker):
         logger.debug(f'Initialize tracked object with bounding box: {box}')
         self.tracker.initialize(frame, _build_init_info(box))
         
+        self.initialize_baseline_histogram(frame, box) # init base hist for detect anormaly
+        self.current_result = box
+        
         
     def frame_track(self, frame):
         """
@@ -159,11 +205,30 @@ class RWSTracker(Tracker):
             return:
                 bounding box of object [x,y,w,h]
         """
+        previous_bbox = self.current_result
         
         out = self.tracker.track(frame)
         state = [int(s) for s in out['target_bbox']]
-        x, y, w, h = state        
-        return (x, y, w, h)
+        x, y, w, h = state
+        
+        is_anormal_hist, similarity = self.detect_histogram_anomaly(frame, state)
+        # if is_anormal_hist:
+        #     logger.debug(f'Anormal hist - {similarity} - {self.hist_diff_threshold} - {self.alpha}')        
+        
+        if previous_bbox is None:
+            is_anormal_iou = False
+        else:
+            # iou = calculate_iou(state, previous_bbox)
+            # is_anormal_iou = iou < self.iou_threshold
+            is_anormal_iou, iou = self.detect_iou_anomaly(state, previous_bbox)
+
+        # if is_anormal_iou:
+        #     logger.debug(f'Anormal iou - {iou} - {self.iou_threshold}')            
+        
+        # confirmed it is right object
+        confirmed = not is_anormal_hist and not is_anormal_iou
+    
+        return confirmed,(x, y, w, h)
     
 
     def get_current_result_string(self):
@@ -179,7 +244,8 @@ class RWSTracker(Tracker):
 
         result_parts = ["TFT"]  # Start with the header
         x,y,w,h = self.current_result
-        result_parts.append(f"{1},{int(x)},{int(y)},{int(w)},{int(h)}")
+        confirm_value = 1 if self.confirmed else 0
+        result_parts.append(f"{confirm_value},{int(x)},{int(y)},{int(w)},{int(h)}")
         
         return ",".join(result_parts)
         
@@ -288,8 +354,6 @@ class RWSTracker(Tracker):
         assert os.path.isfile(videofilepath), "Invalid param {}".format(videofilepath)
         ", videofilepath must be a valid videofile"
 
-        output_boxes = []
-
         cap = cv2.VideoCapture(videofilepath)
         display_name = 'Display: ' + self.tracker.params.tracker_name
         cv2.namedWindow(display_name, cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
@@ -305,7 +369,6 @@ class RWSTracker(Tracker):
             assert isinstance(optional_box, (list, tuple))
             assert len(optional_box) == 4, "valid box's foramt is [x,y,w,h]"
             self.initalize_track_object(frame, optional_box)
-            output_boxes.append(optional_box)
         else:
             while True:
                 # cv2.waitKey()
@@ -317,7 +380,6 @@ class RWSTracker(Tracker):
                 x, y, w, h = cv2.selectROI(display_name, frame_disp, fromCenter=False)
                 init_state = [x, y, w, h]
                 self.initalize_track_object(frame, init_state)
-                output_boxes.append(init_state)
                 break
                 
         while True:
@@ -334,8 +396,9 @@ class RWSTracker(Tracker):
             # state = [int(s) for s in out['target_bbox']]
             # output_boxes.append(state)
             
-            state = self.frame_track(frame)
-            output_boxes.append(state)
+            confirmed, state = self.frame_track(frame)
+            self.confirmed = confirmed
+            self.current_result = state
 
             cv2.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
                          (0, 255, 0), 5)
@@ -347,7 +410,9 @@ class RWSTracker(Tracker):
                        font_color, 1)
             cv2.putText(frame_disp, 'Press q to quit', (20, 100), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
                        font_color, 1)
-            cv2.putText(frame_disp, f'FPS: {1/(time.time()-t)}', (20, 140), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2,
+            
+            anormal_sign = "" if confirmed else "LOST TRACK"
+            cv2.putText(frame_disp, f'FPS: {1/(time.time()-t):.2f} {anormal_sign}', (20, 140), cv2.FONT_HERSHEY_COMPLEX_SMALL, 2,
                        (0,255,0), 2)
             
             t = time.time()
@@ -357,6 +422,9 @@ class RWSTracker(Tracker):
             key = cv2.waitKey(1)
             if key == ord('q'):
                 break
+            elif key == ord('c'): # confirm track
+                print('Confirm track')
+                self.initialize_baseline_histogram(frame, self.current_result)
             elif key == ord('r'):
                 ret, frame = cap.read()
                 frame_disp = frame.copy()
@@ -368,7 +436,6 @@ class RWSTracker(Tracker):
                 x, y, w, h = cv2.selectROI(display_name, frame_disp, fromCenter=False)
                 init_state = [x, y, w, h]
                 self.initalize_track_object(frame, init_state)
-                output_boxes.append(init_state)
 
         # When everything done, release the capture
         cap.release()
@@ -376,7 +443,7 @@ class RWSTracker(Tracker):
         
         
 def test_tracker_thread():
-    vid_path = '/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/videos/car.mp4'
+    vid_path = '/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/videos/test_tau.avi'
     model_path = '/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/models/odtrack/odtrack_base_full/ODTrack_ep0300.pth.tar'
     cap = cv2.VideoCapture(vid_path)
     
@@ -398,7 +465,8 @@ def test_tracker_thread():
     # cv2.destroyAllWindows()
     
     
-    box = [614, 344, 37, 29]
+    # box = [614, 344, 37, 29]
+    box = [230, 240, 46, 195]
     rws_tracker.set_videocapture(cap)
     rws_tracker.start_tracking(frame, box, show=True)
     time.sleep(10)
@@ -407,10 +475,10 @@ def test_tracker_thread():
     
 
 if __name__ == "__main__":
-    # model_path = '/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar'
-    # tracker = RWSTracker('artrack_seq', 'artrack_seq_256_full', model_path)
+    model_path = '/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/models/artrack/artrack_seq_base_256_full/ARTrackSeq_ep0060.pth.tar'
+    tracker = RWSTracker('artrack_seq', 'artrack_seq_256_full', model_path)
     
     # model_path = '/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/models/odtrack/odtrack_base_full/ODTrack_ep0300.pth.tar'    
     # tracker = RWSTracker('odtrack', 'baseline', model_path)
-    # tracker.test_tracker_v2('/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/videos/car.mp4')
-    test_tracker_thread()
+    tracker.test_tracker_v2('/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/videos/test_tau.avi')
+    # test_tracker_thread()
