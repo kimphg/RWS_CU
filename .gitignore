@@ -13,6 +13,8 @@
 /RWS_AI_MODULE/RWS_Detection/test/
 /RWS_AI_MODULE/RWS_Tracker/lib/test/evaluation/local.py
 /RWS_AI_MODULE/RWS_Tracker/lib/train/admin/local.py
+/RWS_CU/bin
+/RSS_CU_n/bin
 __pycache__/
 *.py[cod]
 *$py.class
