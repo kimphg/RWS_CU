@@ -33,7 +33,7 @@ class YOLODetector:
         self.deepsort_tracker = DeepSort(max_age=max_age, max_iou_distance=max_iou_distance, n_init=n_init, nms_max_overlap=nms_max_overlap)
         
         # video stabilizer
-        self.stabilizer = VidStab(kp_method='ORB')
+        self.stabilizer = VidStab()
         self.enable_stabilizer = False # default false
         self.stabilizer_smoothing_window = 5 # default 5
 
