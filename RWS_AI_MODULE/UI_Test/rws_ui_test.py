@@ -485,7 +485,7 @@ class RWSController(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
-    receiver = RWSController()
+    receiver = RWSController(frame_ip="127.0.0.1", frame_port=12345, data_ip="127.0.0.1", data_port=4000, cmd_ip="127.0.0.1", cmd_port=5000)
     receiver.show()
 
     # Run the frame receiving in a background thread (not blocking the UI)

@@ -3,6 +3,7 @@ import os, time, threading
 import sys
 import argparse
 import cv2
+from vidstab import VidStab
 
 prj_path = os.path.join(os.path.dirname(__file__), '..')
 if prj_path not in sys.path:
@@ -42,7 +43,12 @@ class RWSTracker(Tracker):
         # detect anormally using histogram
         self.alpha = alpha # adapt histogram rate
         self.hist_diff_threshold = hist_diff_threshold # detect anormally 
-        self.baseline_hist = None    
+        self.baseline_hist = None 
+        
+        # video stabilizer
+        self.stabilizer = VidStab()
+        self.enable_stabilizer = False # default false
+        self.stabilizer_smoothing_window = 5 # default 5   
         
     def init_tracker(self):
         params = self.get_parameters()
@@ -130,10 +136,14 @@ class RWSTracker(Tracker):
             return
         
         
+        
         # window_name = 'Object tracking: ' + self.tracker.params.tracker_name
         # cv2.namedWindow(window_name, cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
         # cv2.resizeWindow(window_name, 960, 720)
         # Loop over frames
+        
+        feed_stablizer_frame_index = 0
+        
         while True:
             # stop tracking when stop event set
             if self.stop_event.is_set():
@@ -144,6 +154,19 @@ class RWSTracker(Tracker):
             # Break the loop if no frame is returned (end of video)
             if not ret:
                 break
+            
+            # stablilze frame
+            if self.enable_stabilizer:
+                if feed_stablizer_frame_index < self.stabilizer_smoothing_window:
+                    # warming up, this will return black frame
+                    self.stabilizer.stabilize_frame(frame, smoothing_window=self.stabilizer_smoothing_window) 
+                    feed_stablizer_frame_index += 1
+                else:
+                    frame = self.stabilizer.stabilize_frame(frame, smoothing_window=self.stabilizer_smoothing_window)
+            
+                if frame is None:
+                    logger.debug('Stablize frame return None')
+                    continue
 
             confirmed, result = self.frame_track(frame) # predict bounding box of tracking object, format: [x,y,w,h]
             self.confirmed = confirmed

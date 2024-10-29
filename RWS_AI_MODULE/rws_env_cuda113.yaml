@@ -467,5 +467,6 @@ dependencies:
     - ultralytics==8.2.94
     - ultralytics-thop==2.0.9
     - deep-sort-realtime==1.3.2
+    - vidstab==1.7.4
 prefix: /public/baiyifan/conda_envs/rws
 

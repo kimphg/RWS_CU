@@ -1,6 +1,7 @@
 import cv2
 import threading, os, json
 from ultralytics import YOLO
+from vidstab import VidStab
 from deep_sort_realtime.deepsort_tracker import DeepSort
 
 
@@ -30,6 +31,11 @@ class YOLODetector:
         self.track_conf = track_conf
         
         self.deepsort_tracker = DeepSort(max_age=max_age, max_iou_distance=max_iou_distance, n_init=n_init, nms_max_overlap=nms_max_overlap)
+        
+        # video stabilizer
+        self.stabilizer = VidStab(kp_method='ORB')
+        self.enable_stabilizer = False # default false
+        self.stabilizer_smoothing_window = 5 # default 5
 
         if model_path:
             self.set_model(model_path)
@@ -122,6 +128,7 @@ class YOLODetector:
             logger.error("Video capture not opened.")
             return
         
+        feed_stablizer_frame_index = 0
         # Loop over frames
         while True:
             # stop tracking when stop event set
@@ -133,7 +140,20 @@ class YOLODetector:
             # Break the loop if no frame is returned (end of video)
             if not ret:
                 break
-
+            
+            # stablilze frame
+            if self.enable_stabilizer:
+                if feed_stablizer_frame_index < self.stabilizer_smoothing_window:
+                    # warming up, this will return black frame
+                    self.stabilizer.stabilize_frame(frame, smoothing_window=self.stabilizer_smoothing_window) 
+                    feed_stablizer_frame_index += 1
+                else:
+                    frame = self.stabilizer.stabilize_frame(frame, smoothing_window=self.stabilizer_smoothing_window)
+                
+                if frame is None:
+                    logger.debug('Stablize frame return None')
+                    continue
+                
             # Use YOLO model to detect and track objects in the current frame
             # logger.debug('Inference model....')
             # results = self.model.track(frame, conf=self.conf, classes=self.class_ids)

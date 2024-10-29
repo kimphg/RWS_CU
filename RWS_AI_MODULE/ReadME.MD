@@ -10,7 +10,7 @@ cd RWS_AI_MODULE/RWS_Tracker/
 python tracking/create_default_local_file.py --workspace_dir . --data_dir ./data --save_dir ./output
 
 # run main file
-cd ../../
+cd ../
 python main.py
 
 # to test receive frame data from main program, when running main.py, open a new cmd tab:

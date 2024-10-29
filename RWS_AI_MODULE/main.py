@@ -1,5 +1,6 @@
 
 from RWS_Detection.yolo_detector import YOLODetector
+from vidstab import VidStab
 import os, threading, sys
 import cv2
 import socket
@@ -47,21 +48,27 @@ class RWSModule():
         self.listen_controller_cmd_stop_event = threading.Event()
         self.listen_controller_cmd_thread = None
         
+        # self.stabilizer = VidStab()
+        self.enable_stabilizer = self.config.getboolean('vidstab', 'enable', fallback=False)
+        self.stabilizer_smoothing_window = int(self.config.get('vidstab', 'smoothing_window', fallback=5))
+        
         self.current_mode = ModuleMode.EXPLORATION.value # 1 for exloration, 0 for focus tracking
         if self.video_source is not None:
-            logger.info(f'Connecting to video source: {self.video_source}')
+            if is_int(self.video_source):
+                self.video_source = int(self.video_source)
+            else:
+                self.video_source = self.video_source
+            
             self.cap = cv2.VideoCapture(self.video_source)
             if not self.cap.isOpened():
                 logger.warning(f'Cannot connect to video source: {self.video_source}')
             else:
                 logger.info(f'Succeed connect to video source: {self.video_source}')
-        else:
-            self.cap = None
-        
+
         # detector settings
         self.detector = None
         if self.config.get('detector', 'type', fallback='yolo') == 'yolo':
-            logger.info('Initializing moduule detector...')
+            logger.info('Initializing module detector...')
             
             # configuration for deepsort realtime tracker
             max_iou_distance = float(self.config.get('detector', 'max_iou_distance', fallback=0.7))
@@ -78,6 +85,9 @@ class RWSModule():
             self.detector.set_model(self.detector_model)
             self.detector.set_class_ids(self.config.get('detector','class_ids', fallback=None))
             self.detector.set_videocapture(self.cap)
+            
+            self.detector.enable_stabilizer = self.enable_stabilizer
+            self.detector.stabilizer_smoothing_window = self.stabilizer_smoothing_window
         else:
             logger.warning('Detector config is not set!')
         
@@ -91,6 +101,8 @@ class RWSModule():
         self.tracker_iou_threshold = float(self.config.get('tracker', 'iou_threshold', fallback=0.5))
         self.tracker = RWSTracker(self.tracker_name, self.tracker_param, self.tracker_model, \
                                 iou_threshold=self.tracker_iou_threshold, alpha=self.tracker_alpha, hist_diff_threshold=self.tracker_hist_diff_threshold)
+        self.tracker.enable_stabilizer = self.enable_stabilizer
+        self.tracker.stabilizer_smoothing_window = self.stabilizer_smoothing_window
         
         # for receive custom tracking frame
         self.custom_tracking_frame_buffer = b''
@@ -742,11 +754,15 @@ def test_tracker():
         
 if __name__ == "__main__":
     # test_detector()
-    test_exploration_mode()
+    # test_exploration_mode()
     
     # test_tracker()
     # test_single_track_mode()
     # test_all_mode()
+    
+    rws_module = RWSModule()
+    rws_module.start_exploration_mode()
+    rws_module.start_listen_controller_command()
     
     
     
