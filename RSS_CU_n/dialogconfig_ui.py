@@ -78,3 +78,14 @@ class Ui_DialogConfig(object):
         self.label.setText(QCoreApplication.translate("DialogConfig", u"Nh\u1eadp m\u1eadt kh\u1ea9u \u0111\u1ec3 l\u01b0u b\u1ea3ng tham s\u1ed1:", None))
     # retranslateUi
 
+
+import sys
+from PySide6.QtWidgets import QApplication, QDialog
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    DialogConfig = QDialog()
+    ui = Ui_DialogConfig()
+    ui.setupUi(DialogConfig)
+    DialogConfig.show()
+    sys.exit(app.exec())

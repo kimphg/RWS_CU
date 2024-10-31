@@ -27,6 +27,9 @@
 #include <time.h>
 
 #include<compasscustom_widget.h>
+#include <QProcess>
+#include<control_center_dialog.h>
+
 //#include <videostab.h>
 //using namespace cv;
 namespace Ui {
@@ -298,6 +301,11 @@ private:
     void usbInit();
     void draw_trackpoint(QPainter *p, int posx, int posy);
     void setStimstate(int value);
+
+    QProcess *pythonProcess;
+
+    Control_Center_Dialog *m_Control_Center_Dialog;
+
 };
 
 #endif // MAINWINDOW_H

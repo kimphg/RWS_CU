@@ -477,9 +477,22 @@ void MainWindow::processKeyBoardEvent(int key)
 }
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    this->setFocus();
-    int key = event->key();
-    processKeyBoardEvent(key);
+    if (event->key() == Qt::Key_V)
+    {
+//        QString program = "python3";
+//        QStringList arguments;
+//        arguments << "C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/dialogconfig_ui.py";  //đường dẫn tới file Python
+//        pythonProcess->start(program, arguments);
+
+        m_Control_Center_Dialog = new Control_Center_Dialog(this);
+        m_Control_Center_Dialog->show();
+    }
+    else
+    {
+        this->setFocus();
+        int key = event->key();
+        processKeyBoardEvent(key);
+    }
 }
 static volatile bool processorBusy = false;
 

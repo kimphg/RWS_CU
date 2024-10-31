@@ -25,7 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
     compasscustom_widget.cpp \
-    dialogconfig.cpp \
+    control_center_dialog.cpp \
         mainwindow.cpp \
     c_gimbal_control.cpp \
     c_config.cpp \
@@ -35,17 +35,13 @@ SOURCES += main.cpp\
     qcgaugewidget.cpp \
     c_lowpass.cpp \
     UsbDevice.cpp \
-#    qcustombutton.cpp \
-#    qcustomslider.cpp \
     qcustomslider.cpp \
     video_window.cpp \
     videostab.cpp
-#LIBS += "AVerCapAPI_x64.lib"
-#LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
 
 HEADERS  += \
     compasscustom_widget.h \
-    dialogconfig.h \
+    control_center_dialog.h \
     mainwindow.h \
     c_gimbal_control.h \
     c_config.h \
@@ -58,69 +54,38 @@ HEADERS  += \
     qcgaugewidget.h \
     c_lowpass.h \
     UsbDevice.h \
-#    qcustombutton.h \
-#    qcustomslider.h \
     qcustomslider.h \
     video_window.h \
     videostab.h
 
 FORMS    += mainwindow.ui \
+    control_center_dialog.ui \
     dialogconfig.ui
-INCLUDEPATH += "C:/opencv/opencv2413/build/include" \
-    dialogconfig.ui
+INCLUDEPATH += "C:/opencv/opencv2413/build/include"
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_core2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_highgui2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_imgproc2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_calib3d2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_contrib2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_core2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_features2d2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_flann2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_gpu2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_legacy2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_ml2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_nonfree2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_objdetect2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_ocl2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_photo2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_stitching2413d
-#win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_superres2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_video2413d
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_videostab2413d
 #release:
-#win32:CONFIG(release, debug|release):LIBS += -L$$PWD/../opencv/build/x64/vc10/lib/ -lopencv_core2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_core2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_highgui2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_imgproc2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_calib3d2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_contrib2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_core2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_features2d2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_flann2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_gpu2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_legacy2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_ml2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_nonfree2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_objdetect2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_ocl2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_photo2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_stitching2413
-#win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_superres2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_video2413
 win32:CONFIG(release, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_videostab2413
-#win32:LIBS += ws2_32.lib
-#RC_ICONS = icon.ico
+
 win32 {
 DESTDIR = $$PWD/bin
 QMAKE_POST_LINK =  "C:/Qt/Qt5.14.2/5.14.2/msvc2017_64/bin/windeployqt.exe" $$shell_path($$DESTDIR/$${TARGET}.exe)
 }
-
-#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
-#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64d
-#else:unix: LIBS += -L$$PWD/AverCap/ -lAVerCapAPI_x64
-
-#INCLUDEPATH += $$PWD/AverCap
-#DEPENDPATH += $$PWD/AverCap
 
 DISTFILES += \
     dialogconfig_ui.py
