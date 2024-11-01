@@ -36,6 +36,7 @@ class YOLODetector:
         self.stabilizer = VidStab()
         self.enable_stabilizer = False # default false
         self.stabilizer_smoothing_window = 5 # default 5
+        self.feed_stablizer_frame_index = 0
 
         if model_path:
             self.set_model(model_path)
@@ -43,7 +44,15 @@ class YOLODetector:
     def set_videocapture(self, cap):
         logger.debug('Video capture source set.')
         self.cap = cap
-
+        
+    def set_enable_stabilizer(self, enable):
+        self.enable_stabilizer = enable
+        if enable:
+            logger.debug(f'Enabled video stabilizer')
+            self.feed_stablizer_frame_index = 0
+        else:
+            logger.debug(f'Disabled video stabilizer')
+            
     def set_model(self, model_path):
         """
         Load a YOLO model from the specified path.
@@ -128,7 +137,6 @@ class YOLODetector:
             logger.error("Video capture not opened.")
             return
         
-        feed_stablizer_frame_index = 0
         # Loop over frames
         while True:
             # stop tracking when stop event set
@@ -143,10 +151,10 @@ class YOLODetector:
             
             # stablilze frame
             if self.enable_stabilizer:
-                if feed_stablizer_frame_index < self.stabilizer_smoothing_window:
+                if self.feed_stablizer_frame_index < self.stabilizer_smoothing_window:
                     # warming up, this will return black frame
                     self.stabilizer.stabilize_frame(frame, smoothing_window=self.stabilizer_smoothing_window) 
-                    feed_stablizer_frame_index += 1
+                    self.feed_stablizer_frame_index += 1
                 else:
                     frame = self.stabilizer.stabilize_frame(frame, smoothing_window=self.stabilizer_smoothing_window)
                 

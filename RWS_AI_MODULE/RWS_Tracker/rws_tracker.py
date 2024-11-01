@@ -48,7 +48,8 @@ class RWSTracker(Tracker):
         # video stabilizer
         self.stabilizer = VidStab()
         self.enable_stabilizer = False # default false
-        self.stabilizer_smoothing_window = 5 # default 5   
+        self.stabilizer_smoothing_window = 5 # default 5
+        self.feed_stablizer_frame_index = 0
         
     def init_tracker(self):
         params = self.get_parameters()
@@ -61,6 +62,14 @@ class RWSTracker(Tracker):
         
         logger.info(f'Initalize tracker: {self.name} - {self.parameter_name} - {self.model_path}')
         self.tracker = self.create_tracker(params)
+        
+    def set_enable_stabilizer(self, enable):
+        self.enable_stabilizer = enable
+        if enable:
+            logger.debug(f'Enabled video stabilizer')
+            self.feed_stablizer_frame_index = 0
+        else:
+            logger.debug(f'Disabled video stabilizer')
         
     def set_videocapture(self, cap):
         logger.debug('Video capture source set.')
@@ -142,8 +151,6 @@ class RWSTracker(Tracker):
         # cv2.resizeWindow(window_name, 960, 720)
         # Loop over frames
         
-        feed_stablizer_frame_index = 0
-        
         while True:
             # stop tracking when stop event set
             if self.stop_event.is_set():
@@ -157,10 +164,10 @@ class RWSTracker(Tracker):
             
             # stablilze frame
             if self.enable_stabilizer:
-                if feed_stablizer_frame_index < self.stabilizer_smoothing_window:
+                if self.feed_stablizer_frame_index < self.stabilizer_smoothing_window:
                     # warming up, this will return black frame
                     self.stabilizer.stabilize_frame(frame, smoothing_window=self.stabilizer_smoothing_window) 
-                    feed_stablizer_frame_index += 1
+                    self.feed_stablizer_frame_index += 1
                 else:
                     frame = self.stabilizer.stabilize_frame(frame, smoothing_window=self.stabilizer_smoothing_window)
             

@@ -307,6 +307,12 @@ class RWSModule():
                 
                 x1, y1, w, h = parts[1], parts[2], parts[3], parts[4]
                 
+                # validate data
+                if int(w) <= 0 or int(h) <= 0:
+                    self.send_notification(f'Invalid custom object size: ({w}-{h})')
+                    self.custom_tracking_box = None
+                    continue
+                
                 # storage custom tracking box, when receive full frame, start tracking mode
                 self.custom_tracking_box = [int(x1), int(y1), int(w), int(h)]
                 
@@ -429,6 +435,39 @@ class RWSModule():
                         self.tracker.hist_diff_threshold = float(parts[2])
                     continue
                 
+                if parts[1] == "VIDSTAB": # tracker iou thresh
+                    if not is_int(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                    else:
+                        if int(parts[2]) == 1:
+                            if not self.enable_stabilizer:
+                                self.enable_stabilizer = True
+                                self.tracker.set_enable_stabilizer(True)
+                                self.detector.set_enable_stabilizer(True)
+                                self.send_notification(f'Enabled video stabilizer')
+                            else:
+                                self.send_notification(f'Video stablilizer already enabled')
+                        elif int(parts[2]) == 0:
+                            if self.enable_stabilizer:
+                                self.enable_stabilizer = False
+                                self.tracker.set_enable_stabilizer(False)
+                                self.detector.set_enable_stabilizer(False)
+                                self.send_notification(f'Disabled video stabilizer')
+                            else:
+                                self.send_notification(f'Video stablilizer already disabled')
+                        else:
+                            logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                    continue
+                
+                if parts[1] == "VIDSTABSM": # tracker iou thresh
+                    if not is_int(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                    else:
+                        self.stabilizer_smoothing_window = int(parts[2])
+                        self.tracker.stabilizer_smoothing_window = self.stabilizer_smoothing_window
+                        self.detector.stabilizer_smoothing_window = self.stabilizer_smoothing_window
+                    continue
+                
                 logger.error(f'Unsupport or invalid CCS command: {data_str}')
                 
         logger.debug('Stopped listen command from controller.')
@@ -479,7 +518,7 @@ class RWSModule():
                         fps_values.pop(0)  # Remove the oldest value if the list has more than 10 values
                     # Calculate the average FPS over the last 10 frames
                     avg_fps = sum(fps_values) / len(fps_values)
-                    cv2.putText(frame_send, f'FPS: {avg_fps:.2f}', (frame_send.shape[1]-200, 50), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0,0,255), 1)
+                    cv2.putText(frame_send, f'FPS: {avg_fps:.2f}', (frame_send.shape[1]-120, 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0,0,255), 1)
                 
                 if self.draw_result:
                     frame_send = draw_yolo_deepsort_results(frame_send, self.detector.get_current_tracking_result()) # draw frame
@@ -566,7 +605,7 @@ class RWSModule():
                         fps_values.pop(0)  # Remove the oldest value if the list has more than 10 values
                     # Calculate the average FPS over the last 10 frames
                     avg_fps = sum(fps_values) / len(fps_values)
-                    cv2.putText(frame_send, f'FPS: {avg_fps:.2f}', (frame_send.shape[1]-200, 50), cv2.FONT_HERSHEY_DUPLEX, 1.0, (0,0,255), 1)
+                    cv2.putText(frame_send, f'FPS: {avg_fps:.2f}', (frame_send.shape[1]-120, 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0,0,255), 1)
 
                 if self.draw_result:
                     frame_send = draw_tracking_result(frame_send, self.tracker.get_current_tracking_result(), self.tracker.confirmed, self.tracker.name)

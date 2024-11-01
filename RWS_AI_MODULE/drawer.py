@@ -32,7 +32,7 @@ def draw_tracking_result(frame, box, confirmed, tracker_name):
     cv2.line(frame, (center_x - 10, center_y), (center_x + 10, center_y), (0, 0, 255), 2)  # Horizontal line
     cv2.line(frame, (center_x, center_y - 10), (center_x, center_y + 10), (0, 0, 255), 2)  # Vertical line
     
-    cv2.putText(frame, f'TRACKING - {tracker_name} {"- OCCLUTIONS" if not confirmed else ""}', (20, 50), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5, (0, 255, 0), 2)
+    cv2.putText(frame, f'TRACKING - {tracker_name} {"- OCCLUTIONS" if not confirmed else ""}', (20, 20), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.0, (0, 255, 0), 2)
     return frame
 
 def draw_yolo_deepsort_results(frame, tracks):
@@ -67,10 +67,10 @@ def draw_yolo_deepsort_results(frame, tracks):
 
         # Draw the bounding box and label on the frame
         cv2.rectangle(frame, (int(x1), int(y1)), (int(x1 + w), int(y1 + h)), (0, 255, 0), 2)
-        cv2.putText(frame, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+        cv2.putText(frame, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 1)
 
     # Optionally add a title or indicator for exploration mode
-    cv2.putText(frame, 'EXPLORATION', (20, 50), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5, (0, 255, 0), 2)
+    cv2.putText(frame, 'EXPLORATION', (10, 20), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.0, (0, 255, 0), 2)
     
     return frame
 
@@ -109,7 +109,7 @@ def draw_yolo_result(frame, results):
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 2)
 
-    cv2.putText(frame, 'EXPLORATION', (20, 50), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
+    cv2.putText(frame, 'EXPLORATION', (10, 20), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.0,
                        (0,255,0), 2)
     return frame
 

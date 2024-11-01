@@ -127,10 +127,34 @@ class ControlCenter(QDialog):
         main_layout.addWidget(self.thist_lineedit, 11, 1)
         main_layout.addWidget(self.thist_button, 11, 2)
         self.thist_button.clicked.connect(self.set_thist)
+        
+        # Row 12: Video stabilizer enable
+        self.vidstab_enable_lineedit = QLineEdit()
+        self.vidstab_enable_button = QPushButton("Set vidstab")
+        main_layout.addWidget(QLabel("Enable Video stable (1: Yes, 0: No)"), 12, 0)
+        main_layout.addWidget(self.vidstab_enable_lineedit, 12, 1)
+        main_layout.addWidget(self.vidstab_enable_button, 12, 2)
+        self.vidstab_enable_button.clicked.connect(self.set_vidstab_enable)
+        
+        # Row 13: Video stabilizer smoothing window
+        self.vidstab_sm_lineedit = QLineEdit()
+        self.vidstab_sm_button = QPushButton("Set vidstab sm")
+        main_layout.addWidget(QLabel("Vidstab smoothing window"), 13, 0)
+        main_layout.addWidget(self.vidstab_sm_lineedit, 13, 1)
+        main_layout.addWidget(self.vidstab_sm_button, 13, 2)
+        self.vidstab_sm_button.clicked.connect(self.set_vidstab_sm)
 
         
         self.setLayout(main_layout)
+
+    def set_vidstab_enable(self):
+        cmd = f'CCS,VIDSTAB,{self.vidstab_enable_lineedit.text()}'
+        self.send_command(cmd)
         
+    def set_vidstab_sm(self):
+        cmd = f'CCS,VIDSTABSM,{self.vidstab_sm_lineedit.text()}'
+        self.send_command(cmd)
+
     def send_command(self, command):
         print(f'Sending command: {command}')
         self.socket.sendto(command.encode('utf-8'), (self.cmd_ip, self.cmd_port))
