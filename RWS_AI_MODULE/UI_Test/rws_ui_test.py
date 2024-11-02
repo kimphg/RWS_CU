@@ -3,7 +3,7 @@ import socket
 import numpy as np
 import cv2
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, \
-    QHBoxLayout, QPushButton, QMessageBox, QGridLayout, QLineEdit, QDialog
+    QHBoxLayout, QPushButton, QMessageBox, QGridLayout, QLineEdit, QDialog, QTextEdit, QPlainTextEdit
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal, QPoint
 
@@ -219,6 +219,7 @@ class ControlCenter(QDialog):
             
 
 class RWSController(QMainWindow):
+    log_signal = pyqtSignal(str)
     def __init__(self, frame_ip="127.0.0.1", frame_port=12345, data_ip="127.0.0.1", data_port=4000, cmd_ip="127.0.0.1", cmd_port=5000):
         super().__init__()
 
@@ -277,9 +278,14 @@ class RWSController(QMainWindow):
         control_center.clicked.connect(self.open_control_center)
         
         self.result_label = QLabel("Received result")
+        # self.log_area = QPlainTextEdit(None)
+        # self.log_area.setMaximumHeight(100)
+        # self.log_area.setPlaceholderText("Log from tracker should be displayed here...")
+        
         layout.addLayout(tools_layout)
         layout.addWidget(self.result_label)
         layout.addWidget(self.video_label)
+        # layout.addWidget(self.log_area)
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
@@ -499,12 +505,16 @@ class RWSController(QMainWindow):
                 self.result_label.setText(", ".join(map(str, self.current_tracking)))
             
             elif parts[0] == "TNO":
-                notify_str = parts[1]
+                notify_str = ",".join(parts[1:])
                 print(f'Get notify: {notify_str}')
                 self.statusBar().showMessage(notify_str)
+                # self.log_area.append(notify_str) # got crash
+                # self.log_signal.emit(notify_str)
                 
-
         # return parsed_results
+    # def update_log_area(self, message):
+    #     self.log_area.append(message)
+        # print(message)
         
 if __name__ == "__main__":
     app = QApplication(sys.argv)

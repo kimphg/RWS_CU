@@ -5,7 +5,7 @@ import os, threading, sys
 import cv2
 import socket
 from module_config import ModuleConfig
-from logger import logger, detector_logger, tracker_logger
+from logger import logger, detector_logger, tracker_logger, set_dest_data_address
 import logging
 import configparser
 import numpy as np
@@ -32,6 +32,38 @@ class RWSModule():
         logger.setLevel(self.config.get('settings', 'log_level', fallback=logging.INFO))
         detector_logger.setLevel(self.config.get('detector', 'log_level', fallback=logging.INFO))
         tracker_logger.setLevel(self.config.get('tracker', 'log_level', fallback=logging.INFO))
+        
+        
+        # socket settings
+        ## setting for seding a frame
+        self.max_package_size = int(self.config.get('socket', 'max_package_size', fallback=65507))
+        self.max_chunks = int(self.config.get('socket', 'max_chunks', fallback=10))
+        self.dest_frame_ip = self.config.get('socket', 'dest_frame_ip', fallback='127.0.0.1')
+        self.dest_frame_port = int(self.config.get('socket', 'dest_frame_port', fallback=12345))
+        
+        # TODO: Change varibles name
+        self.dest_data_ip = self.config.get('socket', 'dest_data_ip', fallback='127.0.0.1')
+        self.dest_data_port = int(self.config.get('socket', 'dest_data_port', fallback=4000))
+        self.recv_command_ip = self.config.get('socket', 'recv_command_ip', fallback='127.0.0.1')
+        self.recv_command_port = int(self.config.get('socket', 'recv_command_port', fallback=4001))
+        
+        set_dest_data_address(self.dest_data_ip, self.dest_data_port)
+        
+        logger.debug("Configuration Values:")
+        logger.debug(f"Max Package Size: {self.max_package_size}")
+        logger.debug(f"Max Chunks: {self.max_chunks}")
+        logger.debug(f"Destination Frame IP: {self.dest_frame_ip}")
+        logger.debug(f"Destination Frame Port: {self.dest_frame_port}")
+        logger.debug(f"Destination Detection IP: {self.dest_data_ip}")
+        logger.debug(f"Destination Detection Port: {self.dest_data_port}")
+        logger.debug(f"Receive Command IP: {self.recv_command_ip}")
+        logger.debug(f"Receive Command Port: {self.recv_command_port}")
+        
+        ## init socket
+        self.send_frame_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.send_data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.recv_command_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.recv_command_socket.bind((self.recv_command_ip, self.recv_command_port))
         
         # general settings
         self.video_source = self.config.get('settings', 'video_source', fallback=0)
@@ -111,37 +143,7 @@ class RWSModule():
         # for checking changes of object from previous frame and current frame in focus tracking mode
         self.previous_crop = None
         self.previous_bbox = None
-        
-        # socket settings
-        ## setting for seding a frame
-        self.max_package_size = int(self.config.get('socket', 'max_package_size', fallback=65507))
-        self.max_chunks = int(self.config.get('socket', 'max_chunks', fallback=10))
-        self.dest_frame_ip = self.config.get('socket', 'dest_frame_ip', fallback='127.0.0.1')
-        self.dest_frame_port = int(self.config.get('socket', 'dest_frame_port', fallback=12345))
-        
-        # TODO: Change varibles name
-        self.dest_detection_ip = self.config.get('socket', 'dest_detection_ip', fallback='127.0.0.1')
-        self.dest_detection_port = int(self.config.get('socket', 'dest_detection_port', fallback=4000))
-        self.dest_noti_ip = self.config.get('socket', 'dest_noti_ip', fallback='127.0.0.1')
-        self.dest_noti_port = int(self.config.get('socket', 'dest_noti_port', fallback=4001))
-        self.recv_command_ip = self.config.get('socket', 'recv_command_ip', fallback='127.0.0.1')
-        self.recv_command_port = int(self.config.get('socket', 'recv_command_port', fallback=4001))
-        
-        logger.debug("Configuration Values:")
-        logger.debug(f"Max Package Size: {self.max_package_size}")
-        logger.debug(f"Max Chunks: {self.max_chunks}")
-        logger.debug(f"Destination Frame IP: {self.dest_frame_ip}")
-        logger.debug(f"Destination Frame Port: {self.dest_frame_port}")
-        logger.debug(f"Destination Detection IP: {self.dest_detection_ip}")
-        logger.debug(f"Destination Detection Port: {self.dest_detection_port}")
-        logger.debug(f"Receive Command IP: {self.recv_command_ip}")
-        logger.debug(f"Receive Command Port: {self.recv_command_port}")
-        
-        ## init socket
-        self.send_frame_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.send_data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.recv_command_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.recv_command_socket.bind((self.recv_command_ip, self.recv_command_port))
+
         
     def update_video_source(self, video_source: str):
         if is_int(video_source):
@@ -165,19 +167,19 @@ class RWSModule():
         # print(f"Need to send: {self.detector.get_current_result_string()}")
         result_str = self.detector.get_current_result_string()
         data_to_send = result_str.encode('utf-8')
-        self.send_data_socket.sendto(data_to_send, (self.dest_detection_ip, self.dest_detection_port))
+        self.send_data_socket.sendto(data_to_send, (self.dest_data_ip, self.dest_data_port))
         
     def send_current_tracking_object(self):
         # print(f"Need to send: {self.tracker.get_current_result_string()}")
         result_str = self.tracker.get_current_result_string()
         data_to_send = result_str.encode('utf-8')
-        self.send_data_socket.sendto(data_to_send, (self.dest_detection_ip, self.dest_detection_port))
+        self.send_data_socket.sendto(data_to_send, (self.dest_data_ip, self.dest_data_port))
         
     def send_notification(self, notify_str : str):
         logger.debug(f'Notify: {notify_str}')
         data = f'TNO,{notify_str}'
         data_to_send = data.encode('utf-8')
-        self.send_data_socket.sendto(data_to_send, (self.dest_detection_ip, self.dest_detection_port))
+        self.send_data_socket.sendto(data_to_send, (self.dest_data_ip, self.dest_data_port))
         
     def send_frame(self, frame, frame_counter, address):
         ret, buffer = cv2.imencode('.jpeg', frame, [cv2.IMWRITE_JPEG_QUALITY, 90])
@@ -206,7 +208,7 @@ class RWSModule():
         # logger.debug(f'Sent frame to {address} id: {frame_counter} - size: {len(data)}')
         
     def start_listen_controller_command(self):
-        logger.debug(f'Listening controller command at ({self.recv_command_ip}:{self.recv_command_port})')
+        logger.info(f'Listening controller command at ({self.recv_command_ip}:{self.recv_command_port})')
         if self.listen_controller_cmd_thread is None or not self.listen_controller_cmd_thread.is_alive():
             self.listen_controller_cmd_stop_event.clear()
             self.listen_controller_cmd_thread = threading.Thread(target=self._start_listen_controller_cmd, args=())
@@ -254,11 +256,11 @@ class RWSModule():
                 continue
 
             data_str = data.decode('utf-8')
-            
+        
             logger.debug(f'Receive command from controller: {data_str}')
             parts = data_str.split(",")
             if not parts:
-                logger.debug(f'invalid data received: {data_str}')
+                logger.error(f'invalid data received: {data_str}')
                 continue
             
             if parts[0] == "CTC": # controller tracking command
@@ -271,13 +273,13 @@ class RWSModule():
                 if track_status == 0: # track object
                     # ignore tracking object command when currently tracking an object
                     if self.single_track_thread is not None and self.single_track_thread.is_alive():
-                        self.send_notification("On tracking other object, ignore controller tracking command.")
+                        logger.warning("On tracking other object, ignore controller tracking command.")
                         continue
                     
                     # check if current object with "target_id" exist
                     current_detection = self.detector.get_current_tracking_result()
                     if current_detection is None:
-                        self.send_notification('Current detection is empty!')
+                        logger.error('Current detection is empty!')
                         continue
                     
                     current_frame = np.copy(self.detector.current_frame)
@@ -289,14 +291,14 @@ class RWSModule():
                         if track_id == target_id:
                             x1, y1, w, h = track.to_ltwh()
                             self.start_single_track_mode(current_frame, [int(x1), int(y1), int(w), int(h)])
-                            self.send_notification(f'Start tracking object with id: {target_id}')
+                            logger.info(f'Start tracking object with id: {target_id}')
                             have_object = True
                             break
                     if not have_object:
-                        self.send_notification(f'No object with id: {target_id}')
+                        logger.warning(f'No object with id: {target_id}')
                 
                 elif track_status == 1: # stop tracking
-                    self.send_notification(f'Stoping tracking single object and start exploration mode')
+                    logger.info(f'Stoping tracking single object and start exploration mode')
                     self.stop_single_track_mode()
                     self.start_exploration_mode()
                     
@@ -309,7 +311,7 @@ class RWSModule():
                 
                 # validate data
                 if int(w) <= 0 or int(h) <= 0:
-                    self.send_notification(f'Invalid custom object size: ({w}-{h})')
+                    logger.error(f'Invalid custom object size: ({w}-{h})')
                     self.custom_tracking_box = None
                     continue
                 
@@ -322,7 +324,7 @@ class RWSModule():
                     continue
 
                 if parts[1] == "RECVID": # reconnect video
-                    self.send_notification(f"Reconnect video source: {self.video_source}")
+                    logger.info(f"Reconnect video source: {self.video_source}")
                     self.update_video_source(self.video_source)
                     self.start_exploration_mode()
                     
@@ -330,10 +332,10 @@ class RWSModule():
                 
                 if parts[1] == "CONFIRMTRACK": # confirm that tracker is tracking right object (handle case when tracker not confirm object due to histogram diff)
                     if self.current_mode != ModuleMode.TRACKING.value:
-                        self.send_notification(f'Current in exploration mode, ignore')
+                        logger.warning(f'Current in exploration mode, ignore')
                     else:
                         self.tracker.initialize_baseline_histogram(self.tracker.current_frame, self.tracker.current_result)
-                        self.send_notification(f'Confirmed tracking object, updated baseline histogram')
+                        logger.info(f'Confirmed tracking object, updated baseline histogram')
                     continue
                 
                 # only above command dont have param (RECVID, CONFIRMTRACK)
@@ -343,7 +345,7 @@ class RWSModule():
                 
                 # set video source
                 if parts[1] == "VIDSRC":
-                    self.send_notification(f'Update video source to: {data_str}')
+                    logger.info(f'Update video source to: {data_str}')
                     vidsrc = parts[2]
                     self.update_video_source(vidsrc)
                     self.start_exploration_mode()
@@ -353,7 +355,7 @@ class RWSModule():
                     if not is_float(parts[2]):
                         logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     else:
-                        self.send_notification(f'Set detector confidence to {parts[2]}')
+                        logger.debug(f'Set detector confidence to {parts[2]}')
                         self.detector.set_detect_conf(float(parts[2]))
                     continue
                 
@@ -361,13 +363,13 @@ class RWSModule():
                     if not is_float(parts[2]):
                         logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     else:
-                        self.send_notification(f'Set tracking confidence to {parts[2]}')
+                        logger.info(f'Set tracking confidence to {parts[2]}')
                         self.tracker.tracker_conf = float(parts[2])
                     continue
                 
                 if parts[1] == "DMODEL":
                     model_path = parts[2]
-                    self.send_notification(f'Set detector model path {model_path}')
+                    logger.info(f'Set detector model path {model_path}')
                     self.detector.set_model(model_path)
                     continue
                 
@@ -378,17 +380,17 @@ class RWSModule():
                     model_name = parts[2]
                     model_param = parts[3]
                     model_path = parts[4]
-                    self.send_notification(f'Set tracker  name - param - path {model_name} - {model_param} - {model_path}')
+                    logger.info(f'Set tracker  name - param - path {model_name} - {model_param} - {model_path}')
                     # TODO: set tracker model name & param, may be reinit tracker - need to test carefully
                     continue
                 if parts[1] == "DRAWFPS": # 1 for draw fps, 0 for not
                     show : str = parts[2]
                     if show.isdigit():
                         if int(show) == 0:
-                            self.send_notification(f'Draw FPS before send frame: OFF')
+                            logger.debug(f'Draw FPS before send frame: OFF')
                             self.draw_fps = False
                         elif int(show) == 1:
-                            self.send_notification(f'Draw FPS before send frame: ON')
+                            logger.debug(f'Draw FPS before send frame: ON')
                             self.draw_fps = True
                         else:
                             logger.error(f'Invalid CCS draw fps set command: {data_str}')
@@ -400,10 +402,10 @@ class RWSModule():
                     show : str = parts[2]
                     if show.isdigit():
                         if int(show) == 0:
-                            self.send_notification(f'Draw RESULT before send frame: OFF')
+                            logger.info(f'Draw RESULT before send frame: OFF')
                             self.draw_result = False
                         elif int(show) == 1:
-                            self.send_notification(f'Draw RESULT before send frame: ON')
+                            logger.info(f'Draw RESULT before send frame: ON')
                             self.draw_result = True
                         else:
                             logger.error(f'Invalid CCS draw RESULT set command: {data_str}')
@@ -415,7 +417,7 @@ class RWSModule():
                     if not is_float(parts[2]):
                         logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     else:
-                        self.send_notification(f'Set tracker iou to {parts[2]}')
+                        logger.info(f'Set tracker iou to {parts[2]}')
                         self.tracker.iou_threshold = float(parts[2])
                     continue
                 
@@ -423,7 +425,7 @@ class RWSModule():
                     if not is_float(parts[2]):
                         logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     else:
-                        self.send_notification(f'Set tracker alpha to {parts[2]}')
+                        logger.info(f'Set tracker alpha to {parts[2]}')
                         self.tracker.alpha = float(parts[2])
                     continue
                 
@@ -431,11 +433,11 @@ class RWSModule():
                     if not is_float(parts[2]):
                         logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     else:
-                        self.send_notification(f'Set tracker histogram diff threshold to {parts[2]}')
+                        logger.info(f'Set tracker histogram diff threshold to {parts[2]}')
                         self.tracker.hist_diff_threshold = float(parts[2])
                     continue
                 
-                if parts[1] == "VIDSTAB": # tracker iou thresh
+                if parts[1] == "VIDSTAB": # video stabilizer enable
                     if not is_int(parts[2]):
                         logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     else:
@@ -444,22 +446,22 @@ class RWSModule():
                                 self.enable_stabilizer = True
                                 self.tracker.set_enable_stabilizer(True)
                                 self.detector.set_enable_stabilizer(True)
-                                self.send_notification(f'Enabled video stabilizer')
+                                logger.info(f'Enabled video stabilizer')
                             else:
-                                self.send_notification(f'Video stablilizer already enabled')
+                                logger.info(f'Video stablilizer already enabled')
                         elif int(parts[2]) == 0:
                             if self.enable_stabilizer:
                                 self.enable_stabilizer = False
                                 self.tracker.set_enable_stabilizer(False)
                                 self.detector.set_enable_stabilizer(False)
-                                self.send_notification(f'Disabled video stabilizer')
+                                logger.info(f'Disabled video stabilizer')
                             else:
-                                self.send_notification(f'Video stablilizer already disabled')
+                                logger.info(f'Video stablilizer already disabled')
                         else:
                             logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     continue
                 
-                if parts[1] == "VIDSTABSM": # tracker iou thresh
+                if parts[1] == "VIDSTABSM": # video stabilizer smoothing windows size
                     if not is_int(parts[2]):
                         logger.error(f'Invalid CCS command (invalid param) {data_str}')
                     else:
@@ -470,7 +472,7 @@ class RWSModule():
                 
                 logger.error(f'Unsupport or invalid CCS command: {data_str}')
                 
-        logger.debug('Stopped listen command from controller.')
+        logger.info('Stopped listen command from controller.')
     
     def start_exploration_mode(self):
         logger.debug('Starting exploration mode...')
@@ -478,10 +480,10 @@ class RWSModule():
         self.stop_single_track_mode()
         
         if self.detector is None:
-            self.send_notification('Module detector is not initalized')
+            logger.error('Module detector is not initalized')
             return
         if not self.cap.isOpened():
-            self.send_notification('Video source is not activate')
+            logger.error('Video source is not activate')
             return
         
         self.detector.stop_tracking() # stop current tracking if running
@@ -561,17 +563,17 @@ class RWSModule():
             params:
                 box: bounding box of object need to track
         """
-        logger.debug('Starting single track object mode...')
+        logger.info('Starting single track object mode...')
         
         # Stop exploration mode, focus only one object
         self.stop_exploration_mode()
         
         if self.tracker is None:
-            self.send_notification('Module tracker is not initalized')
+            logger.error('Module tracker is not initalized')
             return
         
         if not self.cap.isOpened():
-            self.send_notification('Video source is not activate')
+            logger.error('Video source is not activate')
             return
         
         self.tracker.stop_tracking() # stop current tracking if running
