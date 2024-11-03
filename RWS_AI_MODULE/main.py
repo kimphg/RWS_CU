@@ -1,10 +1,8 @@
 
 from RWS_Detection.yolo_detector import YOLODetector
-from vidstab import VidStab
 import os, threading, sys
 import cv2
 import socket
-from module_config import ModuleConfig
 from logger import logger, detector_logger, tracker_logger, set_dest_data_address
 import logging
 import configparser
@@ -21,7 +19,6 @@ class ModuleMode(Enum):
 prj_path = os.path.join(os.path.dirname(__file__), 'RWS_Tracker')
 if prj_path not in sys.path:
     sys.path.append(prj_path)
-from RWS_Tracker.rws_tracker import RWSTracker
 
 class RWSModule():
     def __init__(self, config_path='config.ini'):
@@ -131,8 +128,14 @@ class RWSModule():
         self.tracker_alpha = float(self.config.get('tracker', 'alpha', fallback=0.02))
         self.tracker_hist_diff_threshold = float(self.config.get('tracker', 'hist_diff_threshold', fallback=0.7))
         self.tracker_iou_threshold = float(self.config.get('tracker', 'iou_threshold', fallback=0.5))
-        self.tracker = RWSTracker(self.tracker_name, self.tracker_param, self.tracker_model, \
-                                iou_threshold=self.tracker_iou_threshold, alpha=self.tracker_alpha, hist_diff_threshold=self.tracker_hist_diff_threshold)
+        if self.tracker_name == 'opencv':
+            from RWS_Tracker.cv2_tracker import CV2Tracker
+            self.tracker = CV2Tracker(self.tracker_param)
+        else:
+            from RWS_Tracker.rws_tracker import RWSTracker
+            self.tracker = RWSTracker(self.tracker_name, self.tracker_param, self.tracker_model, \
+                                    iou_threshold=self.tracker_iou_threshold, alpha=self.tracker_alpha, hist_diff_threshold=self.tracker_hist_diff_threshold)
+        
         self.tracker.enable_stabilizer = self.enable_stabilizer
         self.tracker.stabilizer_smoothing_window = self.stabilizer_smoothing_window
         
@@ -258,6 +261,8 @@ class RWSModule():
             data_str = data.decode('utf-8')
         
             logger.debug(f'Receive command from controller: {data_str}')
+            # dev notice: after handle a command, remember to call 'continute' the end of loop auto logging unsupport command by default
+            
             parts = data_str.split(",")
             if not parts:
                 logger.error(f'invalid data received: {data_str}')
@@ -290,8 +295,8 @@ class RWSModule():
                         track_id = int(track.track_id)
                         if track_id == target_id:
                             x1, y1, w, h = track.to_ltwh()
-                            self.start_single_track_mode(current_frame, [int(x1), int(y1), int(w), int(h)])
                             logger.info(f'Start tracking object with id: {target_id}')
+                            self.start_single_track_mode(current_frame, [int(x1), int(y1), int(w), int(h)])
                             have_object = True
                             break
                     if not have_object:
@@ -318,6 +323,31 @@ class RWSModule():
                 # storage custom tracking box, when receive full frame, start tracking mode
                 self.custom_tracking_box = [int(x1), int(y1), int(w), int(h)]
                 
+            elif parts[0] == "CCO": # controller current object (track current center object)
+                if len(parts) < 5:
+                    logger.error(f'Invalid CCO command {data_str}')
+                    continue
+                
+                x1, y1, w, h = parts[1], parts[2], parts[3], parts[4]
+                
+                # validate data
+                if int(w) <= 0 or int(h) <= 0:
+                    logger.error(f'Invalid custom object size: ({w}-{h})')
+                    continue
+                
+                if not self.cap.isOpened():
+                    logger.warning(f'Video source not opened.')
+                    continue
+                   
+                ret, frame = self.cap.read()
+                if not ret:
+                    logger.warning(f'Cannot read current frame from video source.')
+                    continue
+                
+                logger.debug('Starting single track mode...')
+                self.start_single_track_mode(frame, [int(x1), int(y1), int(w), int(h)])
+                continue
+            
             elif parts[0] == "CCS": # controller config set
                 if len(parts) < 2:
                     logger.error(f'Invalid CCS command {data_str}')
@@ -369,20 +399,32 @@ class RWSModule():
                 
                 if parts[1] == "DMODEL":
                     model_path = parts[2]
-                    logger.info(f'Set detector model path {model_path}')
+                    logger.info(f'Setting detector model path {model_path}')
                     self.detector.set_model(model_path)
                     continue
                 
                 if parts[1] == "TMODEL":
-                    if len(parts) < 5:
-                        logger.error(f'Invalid CCS tracking model set command {data_str}')
+                    if self.tracker_name == 'opencv':
+                        if len(parts) < 2:
+                            logger.error(f'Invalid CCS tracking model set command {data_str}')
+                            continue
+                        tracker_param = parts[2]
+                        logger.info(f'Set opencv tracker type to: {tracker_param}')
+                        self.tracker.tracker_param = tracker_param
+                        self.tracker.init_tracker()
                         continue
-                    model_name = parts[2]
-                    model_param = parts[3]
-                    model_path = parts[4]
-                    logger.info(f'Set tracker  name - param - path {model_name} - {model_param} - {model_path}')
-                    # TODO: set tracker model name & param, may be reinit tracker - need to test carefully
-                    continue
+                    else:
+                        logger.error(f'Unsupport change rws tracking model in runtime')
+                        continue
+                        if len(parts) < 5:
+                            logger.error(f'Invalid CCS tracking model set command {data_str}')
+                            continue
+                        model_name = parts[2]
+                        model_param = parts[3]
+                        model_path = parts[4]
+                        logger.info(f'Set tracker  name - param - path {model_name} - {model_param} - {model_path}')
+                        # TODO: set tracker model name & param, may be reinit tracker - need to test carefully
+                        continue
                 if parts[1] == "DRAWFPS": # 1 for draw fps, 0 for not
                     show : str = parts[2]
                     if show.isdigit():
@@ -470,7 +512,7 @@ class RWSModule():
                         self.detector.stabilizer_smoothing_window = self.stabilizer_smoothing_window
                     continue
                 
-                logger.error(f'Unsupport or invalid CCS command: {data_str}')
+            logger.error(f'Unsupport or invalid CCS command: {data_str}')
                 
         logger.info('Stopped listen command from controller.')
     
@@ -568,8 +610,9 @@ class RWSModule():
         # Stop exploration mode, focus only one object
         self.stop_exploration_mode()
         
-        if self.tracker is None:
+        if self.tracker is None or self.tracker.tracker is None:
             logger.error('Module tracker is not initalized')
+            self.start_exploration_mode()
             return
         
         if not self.cap.isOpened():
@@ -610,7 +653,7 @@ class RWSModule():
                     cv2.putText(frame_send, f'FPS: {avg_fps:.2f}', (frame_send.shape[1]-120, 20), cv2.FONT_HERSHEY_DUPLEX, 0.5, (0,0,255), 1)
 
                 if self.draw_result:
-                    frame_send = draw_tracking_result(frame_send, self.tracker.get_current_tracking_result(), self.tracker.confirmed, self.tracker.name)
+                    frame_send = draw_tracking_result(frame_send, self.tracker.get_current_tracking_result(), self.tracker.confirmed, self.tracker.name, self.tracker.tracker_param)
                 
                 self.send_frame(frame_send, self.frame_counter, (self.dest_frame_ip, self.dest_frame_port))
                 self.send_current_tracking_object()

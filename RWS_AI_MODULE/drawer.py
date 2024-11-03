@@ -1,6 +1,6 @@
 import cv2
 
-def draw_tracking_result(frame, box, confirmed, tracker_name):
+def draw_tracking_result(frame, box, confirmed, tracker_name="", tracker_param=""):
     
     if box is None:
         return frame
@@ -32,7 +32,7 @@ def draw_tracking_result(frame, box, confirmed, tracker_name):
     cv2.line(frame, (center_x - 10, center_y), (center_x + 10, center_y), (0, 0, 255), 2)  # Horizontal line
     cv2.line(frame, (center_x, center_y - 10), (center_x, center_y + 10), (0, 0, 255), 2)  # Vertical line
     
-    cv2.putText(frame, f'TRACKING - {tracker_name} {"- OCCLUTIONS" if not confirmed else ""}', (20, 20), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.0, (0, 255, 0), 2)
+    cv2.putText(frame, f'TRACKING - {tracker_name} - {tracker_param} {" - OCCLUTIONS" if not confirmed else ""}', (20, 20), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1.0, (0, 255, 0), 2)
     return frame
 
 def draw_yolo_deepsort_results(frame, tracks):

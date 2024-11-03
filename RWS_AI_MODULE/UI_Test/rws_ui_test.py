@@ -34,6 +34,8 @@ class ControlCenter(QDialog):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         
         main_layout = QGridLayout()
+        self.frame_w = 1080
+        self.frame_h = 720
         
         # Row 0: Video Source
         self.set_vidsrc_lineedit = QLineEdit()
@@ -143,9 +145,25 @@ class ControlCenter(QDialog):
         main_layout.addWidget(self.vidstab_sm_lineedit, 13, 1)
         main_layout.addWidget(self.vidstab_sm_button, 13, 2)
         self.vidstab_sm_button.clicked.connect(self.set_vidstab_sm)
+        
+        # Row 14: Track center object
+        self.recvid_button = QPushButton("Track center object")
+        main_layout.addWidget(QLabel("Track object in center frame"), 14, 0)
+        main_layout.addWidget(self.recvid_button, 14, 1)
+        self.recvid_button.clicked.connect(self.track_center_object)
 
         
         self.setLayout(main_layout)
+        
+    def track_center_object(self):
+        # calculate center bounding box
+        # fixed object size 400,300
+        w = 150
+        h = 100
+        x = self.frame_w//2 - w//2
+        y = self.frame_h//2 - h//2
+        cmd = f'CCO,{x},{y},{w},{h}'
+        self.send_command(cmd)
 
     def set_vidstab_enable(self):
         cmd = f'CCS,VIDSTAB,{self.vidstab_enable_lineedit.text()}'
@@ -292,6 +310,9 @@ class RWSController(QMainWindow):
         
     def open_control_center(self):
         widget = ControlCenter(self, self.cmd_ip, self.cmd_port)
+        if self.current_frame is not None:
+            widget.frame_w = self.current_frame.shape[1]
+            widget.frame_h = self.current_frame.shape[0]
         widget.show()
         
     def start_track(self):
