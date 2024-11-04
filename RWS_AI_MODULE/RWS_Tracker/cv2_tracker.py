@@ -514,5 +514,5 @@ if __name__ == "__main__":
     
     # model_path = '/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/models/odtrack/odtrack_base_full/ODTrack_ep0300.pth.tar'    
     # tracker = RWSTracker('odtrack', 'baseline', model_path)
-    tracker.test_tracker_v2('/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/RWS_AI_MODULE/videos/test_tau.avi')
+    tracker.test_tracker_v2('../videos/test_tau.avi')
     # test_tracker_thread()

@@ -301,11 +301,12 @@ class RWSModule():
                             break
                     if not have_object:
                         logger.warning(f'No object with id: {target_id}')
-                
+                    continue
                 elif track_status == 1: # stop tracking
                     logger.info(f'Stoping tracking single object and start exploration mode')
                     self.stop_single_track_mode()
                     self.start_exploration_mode()
+                    continue
                     
             elif parts[0] == "CCT": # controller custom tracking
                 if len(parts) < 5:
@@ -555,7 +556,7 @@ class RWSModule():
                 
                 if self.draw_fps:
                     # Calculate FPS for the current frame
-                    fps = 1 / (time.time() - t)
+                    fps = 1 / (time.time() - t + 1e-10) # prevent device by zero
                     # Add FPS to the list and keep only the last 10 values
                     fps_values.append(fps)
                     if len(fps_values) > 10:
@@ -643,7 +644,7 @@ class RWSModule():
                 
                 if self.draw_fps:
                     # Calculate FPS for the current frame
-                    fps = 1 / (time.time() - t)
+                    fps = 1 / (time.time() - t + 1e-10)
                     # Add FPS to the list and keep only the last 10 values
                     fps_values.append(fps)
                     if len(fps_values) > 10:
