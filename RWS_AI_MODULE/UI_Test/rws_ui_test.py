@@ -40,117 +40,161 @@ class ControlCenter(QDialog):
         # Row 0: Video Source
         self.set_vidsrc_lineedit = QLineEdit()
         self.set_vidsrc_button = QPushButton("Set Video source")
+        self.get_vidsrc_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Set videosource"), 0,0)
         main_layout.addWidget(self.set_vidsrc_lineedit, 0,1)
         main_layout.addWidget(self.set_vidsrc_button, 0,2)
+        main_layout.addWidget(self.get_vidsrc_button,0,3)
         self.set_vidsrc_button.clicked.connect(self.set_videosrc)
+        self.get_vidsrc_button.clicked.connect(self.get_videosrc)
         
         # Row 1: Detection Confidence
         self.dconf_lineedit = QLineEdit()
         self.dconf_button = QPushButton("Set Detection Confidence")
+        self.get_dconf_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Detection Confidence"), 1, 0)
         main_layout.addWidget(self.dconf_lineedit, 1, 1)
         main_layout.addWidget(self.dconf_button, 1, 2)
+        main_layout.addWidget(self.get_dconf_button, 1, 3)
         self.dconf_button.clicked.connect(self.set_dconf)
+        self.get_dconf_button.clicked.connect(self.get_dconf)
 
         # Row 2: Tracking Confidence
         self.tconf_lineedit = QLineEdit()
         self.tconf_button = QPushButton("Set Tracking Confidence")
+        self.get_tconf_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Tracking Confidence"), 2, 0)
         main_layout.addWidget(self.tconf_lineedit, 2, 1)
         main_layout.addWidget(self.tconf_button, 2, 2)
+        main_layout.addWidget(self.get_tconf_button, 2, 3)
         self.tconf_button.clicked.connect(self.set_tconf)
+        self.get_tconf_button.clicked.connect(self.get_tconf)
 
         # Row 3: Detection Model
         self.dmodel_lineedit = QLineEdit()
         self.dmodel_button = QPushButton("Set Detection Model")
+        self.get_dmodel_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Detection Model"), 3, 0)
         main_layout.addWidget(self.dmodel_lineedit, 3, 1)
         main_layout.addWidget(self.dmodel_button, 3, 2)
+        main_layout.addWidget(self.get_dmodel_button, 3, 3)
         self.dmodel_button.clicked.connect(self.set_dmodel)
+        self.get_dmodel_button.clicked.connect(self.get_dmodel)
 
         # Row 4: Tracking Model
         self.tmodel_lineedit = QLineEdit()
         self.tmodel_button = QPushButton("Set Tracking Model")
+        self.get_tmodel_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Tracking Model"), 4, 0)
         main_layout.addWidget(self.tmodel_lineedit, 4, 1)
         main_layout.addWidget(self.tmodel_button, 4, 2)
+        main_layout.addWidget(self.get_tmodel_button, 4, 3)
         self.tmodel_button.clicked.connect(self.set_tmodel)
+        self.get_tmodel_button.clicked.connect(self.get_tmodel)
 
         # Row 5: Show FPS
         self.showfps_lineedit = QLineEdit()
         self.showfps_button = QPushButton("Set Draw FPS")
+        self.get_showfps_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Draw FPS (1: Yes, 0: No)"), 5, 0)
         main_layout.addWidget(self.showfps_lineedit, 5, 1)
         main_layout.addWidget(self.showfps_button, 5, 2)
+        main_layout.addWidget(self.get_showfps_button, 5, 3)
         self.showfps_button.clicked.connect(self.set_showfps)
+        self.get_showfps_button.clicked.connect(self.get_showfps)
 
         # Row 6: Show Detection/Tracking Result
         self.showresult_lineedit = QLineEdit()
         self.showresult_button = QPushButton("Set Draw Result")
+        self.get_showresult_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Draw Result (1: Yes, 0: No)"), 6, 0)
         main_layout.addWidget(self.showresult_lineedit, 6, 1)
         main_layout.addWidget(self.showresult_button, 6, 2)
+        main_layout.addWidget(self.get_showresult_button, 6, 3)
         self.showresult_button.clicked.connect(self.set_showresult)
-
-        # Row 7: Reconnect Video Source
-        self.recvid_button = QPushButton("Reconnect Video Source")
-        main_layout.addWidget(QLabel("Reconnect Video"), 7, 0)
-        main_layout.addWidget(self.recvid_button, 7, 1)
-        self.recvid_button.clicked.connect(self.reconnect_video)
-        
-        # Row 8: Confirm track
-        self.confirm_track_button = QPushButton("Confirm track")
-        main_layout.addWidget(QLabel("Confirm track"), 8, 0)
-        main_layout.addWidget(self.confirm_track_button, 8, 1)
-        self.confirm_track_button.clicked.connect(self.confirm_track)
+        self.get_showresult_button.clicked.connect(self.get_showresult)
         
         # Row 9: Tracking IOU Thresh
         self.tiou_lineedit = QLineEdit()
         self.tiou_button = QPushButton("Set Tracking IOU")
+        self.get_tiou_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Tracking IOU threshold"), 9, 0)
         main_layout.addWidget(self.tiou_lineedit, 9, 1)
         main_layout.addWidget(self.tiou_button, 9, 2)
+        main_layout.addWidget(self.get_tiou_button, 9, 3)
         self.tiou_button.clicked.connect(self.set_tiou)
+        self.get_tiou_button.clicked.connect(self.get_tiou)
         
         
         # Row 10: Tracking ALPHA (Histogram adapt rate)
         self.talpha_lineedit = QLineEdit()
         self.talpha_button = QPushButton("Set Tracking Alpha")
+        self.get_talpha_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Tracking Alpha"), 10, 0)
         main_layout.addWidget(self.talpha_lineedit, 10, 1)
         main_layout.addWidget(self.talpha_button, 10, 2)
+        main_layout.addWidget(self.get_talpha_button, 10, 3)
         self.talpha_button.clicked.connect(self.set_talpha)
+        self.get_talpha_button.clicked.connect(self.get_talpha)
         
         # Row 11: Tracking hist (Histogram diff thresh)
         self.thist_lineedit = QLineEdit()
         self.thist_button = QPushButton("Set Tracking Hist")
+        self.get_thist_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Tracking Histogram Threshold"), 11, 0)
         main_layout.addWidget(self.thist_lineedit, 11, 1)
         main_layout.addWidget(self.thist_button, 11, 2)
+        main_layout.addWidget(self.get_thist_button, 11, 3)
         self.thist_button.clicked.connect(self.set_thist)
+        self.get_thist_button.clicked.connect(self.get_thist)
         
         # Row 12: Video stabilizer enable
         self.vidstab_enable_lineedit = QLineEdit()
         self.vidstab_enable_button = QPushButton("Set vidstab")
+        self.get_vidstab_enable_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Enable Video stable (1: Yes, 0: No)"), 12, 0)
         main_layout.addWidget(self.vidstab_enable_lineedit, 12, 1)
         main_layout.addWidget(self.vidstab_enable_button, 12, 2)
+        main_layout.addWidget(self.get_vidstab_enable_button, 12, 3)
         self.vidstab_enable_button.clicked.connect(self.set_vidstab_enable)
+        self.get_vidstab_enable_button.clicked.connect(self.get_vidstab_enable)
         
         # Row 13: Video stabilizer smoothing window
         self.vidstab_sm_lineedit = QLineEdit()
         self.vidstab_sm_button = QPushButton("Set vidstab sm")
+        self.get_vidstab_sm_button = QPushButton("Get")
         main_layout.addWidget(QLabel("Vidstab smoothing window"), 13, 0)
         main_layout.addWidget(self.vidstab_sm_lineedit, 13, 1)
         main_layout.addWidget(self.vidstab_sm_button, 13, 2)
+        main_layout.addWidget(self.get_vidstab_sm_button, 13, 3)
         self.vidstab_sm_button.clicked.connect(self.set_vidstab_sm)
+        self.get_vidstab_sm_button.clicked.connect(self.get_vidstab_sm)
+        
+        # Row 13: Video stabilizer smoothing window
+        self.mode_lineedit = QLineEdit()
+        self.get_mode_button = QPushButton("Get")
+        main_layout.addWidget(QLabel("Current mode"), 17, 0)
+        main_layout.addWidget(self.mode_lineedit, 17, 1)
+        main_layout.addWidget(self.get_mode_button, 17, 3)
+        self.get_mode_button.clicked.connect(self.get_mode)
         
         # Row 14: Track center object
         self.recvid_button = QPushButton("Track center object")
         main_layout.addWidget(QLabel("Track object in center frame"), 14, 0)
         main_layout.addWidget(self.recvid_button, 14, 1)
         self.recvid_button.clicked.connect(self.track_center_object)
+        
+        # Row 15: Reconnect Video Source
+        self.recvid_button = QPushButton("Reconnect Video Source")
+        main_layout.addWidget(QLabel("Reconnect Video"), 15, 0)
+        main_layout.addWidget(self.recvid_button, 15, 1)
+        self.recvid_button.clicked.connect(self.reconnect_video)
+        
+        # Row 16: Confirm track
+        self.confirm_track_button = QPushButton("Confirm track")
+        main_layout.addWidget(QLabel("Confirm track"), 16, 0)
+        main_layout.addWidget(self.confirm_track_button, 16, 1)
+        self.confirm_track_button.clicked.connect(self.confirm_track)
 
         
         self.setLayout(main_layout)
@@ -165,12 +209,24 @@ class ControlCenter(QDialog):
         cmd = f'CCO,{x},{y},{w},{h}'
         self.send_command(cmd)
 
+    def get_mode(self):
+        cmd = f'CCG,MODE'
+        self.send_command(cmd)
+
     def set_vidstab_enable(self):
         cmd = f'CCS,VIDSTAB,{self.vidstab_enable_lineedit.text()}'
         self.send_command(cmd)
         
+    def get_vidstab_enable(self):
+        cmd = f'CCG,VIDSTAB'
+        self.send_command(cmd)
+        
     def set_vidstab_sm(self):
         cmd = f'CCS,VIDSTABSM,{self.vidstab_sm_lineedit.text()}'
+        self.send_command(cmd)
+        
+    def get_vidstab_sm(self):
+        cmd = f'CCG,VIDSTABSM'
         self.send_command(cmd)
 
     def send_command(self, command):
@@ -181,47 +237,87 @@ class ControlCenter(QDialog):
     def set_videosrc(self):
         cmd = f'CCS,VIDSRC,{self.set_vidsrc_lineedit.text()}'
         self.send_command(cmd)
+        
+    def get_videosrc(self):
+        cmd = f'CCG,VIDSRC'
+        self.send_command(cmd)
 
     # Detection Confidence
     def set_dconf(self):
         cmd = f'CCS,DCONF,{self.dconf_lineedit.text()}'
+        self.send_command(cmd)
+        
+    def get_dconf(self):
+        cmd = f'CCG,DCONF'
         self.send_command(cmd)
 
     # Tracking Confidence
     def set_tconf(self):
         cmd = f'CCS,TCONF,{self.tconf_lineedit.text()}'
         self.send_command(cmd)
+    
+    def get_tconf(self):
+        cmd = f'CCG,TCONF'
+        self.send_command(cmd)
         
     def set_tiou(self):
         cmd = f'CCS,TIOU,{self.tiou_lineedit.text()}'
         self.send_command(cmd)
+        
+    def get_tiou(self):
+        cmd = f'CCG,TIOU'
+        self.send_command(cmd)
     
     def set_talpha(self):
         cmd = f'CCS,TALPHA,{self.talpha_lineedit.text()}'
+        self.send_command(cmd)
+        
+    def get_talpha(self):
+        cmd = f'CCG,TALPHA'
         self.send_command(cmd)
     
     def set_thist(self):
         cmd = f'CCS,THIST,{self.thist_lineedit.text()}'
         self.send_command(cmd)
 
+    def get_thist(self):
+        cmd = f'CCG,THIST'
+        self.send_command(cmd)
+
     # Detection Model
     def set_dmodel(self):
         cmd = f'CCS,DMODEL,{self.dmodel_lineedit.text()}'
+        self.send_command(cmd)
+    
+    def get_dmodel(self):
+        cmd = f'CCG,DMODEL'
         self.send_command(cmd)
 
     # Tracking Model
     def set_tmodel(self):
         cmd = f'CCS,TMODEL,{self.tmodel_lineedit.text()}'
         self.send_command(cmd)
+        
+    def get_tmodel(self):
+        cmd = f'CCG,TMODEL'
+        self.send_command(cmd)
 
     # Show FPS
     def set_showfps(self):
         cmd = f'CCS,DRAWFPS,{self.showfps_lineedit.text()}'
         self.send_command(cmd)
+        
+    def get_showfps(self):
+        cmd = f'CCG,DRAWFPS'
+        self.send_command(cmd)
 
     # Show Detection/Tracking Result
     def set_showresult(self):
         cmd = f'CCS,DRAWRESULT,{self.showresult_lineedit.text()}'
+        self.send_command(cmd)
+        
+    def get_showresult(self):
+        cmd = f'CCG,DRAWRESULT'
         self.send_command(cmd)
 
     # Reconnect Video Source
@@ -233,11 +329,49 @@ class ControlCenter(QDialog):
         cmd = 'CCS,CONFIRMTRACK'
         self.send_command(cmd)
         
-    
+    def update_tracker_config(self, data_str):
+        parts = data_str.split(",")
+        if len(parts) < 3:
+            print(f"Invalid tracker config received: {data_str}")
             
+        # data_str format: "TCV,type,value" (TCV: Tracker config value)
+        data_type = parts[1] 
+        data_value = parts[2]
+        if data_type == "MODE":
+            self.mode_lineedit.setText(data_value)
+        elif data_type == "VIDSRC":
+            self.set_vidsrc_lineedit.setText(data_value)
+        elif data_type == "DCONF":
+            self.dconf_lineedit.setText(data_value)
+        elif data_type == "TCONF":
+            self.tconf_lineedit.setText(data_value)
+        elif data_type == "DMODEL":
+            self.dmodel_lineedit.setText(data_value)
+        elif data_type == "TMODEL": # model_name, model_param
+            extra_value = ""
+            if len(parts) > 4:
+                extra_value = parts[3]
+            self.tmodel_lineedit.setText(data_value + ',' + extra_value)
+        elif data_type == "DRAWFPS":
+            self.showfps_lineedit.setText(data_value)
+        elif data_type == "DRAWRESULT":
+            self.showresult_lineedit.setText(data_value)
+        elif data_type == "TIOU":
+            self.tiou_lineedit.setText(data_value)
+        elif data_type == "TALPHA":
+            self.talpha_lineedit.setText(data_value)
+        elif data_type == "THIST":
+            self.thist_lineedit.setText(data_value)
+        elif data_type == "VIDSTAB":
+            self.vidstab_enable_lineedit.setText(data_value)
+        elif data_type == "VIDSTABSM":
+            self.vidstab_sm_lineedit.setText(data_value)
+        else:
+            print(f"Invalid tracker config received: {data_str}")
 
 class RWSController(QMainWindow):
     log_signal = pyqtSignal(str)
+    tracker_config_value_sinal = pyqtSignal(str)
     def __init__(self, frame_ip="127.0.0.1", frame_port=12345, data_ip="127.0.0.1", data_port=4000, cmd_ip="127.0.0.1", cmd_port=5000):
         super().__init__()
 
@@ -281,8 +415,7 @@ class RWSController(QMainWindow):
         start_track_button = QPushButton('Start track (First object)')
         stop_track_button = QPushButton('Stop track')
         select_target_to_track = QPushButton('Select target to track')
-        control_center = QPushButton('Control center')
-        
+        control_center = QPushButton('Control center')        
         
         tools_layout.addWidget(start_track_button)
         tools_layout.addWidget(stop_track_button)
@@ -310,6 +443,7 @@ class RWSController(QMainWindow):
         
     def open_control_center(self):
         widget = ControlCenter(self, self.cmd_ip, self.cmd_port)
+        self.tracker_config_value_sinal.connect(widget.update_tracker_config)
         if self.current_frame is not None:
             widget.frame_w = self.current_frame.shape[1]
             widget.frame_h = self.current_frame.shape[0]
@@ -483,7 +617,7 @@ class RWSController(QMainWindow):
             data_str = data.decode('utf-8')
             # Split the string by commas
             parts = data_str.split(",")
-
+            
             # Check if the string starts with the expected header "TTM"
             # if not parts or parts[0] != "TTM":
 
@@ -531,6 +665,10 @@ class RWSController(QMainWindow):
                 self.statusBar().showMessage(notify_str)
                 # self.log_area.append(notify_str) # got crash
                 # self.log_signal.emit(notify_str)
+                
+            elif parts[0] == "TCV":
+                self.tracker_config_value_sinal.emit(data_str)
+
                 
         # return parsed_results
     # def update_log_area(self, message):

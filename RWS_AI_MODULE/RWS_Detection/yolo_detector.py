@@ -38,6 +38,7 @@ class YOLODetector:
         self.stabilizer_smoothing_window = 5 # default 5
         self.feed_stablizer_frame_index = 0
 
+        self.model_path = model_path
         if model_path:
             self.set_model(model_path)
             
@@ -59,6 +60,7 @@ class YOLODetector:
         """
         try:
             self.model = YOLO(model_path)
+            self.model_path = model_path
             logger.info(f"Model loaded from {model_path}")
         except Exception as e:
             logger.error(f"Error loading model: {e}")

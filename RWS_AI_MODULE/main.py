@@ -178,11 +178,11 @@ class RWSModule():
         data_to_send = result_str.encode('utf-8')
         self.send_data_socket.sendto(data_to_send, (self.dest_data_ip, self.dest_data_port))
         
-    def send_notification(self, notify_str : str):
-        logger.debug(f'Notify: {notify_str}')
-        data = f'TNO,{notify_str}'
+    def send_data_to_controller(self, prefix, data_str : str):
+        data = f'{prefix},{data_str}'
         data_to_send = data.encode('utf-8')
         self.send_data_socket.sendto(data_to_send, (self.dest_data_ip, self.dest_data_port))
+        
         
     def send_frame(self, frame, frame_counter, address):
         ret, buffer = cv2.imencode('.jpeg', frame, [cv2.IMWRITE_JPEG_QUALITY, 90])
@@ -401,6 +401,7 @@ class RWSModule():
                 if parts[1] == "DMODEL":
                     model_path = parts[2]
                     logger.info(f'Setting detector model path {model_path}')
+                    self.detector_model = model_path
                     self.detector.set_model(model_path)
                     continue
                 
@@ -512,9 +513,52 @@ class RWSModule():
                         self.tracker.stabilizer_smoothing_window = self.stabilizer_smoothing_window
                         self.detector.stabilizer_smoothing_window = self.stabilizer_smoothing_window
                     continue
+            elif parts[0] == "CCG": # controller config get
+                data_type = parts[1]
+                if data_type == "MODE":
+                    if self.current_mode == ModuleMode.EXPLORATION.value:
+                        self.send_data_to_controller("TCV,MODE", "1")
+                    elif self.current_mode == ModuleMode.TRACKING.value:
+                        if self.tracker.confirmed:
+                            self.send_data_to_controller("TCV,MODE", "0")
+                        else:
+                            self.send_data_to_controller("TCV,MODE", "3")
+                elif data_type == "VIDSRC":
+                    self.send_data_to_controller("TCV,VIDSRC", self.video_source)
+                elif data_type == "DCONF":
+                    self.send_data_to_controller("TCV,DCONF", self.detector.detect_conf)
+                elif data_type == "TCONF":
+                    self.send_data_to_controller("TCV,TCONF", self.tracker.tracker_conf)
+                elif data_type == "DMODEL":
+                    self.send_data_to_controller("TCV,DMODEL", self.detector.model_path)
+                elif data_type == "TMODEL": # model_name, model_param
+                    data_send = self.tracker_name + ',' + self.tracker_param
+                    self.send_data_to_controller("TCV,TMODEL", data_send)
+                elif data_type == "DRAWFPS":
+                    self.send_data_to_controller("TCV,DRAWFPS", 1 if self.draw_fps else 0)
+                elif data_type == "DRAWRESULT":
+                    self.send_data_to_controller("TCV,DRAWRESULT", 1 if self.draw_result else 0)
+                elif data_type == "TIOU":
+                    self.send_data_to_controller("TCV,TIOU", self.tracker.iou_threshold)
+                elif data_type == "TALPHA":
+                    self.send_data_to_controller("TCV,TALPHA", self.tracker.alpha)
+                elif data_type == "THIST":
+                    self.send_data_to_controller("TCV,THIST", self.tracker.hist_diff_threshold)
+                elif data_type == "VIDSTAB":
+                    data_send = 1 if self.enable_stabilizer else 0
+                    self.send_data_to_controller("TCV,VIDSTAB", data_send)
+                elif data_type == "VIDSTABSM":
+                    self.send_data_to_controller("TCV,VIDSTABSM", self.stabilizer_smoothing_window)
+                else:
+                    logger.error(f'Invalid controller config get command: {data_str}')
+                continue
+            
+            # add mode handle here, remember to call continue to end current loop
+            # elif parts[0] == "PREFIX":    
                 
             logger.error(f'Unsupport or invalid CCS command: {data_str}')
                 
+            
         logger.info('Stopped listen command from controller.')
     
     def start_exploration_mode(self):
@@ -539,6 +583,7 @@ class RWSModule():
             self.exploration_thread.start()
             
         self.current_mode = ModuleMode.EXPLORATION.value
+        self.send_data_to_controller("TCV,MODE",1)
 
     def _start_send_exploration_result(self):
         logger.info('Start sendding exploration data to Controller')
@@ -630,6 +675,7 @@ class RWSModule():
             self.single_track_thread.start()
             
         self.current_mode = ModuleMode.TRACKING.value
+        self.send_data_to_controller("TCV,MODE",0)
 
     
     def _start_send_tracking_result(self):
