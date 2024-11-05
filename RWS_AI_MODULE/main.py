@@ -522,7 +522,7 @@ class RWSModule():
                         if self.tracker.confirmed:
                             self.send_data_to_controller("TCV,MODE", "0")
                         else:
-                            self.send_data_to_controller("TCV,MODE", "3")
+                            self.send_data_to_controller("TCV,MODE", "2")
                 elif data_type == "VIDSRC":
                     self.send_data_to_controller("TCV,VIDSRC", self.video_source)
                 elif data_type == "DCONF":
