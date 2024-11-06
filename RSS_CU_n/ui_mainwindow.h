@@ -2003,6 +2003,7 @@ public:
 
         textBrowser_msg = new QTextBrowser(widget_17);
         textBrowser_msg->setObjectName(QString::fromUtf8("textBrowser_msg"));
+        textBrowser_msg->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         verticalLayout_26->addWidget(textBrowser_msg);
 

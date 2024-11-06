@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>784</width>
-    <height>559</height>
+    <width>648</width>
+    <height>592</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Control Center dialog</string>
+   <string>Control Center (TEST)</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(196, 255, 251);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -19,18 +22,32 @@
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
-         <string>Set Videosource</string>
+         <string>Set Videosource: </string>
         </property>
        </widget>
       </item>
       <item row="9" column="0">
        <widget class="QLabel" name="label_10">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);;</string>
         </property>
         <property name="text">
          <string>Tracking IOU Threshold</string>
@@ -39,15 +56,29 @@
       </item>
       <item row="1" column="2">
        <widget class="QLineEdit" name="lineEdit_2">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
       <item row="7" column="0">
        <widget class="QLabel" name="label_8">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Reconnect Video</string>
@@ -56,8 +87,15 @@
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="label_5">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Tracking Model</string>
@@ -66,8 +104,15 @@
       </item>
       <item row="6" column="0">
        <widget class="QLabel" name="label_7">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Draw Result (1: Yes, 0: No)</string>
@@ -76,8 +121,15 @@
       </item>
       <item row="11" column="0">
        <widget class="QLabel" name="label_12">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Tracking Histogram Threshold</string>
@@ -86,8 +138,15 @@
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_3">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Tracking Confidence</string>
@@ -96,15 +155,29 @@
       </item>
       <item row="2" column="2">
        <widget class="QLineEdit" name="lineEdit_3">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
       <item row="10" column="0">
        <widget class="QLabel" name="label_11">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Tracking Alpha</string>
@@ -113,8 +186,15 @@
       </item>
       <item row="5" column="0">
        <widget class="QLabel" name="label_6">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Draw FPS (1: Yes, 0: No)</string>
@@ -123,8 +203,15 @@
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_4">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Detection Model</string>
@@ -133,18 +220,32 @@
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
-         <string>Detection Confidence</string>
+         <string>Detection Confidence: </string>
         </property>
        </widget>
       </item>
       <item row="8" column="0">
        <widget class="QLabel" name="label_9">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Confirm Track</string>
@@ -153,43 +254,86 @@
       </item>
       <item row="0" column="2">
        <widget class="QLineEdit" name="lineEdit">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
       <item row="4" column="2">
        <widget class="QLineEdit" name="lineEdit_5">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
       <item row="3" column="2">
        <widget class="QLineEdit" name="lineEdit_4">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);
+</string>
         </property>
        </widget>
       </item>
       <item row="5" column="2">
        <widget class="QLineEdit" name="lineEdit_6">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
       <item row="6" column="2">
        <widget class="QLineEdit" name="lineEdit_7">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
       <item row="7" column="2">
        <widget class="QPushButton" name="pushButton">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Reconnect Video</string>
@@ -198,8 +342,15 @@
       </item>
       <item row="8" column="2">
        <widget class="QPushButton" name="pushButton_2">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Confirm Track</string>
@@ -208,29 +359,57 @@
       </item>
       <item row="9" column="2">
        <widget class="QLineEdit" name="lineEdit_8">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
       <item row="10" column="2">
        <widget class="QLineEdit" name="lineEdit_9">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
       <item row="11" column="2">
        <widget class="QLineEdit" name="lineEdit_10">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
        </widget>
       </item>
       <item row="0" column="3">
        <widget class="QPushButton" name="pushButton_3">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Videosource</string>
@@ -239,8 +418,15 @@
       </item>
       <item row="1" column="3">
        <widget class="QPushButton" name="pushButton_4">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Dectection Confidence</string>
@@ -249,8 +435,15 @@
       </item>
       <item row="2" column="3">
        <widget class="QPushButton" name="pushButton_5">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Tracking Confidence</string>
@@ -259,8 +452,15 @@
       </item>
       <item row="3" column="3">
        <widget class="QPushButton" name="pushButton_6">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Detection Model</string>
@@ -269,8 +469,15 @@
       </item>
       <item row="4" column="3">
        <widget class="QPushButton" name="pushButton_7">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Tracking Model</string>
@@ -279,8 +486,15 @@
       </item>
       <item row="5" column="3">
        <widget class="QPushButton" name="pushButton_8">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Draw FPS</string>
@@ -289,8 +503,15 @@
       </item>
       <item row="6" column="3">
        <widget class="QPushButton" name="pushButton_9">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Draw Result</string>
@@ -299,8 +520,15 @@
       </item>
       <item row="11" column="3">
        <widget class="QPushButton" name="pushButton_10">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Tracking Histogram</string>
@@ -309,8 +537,15 @@
       </item>
       <item row="10" column="3">
        <widget class="QPushButton" name="pushButton_11">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Tracking Alpha</string>
@@ -319,8 +554,15 @@
       </item>
       <item row="9" column="3">
        <widget class="QPushButton" name="pushButton_12">
+        <property name="font">
+         <font>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(0, 0, 0);</string>
         </property>
         <property name="text">
          <string>Set Tracking IOU</string>
@@ -336,7 +578,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>784</width>
+     <width>648</width>
      <height>25</height>
     </rect>
    </property>

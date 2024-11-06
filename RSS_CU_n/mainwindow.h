@@ -29,6 +29,7 @@
 #include<compasscustom_widget.h>
 #include <QProcess>
 #include<control_center_dialog.h>
+#include<video_window.h>
 
 //#include <videostab.h>
 //using namespace cv;
@@ -314,6 +315,7 @@ private:
     QProcess *pythonProcess;
 
     Control_Center_Dialog *m_Control_Center_Dialog;
+    QVector<BoundingBox>Vector_BoundingBox;
 
 };
 

@@ -9,8 +9,8 @@ struct BoundingBox {
     int id;
     int x;
     int y;
-    int width;
-    int height;
+    double width;
+    double height;
 };
 
 class video_window : public QFrame
@@ -26,6 +26,10 @@ signals:
 
 protected slots:
     void paintEvent(QPaintEvent *p);
+
+public:
+    int ID_Selected = -1; // vẽ bounding box đang được chọn là màu đỏ (-1 thì không vẽ - chưa detect được gì)
+    QVector<BoundingBox> Vector_BoundingBox; //nhận thông tin các boundingbox được update từ mainwindow --> được vẽ trong paintevent();
 };
 
 #endif // VIDEO_WINDOW_H

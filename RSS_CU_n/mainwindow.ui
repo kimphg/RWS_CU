@@ -3025,7 +3025,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QTextBrowser" name="textBrowser_msg"/>
+              <widget class="QTextBrowser" name="textBrowser_msg">
+               <property name="styleSheet">
+                <string notr="true">color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>

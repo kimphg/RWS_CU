@@ -208,7 +208,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setButtonStyle(ui->pushButton_single_shot, ":/new/headerImages/Header_Images/SINGLE_1.png", ":/new/headerImages/Header_Images/SINGLE_2.png");
     //* ==========================>
     Setup_button_stype(); //các nút ở các trang config
-      ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(2);
 
 }
 void MainWindow::Setup_button_stype()
@@ -225,7 +225,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_05mrad->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -238,7 +238,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_1mrad->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -251,7 +251,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_5mrad->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -264,7 +264,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     //------
     ui->pushButton_elevation->setStyleSheet(
                 "QPushButton { "
@@ -278,7 +278,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_azimuth->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -291,7 +291,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_minus_05->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -304,7 +304,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_minus_025->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -317,7 +317,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_05_mrad_second->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -330,7 +330,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_025_mrad_second->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -343,7 +343,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     //------
     ui->pushButton_activated_deactivated->setStyleSheet(
                 "QPushButton { "
@@ -357,7 +357,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_warning_left->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -370,7 +370,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
     ui->pushButton_warning_right->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -383,7 +383,7 @@ void MainWindow::Setup_button_stype()
                 "    color: rgb(0, 245, 210);"
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
-            );
+                );
 }
 void MainWindow::usbInit()
 {
@@ -656,10 +656,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_V)
     {
-//        QString program = "python3";
-//        QStringList arguments;
-//        arguments << "C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/dialogconfig_ui.py";  //đường dẫn tới file Python
-//        pythonProcess->start(program, arguments);
+        //        QString program = "python3";
+        //        QStringList arguments;
+        //        arguments << "C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/dialogconfig_ui.py";  //đường dẫn tới file Python
+        //        pythonProcess->start(program, arguments);
 
         m_Control_Center_Dialog = new Control_Center_Dialog(this);
         m_Control_Center_Dialog->show();
@@ -1138,13 +1138,53 @@ void MainWindow::updateData()
         int len = socket->pendingDatagramSize();
         QHostAddress host;
         quint16 port;
-        QByteArray data;
-        data.resize(len);
+        QByteArray datagram;
+        datagram.resize(len);
 
-        socket->readDatagram(data.data(),len,&host,&port);
+        socket->readDatagram(datagram.data(),len,&host,&port);
+
+        //tamj ghi log vào textbrowser msg
+        QString message = QString::fromUtf8(datagram);
+        ui->textBrowser_msg->append("Received from " + host.toString() + ":" + QString::number(port) + " - " + message);
+
+        //phản hồi từ tracker
+        //Lọc các gói tin tập các bounding box ở chế độ sục sạo
+        QString data = QString::fromUtf8(datagram);
+        QStringList parts = data.split(',');
+
+
+        if (parts[0] == "TTM")  // Kiểm tra xem gói tin có bắt đầu bằng "TTM" và đủ dữ liệu
+        {
+            int n_target = parts[1].toInt(); // Số lượng bounding box
+
+            // Kiểm tra kích thước tối thiểu cần thiết cho các bounding box để tránh mấy lỗi xàm xàm
+            if (parts.size() >= 2 + n_target * 5)
+            {
+                Vector_BoundingBox.clear();
+
+                for (int i = 0; i < n_target; ++i)
+                {
+                    int index = 2 + i * 5;  // Vị trí bắt đầu của mỗi bounding box
+
+                    BoundingBox box;
+                    box.id = parts[index].toInt();
+                    box.x = parts[index + 1].toInt();
+                    box.y = parts[index + 2].toInt();
+                    box.width = parts[index + 3].toInt();
+                    box.height = parts[index + 4].toInt();
+
+                    Vector_BoundingBox.append(box);  // Thêm bounding box vào vector
+                    qDebug() << "Bounding box ID: " << box.id << ", (x: " << box.x << ", y: " << box.y << ", w: " << box.width << ", h: " << box.height<< ")";
+                }
+
+                // Cập nhật lại các bounding box cho video_window
+                ui->video_stack_1->Vector_BoundingBox = Vector_BoundingBox;
+            }
+        }
+
         if(len==2){//ping msg
-            int byte = (unsigned char)data.at(0);
-            int stimCon = (unsigned char)data.at(1);
+            int byte = (unsigned char)datagram.at(0);
+            int stimCon = (unsigned char)datagram.at(1);
             int gyro1 = stimCon&0x03;
             int gyro2 = (stimCon&0x0c)>>2;
             int gyro3 = (stimCon&0x30)>>4;
@@ -1163,19 +1203,19 @@ void MainWindow::updateData()
         }
         if(port==4002)//joystick port
         {
-            mControl.joystickInput(data);
+            mControl.joystickInput(datagram);
             continue;
         }
         else if(port==4001)//CU port
         {
-            processDatagram(data);
+            processDatagram(datagram);
         }
         else if(port==4003)//Cam port
         {
-            processDatagramLaser(data);
+            processDatagramLaser(datagram);
         }
         else
-            processDetectorData(data);
+            processDetectorData(datagram);
 
     }
     while(videoSocket->hasPendingDatagrams())
@@ -1236,7 +1276,7 @@ void MainWindow::updateData()
             {
                 imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
 
-//                ui->widget_video->SetImg(imgVideo);
+                //                ui->widget_video->SetImg(imgVideo);
                 ui->video_stack_1->SetImg(imgVideo);
                 update();
             }
@@ -1914,6 +1954,8 @@ void MainWindow::setButtonStyle(QPushButton *button, const QString &image1Path, 
 
 void MainWindow::on_bt_f_1_clicked()
 {
+    ui->stackedWidget->setCurrentIndex(2);
+
     //=============> KHANG
     ui->stackedWidget_dasight_2->setHidden(false);
     ui->stackedWidget_irsight_2->setHidden(true);
@@ -2361,7 +2403,7 @@ void MainWindow::on_bt_weapon_init_FC_clicked()
 
 void MainWindow::on_bt_weapon_warning_fire_clicked()
 {
-      ui->stackedWidget->setCurrentIndex(3);
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::on_bt_fire_conrrections_clicked()
