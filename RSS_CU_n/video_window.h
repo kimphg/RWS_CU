@@ -4,6 +4,15 @@
 #include <QFrame>
 #include <QWidget>
 
+
+struct BoundingBox {
+    int id;
+    int x;
+    int y;
+    int width;
+    int height;
+};
+
 class video_window : public QFrame
 {
     Q_OBJECT

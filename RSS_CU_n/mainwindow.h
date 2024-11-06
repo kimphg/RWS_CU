@@ -264,6 +264,14 @@ private slots:
 
     void on_weapon_bt_next_3_clicked();
 
+    void on_bt_weapon_init_FC_clicked();
+
+    void on_bt_weapon_warning_fire_clicked();
+
+    void on_bt_fire_conrrections_clicked();
+
+    void on_bt_system_events_clicked();
+
 public:
     void setButtonStyle(QPushButton *button, const QString &image1Path, const QString &image2Path);
 
@@ -301,6 +309,7 @@ private:
     void usbInit();
     void draw_trackpoint(QPainter *p, int posx, int posy);
     void setStimstate(int value);
+    void Setup_button_stype();
 
     QProcess *pythonProcess;
 

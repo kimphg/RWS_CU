@@ -211,15 +211,13 @@ public:
 
         lineEdit_9 = new QLineEdit(centralwidget);
         lineEdit_9->setObjectName(QString::fromUtf8("lineEdit_9"));
-        lineEdit_9->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
-"background-color: rgb(255, 255, 255);"));
+        lineEdit_9->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout->addWidget(lineEdit_9, 10, 2, 1, 1);
 
         lineEdit_10 = new QLineEdit(centralwidget);
         lineEdit_10->setObjectName(QString::fromUtf8("lineEdit_10"));
-        lineEdit_10->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);\n"
-"background-color: rgb(255, 255, 255);"));
+        lineEdit_10->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
 
         gridLayout->addWidget(lineEdit_10, 11, 2, 1, 1);
 
@@ -289,7 +287,7 @@ public:
         Control_Center_Dialog->setCentralWidget(centralwidget);
         menubar = new QMenuBar(Control_Center_Dialog);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 784, 20));
+        menubar->setGeometry(QRect(0, 0, 784, 25));
         Control_Center_Dialog->setMenuBar(menubar);
         statusbar = new QStatusBar(Control_Center_Dialog);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -302,7 +300,7 @@ public:
 
     void retranslateUi(QMainWindow *Control_Center_Dialog)
     {
-        Control_Center_Dialog->setWindowTitle(QCoreApplication::translate("Control_Center_Dialog", "MainWindow", nullptr));
+        Control_Center_Dialog->setWindowTitle(QCoreApplication::translate("Control_Center_Dialog", "Control Center dialog", nullptr));
         label->setText(QCoreApplication::translate("Control_Center_Dialog", "Set Videosource", nullptr));
         label_10->setText(QCoreApplication::translate("Control_Center_Dialog", "Tracking IOU Threshold", nullptr));
         label_8->setText(QCoreApplication::translate("Control_Center_Dialog", "Reconnect Video", nullptr));

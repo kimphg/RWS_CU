@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Control Center dialog</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -216,16 +216,14 @@
       <item row="10" column="2">
        <widget class="QLineEdit" name="lineEdit_9">
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
        </widget>
       </item>
       <item row="11" column="2">
        <widget class="QLineEdit" name="lineEdit_10">
         <property name="styleSheet">
-         <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(255, 255, 255);</string>
+         <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
        </widget>
       </item>
@@ -339,7 +337,7 @@ background-color: rgb(255, 255, 255);</string>
      <x>0</x>
      <y>0</y>
      <width>784</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

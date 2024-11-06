@@ -207,8 +207,184 @@ MainWindow::MainWindow(QWidget *parent) :
     setButtonStyle(ui->pushButton_burst_shot, ":/new/headerImages/Header_Images/BURST_1.png", ":/new/headerImages/Header_Images/BURST_2.png");
     setButtonStyle(ui->pushButton_single_shot, ":/new/headerImages/Header_Images/SINGLE_1.png", ":/new/headerImages/Header_Images/SINGLE_2.png");
     //* ==========================>
-}
+    Setup_button_stype(); //các nút ở các trang config
+      ui->stackedWidget->setCurrentIndex(2);
 
+}
+void MainWindow::Setup_button_stype()
+{
+    ui->pushButton_025mrad->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_05mrad->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_1mrad->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_5mrad->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    //------
+    ui->pushButton_elevation->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_azimuth->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_minus_05->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_minus_025->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_05_mrad_second->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_025_mrad_second->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    //------
+    ui->pushButton_activated_deactivated->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_warning_left->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+    ui->pushButton_warning_right->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+            );
+}
 void MainWindow::usbInit()
 {
     usbDevHandle = UsbDevice::getDeviceHandle(vendorID, productID,0);
@@ -265,6 +441,7 @@ void MainWindow::reloadConfigParams()
 }
 void MainWindow::sendFrame()
 {
+
 }
 void MainWindow::updateInfo()
 {
@@ -1058,7 +1235,9 @@ void MainWindow::updateData()
             }
             {
                 imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
-                ui->widget_video->SetImg(imgVideo);
+
+//                ui->widget_video->SetImg(imgVideo);
+                ui->video_stack_1->SetImg(imgVideo);
                 update();
             }
             frameID=newFrameID;
@@ -2173,4 +2352,24 @@ void MainWindow::on_weapon_bt_next_2_clicked()
 void MainWindow::on_weapon_bt_next_3_clicked()
 {
     on_bt_f_4_clicked();
+}
+
+void MainWindow::on_bt_weapon_init_FC_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_bt_weapon_warning_fire_clicked()
+{
+      ui->stackedWidget->setCurrentIndex(3);
+}
+
+void MainWindow::on_bt_fire_conrrections_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_bt_system_events_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
 }

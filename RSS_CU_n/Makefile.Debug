@@ -222,7 +222,7 @@ bin\VideoGrab.exe: C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\Qt5PrintSupportd.lib C:
 debug\main.obj debug\compasscustom_widget.obj debug\control_center_dialog.obj debug\mainwindow.obj debug\c_gimbal_control.obj debug\c_config.obj debug\gradientMex.obj debug\kcf.obj debug\dialogconfig.obj debug\qcgaugewidget.obj debug\c_lowpass.obj debug\UsbDevice.obj debug\qcustomslider.obj debug\video_window.obj debug\videostab.obj debug\qrc_CalibResourcesFile.obj debug\qrc_FooterResourcesFile.obj debug\qrc_HeaderResourcesFile.obj debug\qrc_IrSight_ResourcesFile.obj debug\qrc_RangingsResourcesFile.obj debug\qrc_ResourceFile.obj debug\qrc_SystemResourcesFile.obj debug\qrc_WeaponResourcesFile.obj debug\moc_compasscustom_widget.obj debug\moc_control_center_dialog.obj debug\moc_mainwindow.obj debug\moc_c_gimbal_control.obj debug\moc_dialogconfig.obj debug\moc_qcgaugewidget.obj debug\moc_qcustomslider.obj debug\moc_video_window.obj
 $(LIBS)
 <<
-	C:/Qt/Qt5.14.2/5.14.2/msvc2017_64/bin/windeployqt.exe C:\Users\Phuong\Documents\GitHub\RWS_CU\RSS_CU_n\bin\VideoGrab.exe
+	C:/Qt/Qt5.14.2/5.14.2/msvc2017/bin/windeployqt.exe C:\Users\HuynhPhanNgocKhang\Documents\GitHub\RWS_CU\RSS_CU_n\bin\VideoGrab.exe
 
 qmake: FORCE
 	@$(QMAKE) -o Makefile.Debug RSS_CU_n.pro -spec win32-msvc "CONFIG+=qtquickcompiler"
@@ -383,7 +383,8 @@ debug\qrc_ResourceFile.cpp: ResourceFile.qrc \
 		images\SEARCH_1.png \
 		"images\CONTRAST CONG  1.png" \
 		"images\FOCUS FAR 1.png" \
-		"images\RANGING 1.png"
+		"images\RANGING 1.png" \
+		images\novideo.png
 	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\rcc.exe -name ResourceFile ResourceFile.qrc -o debug\qrc_ResourceFile.cpp
 
 debug\qrc_SystemResourcesFile.cpp: SystemResourcesFile.qrc \
@@ -546,7 +547,7 @@ debug\moc_compasscustom_widget.cpp: compasscustom_widget.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpen.h \
 		debug\moc_predefs.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe
-	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" compasscustom_widget.h -o debug\moc_compasscustom_widget.cpp
+	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" compasscustom_widget.h -o debug\moc_compasscustom_widget.cpp
 
 debug\moc_control_center_dialog.cpp: control_center_dialog.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QMainWindow \
@@ -658,7 +659,7 @@ debug\moc_control_center_dialog.cpp: control_center_dialog.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qicon.h \
 		debug\moc_predefs.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe
-	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" control_center_dialog.h -o debug\moc_control_center_dialog.cpp
+	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" control_center_dialog.h -o debug\moc_control_center_dialog.cpp
 
 debug\moc_mainwindow.cpp: mainwindow.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QMainWindow \
@@ -812,7 +813,7 @@ debug\moc_mainwindow.cpp: mainwindow.h \
 		control_center_dialog.h \
 		debug\moc_predefs.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe
-	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" mainwindow.h -o debug\moc_mainwindow.cpp
+	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" mainwindow.h -o debug\moc_mainwindow.cpp
 
 debug\moc_c_gimbal_control.cpp: c_gimbal_control.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtNetwork\QUdpSocket \
@@ -907,7 +908,7 @@ debug\moc_c_gimbal_control.cpp: c_gimbal_control.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qqueue.h \
 		debug\moc_predefs.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe
-	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" c_gimbal_control.h -o debug\moc_c_gimbal_control.cpp
+	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" c_gimbal_control.h -o debug\moc_c_gimbal_control.cpp
 
 debug\moc_dialogconfig.cpp: dialogconfig.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QDialog \
@@ -1024,7 +1025,7 @@ debug\moc_dialogconfig.cpp: dialogconfig.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qdatetime.h \
 		debug\moc_predefs.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe
-	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" dialogconfig.h -o debug\moc_dialogconfig.cpp
+	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" dialogconfig.h -o debug\moc_dialogconfig.cpp
 
 debug\moc_qcgaugewidget.cpp: qcgaugewidget.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QWidget \
@@ -1141,7 +1142,7 @@ debug\moc_qcgaugewidget.cpp: qcgaugewidget.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmath.h \
 		debug\moc_predefs.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe
-	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" qcgaugewidget.h -o debug\moc_qcgaugewidget.cpp
+	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" qcgaugewidget.h -o debug\moc_qcgaugewidget.cpp
 
 debug\moc_qcustomslider.cpp: qcustomslider.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
@@ -1254,7 +1255,7 @@ debug\moc_qcustomslider.cpp: qcustomslider.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QWidget \
 		debug\moc_predefs.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe
-	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" qcustomslider.h -o debug\moc_qcustomslider.cpp
+	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" qcustomslider.h -o debug\moc_qcustomslider.cpp
 
 debug\moc_video_window.cpp: video_window.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QFrame \
@@ -1365,7 +1366,7 @@ debug\moc_video_window.cpp: video_window.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QWidget \
 		debug\moc_predefs.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe
-	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/Phuong/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" video_window.h -o debug\moc_video_window.cpp
+	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\moc.exe $(DEFINES) --compiler-flavor=msvc --include C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/debug/moc_predefs.h -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/mkspecs/win32-msvc -IC:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n -IC:/opencv/opencv2413/build/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtPrintSupport -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtWidgets -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtGui -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtANGLE -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtNetwork -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialPort -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtSerialBus -IC:/Qt/Qt5.14.2/5.14.2/msvc2017_64/include/QtCore -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\ATLMFC\include" -I"C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\include" -I"C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\ucrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\shared" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\um" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\winrt" -I"C:\Program Files (x86)\Windows Kits\10\include\10.0.19041.0\cppwinrt" video_window.h -o debug\moc_video_window.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1376,114 +1377,8 @@ compiler_uic_clean:
 	-$(DEL_FILE) ui_mainwindow.h ui_control_center_dialog.h ui_dialogconfig.h
 ui_mainwindow.h: mainwindow.ui \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\uic.exe \
-		video_window.h \
 		compasscustom_widget.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QFrame \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qframe.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qtwidgetsglobal.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtguiglobal.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtgui-config.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qtwidgets-config.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qwidget.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qwindowdefs.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qwindowdefs_win.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmargins.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpaintdevice.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrect.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsize.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpalette.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qcolor.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qrgb.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qrgba64.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qbrush.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qmatrix.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpolygon.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qregion.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qdatastream.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiodevice.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qline.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtransform.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpainterpath.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qimage.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpixelformat.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpixmap.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qshareddata.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhash.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qfont.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qfontmetrics.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qfontinfo.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qsizepolicy.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qcursor.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qkeysequence.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qevent.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvariant.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmap.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qdebug.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtextstream.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlocale.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qset.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontiguouscache.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qurl.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qurlquery.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qfile.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qfiledevice.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qvector2d.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtouchdevice.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QWidget \
+		video_window.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QWidget \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qwidget.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qtwidgetsglobal.h \
@@ -1591,7 +1486,113 @@ ui_mainwindow.h: mainwindow.ui \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\QPainter \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpainter.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtextoption.h \
-		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpen.h
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpen.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QFrame \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qframe.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qtwidgetsglobal.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtguiglobal.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobal.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig-bootstrapped.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qconfig.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtcore-config.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsystemdetection.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qprocessordetection.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcompilerdetection.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtypeinfo.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsysinfo.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlogging.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qflags.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbasicatomic.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_bootstrap.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qgenericatomic.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_cxx11.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qatomic_msvc.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qglobalstatic.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmutex.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnumeric.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qversiontagging.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtgui-config.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qtwidgets-config.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qwidget.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qwindowdefs.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qnamespace.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobjectdefs_impl.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qwindowdefs_win.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstring.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qchar.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearray.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrefcount.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qarraydata.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringliteral.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringalgorithms.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringview.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringbuilder.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlist.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qalgorithms.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiterator.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhashfunctions.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpair.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvector.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainertools_impl.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qpoint.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qbytearraylist.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringlist.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qregexp.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qstringmatcher.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreevent.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qscopedpointer.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmetatype.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvarlengtharray.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontainerfwd.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qobject_impl.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmargins.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpaintdevice.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qrect.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsize.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpalette.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qcolor.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qrgb.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qrgba64.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qbrush.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qmatrix.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpolygon.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qregion.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qdatastream.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qiodevice.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qline.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtransform.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpainterpath.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qimage.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpixelformat.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpixmap.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qshareddata.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qhash.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qsharedpointer_impl.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qfont.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qfontmetrics.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qfontinfo.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qsizepolicy.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qcursor.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qkeysequence.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qevent.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qvariant.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qmap.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qdebug.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qtextstream.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qlocale.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qset.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcontiguouscache.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qurl.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qurlquery.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qfile.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qfiledevice.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qvector2d.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtouchdevice.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QWidget
 	C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\uic.exe mainwindow.ui -o ui_mainwindow.h
 
 ui_control_center_dialog.h: control_center_dialog.ui \
@@ -1992,7 +1993,41 @@ debug\control_center_dialog.obj: control_center_dialog.cpp control_center_dialog
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtouchdevice.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qtabwidget.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qicon.h \
-		ui_control_center_dialog.h
+		ui_control_center_dialog.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QVariant \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QApplication \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qapplication.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qcoreapplication.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qeventloop.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qguiapplication.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qinputmethod.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QGridLayout \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qgridlayout.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qlayout.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qlayoutitem.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qboxlayout.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QLabel \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qlabel.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qframe.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QLineEdit \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qlineedit.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtextcursor.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtextformat.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpen.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qtextoption.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QMenuBar \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qmenubar.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qmenu.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qaction.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qactiongroup.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QPushButton \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qpushbutton.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qabstractbutton.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QStatusBar \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qstatusbar.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QVBoxLayout \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QWidget
 
 debug\mainwindow.obj: mainwindow.cpp dialogconfig.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QDialog \
@@ -2162,6 +2197,8 @@ debug\mainwindow.obj: mainwindow.cpp dialogconfig.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qlayout.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qlayoutitem.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qboxlayout.h \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QGroupBox \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qgroupbox.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QHBoxLayout \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\QLabel \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtWidgets\qlabel.h \

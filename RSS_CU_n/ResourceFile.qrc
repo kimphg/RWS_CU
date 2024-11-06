@@ -43,5 +43,6 @@
         <file>images/app_logo.png</file>
         <file>images/SEARCH_1.png</file>
         <file>images/SEARCH_2.png</file>
+        <file>images/novideo.png</file>
     </qresource>
 </RCC>

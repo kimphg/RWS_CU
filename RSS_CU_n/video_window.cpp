@@ -5,9 +5,9 @@
 video_window::video_window(QWidget *parent) : QFrame(parent)
 {
 
-    this->SetImg(QImage("novideo.png"));
-    this->setFixedSize(800,600);
-    this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
+    this->SetImg(QImage(":/images/images/novideo.png"));
+//    this->setFixedSize(800,600);
+//    this->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 }
 
 void video_window::SetImg(QImage im)
