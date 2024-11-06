@@ -521,6 +521,21 @@ void MainWindow::processKeyBoardEvent(int key)
             showMessage("Bắt đầu bám");
             trackpoint_x=(sight_x);
             trackpoint_y=sight_y;
+             char output[20];
+            output[0]= 0x10;
+            output[1]= 0x00;
+            output[2]= 0x00;
+            output[3]= 0x06;
+            output[4]= 0x10;
+            output[5]= 0x00;
+            output[6]= 0xc8;
+            output[7]= 0x11;
+            output[8]= 0xff;
+            output[9]= 0x9c;
+            output[10]= 0x9a;
+            QByteArray dataout(output,11);
+
+            socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
 
         }
         else trackerShutdown();
@@ -1273,13 +1288,13 @@ void MainWindow::updateData()
                     cv::rectangle(frame,trackrect,cv::Scalar(150, 150, 0),1,16 );
                 }
             }
-            {
-                imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
 
-                //                ui->widget_video->SetImg(imgVideo);
-                ui->video_stack_1->SetImg(imgVideo);
-                update();
-            }
+            imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
+
+            //                ui->widget_video->SetImg(imgVideo);
+            ui->video_stack_1->SetImg(imgVideo);
+            update();
+
             frameID=newFrameID;
 
             videoBuff.clear();
