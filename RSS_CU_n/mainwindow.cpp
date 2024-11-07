@@ -458,6 +458,25 @@ void MainWindow::updateInfo()
 
 
 }
+void MainWindow::SendVisionEstab(bool enable)
+{
+    char output[20];
+    output[0]= 0x10;
+    output[1]= 0x0c;
+    output[2]= 0x00;
+    output[3]= 0x02;
+    output[4]= 0x00;
+    output[5]= enable;
+    output[6]=0;
+    for (int i=0;i<6;i++){
+
+         output[6]+=output[i];
+    }
+    QByteArray dataout(output,7);
+    socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
+    printf("estab enabled\n");
+    _flushall();
+}
 void MainWindow::SendVisionROIPosition(int16_t x, int16_t y)
 {
    char output[20];
@@ -465,7 +484,7 @@ void MainWindow::SendVisionROIPosition(int16_t x, int16_t y)
    output[1]= 0x00;
    output[2]= 0x00;
    output[3]= 0x06;
-   output[4]= 10;
+   output[4]= 0x10;
    output[5]= x>>8;
    output[6]= x;
    output[7]= 0x11;
@@ -684,7 +703,7 @@ void MainWindow::processKeyBoardEvent(int key)
     }
     else if(key==Qt::Key_PageUp)
     {
-        SendVisionROISize(300,240);
+        SendVisionROISize(250,200);
     }
     else if(key==Qt::Key_PageDown)
     {
@@ -704,7 +723,7 @@ void MainWindow::processKeyBoardEvent(int key)
     }
     else if(key==Qt::Key_D)
     {
-        SendVisionROIPosition(0,100);
+        SendVisionROIPosition(100,0);
     }
     else if(key==Qt::Key_W)
     {
@@ -721,23 +740,7 @@ void MainWindow::processKeyBoardEvent(int key)
         SendVisionEstab(1);
     }
 }
-void MainWindow::SendVisionEstab(bool enable)
-{
-    char output[20];
-    output[0]= 0x10;
-    output[1]= 0x00;
-    output[2]= 0x00;
-    output[3]= 0x06;
-    output[4]= 0x00;
-    output[5]= enable;
 
-    for (int i=0;i<6;i++){
-
-         output[6]+=output[i];
-    }
-    QByteArray dataout(output,7);
-    socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
-}
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_V)
@@ -802,7 +805,7 @@ void MainWindow::CaptureVideoCamera()
         {
             imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
             ui->video_stack_1->SetImg(imgVideo);
-            cv::imshow("imgVideo",frame);
+//            cv::imshow("imgVideo",frame);
         }
 
     }
@@ -1238,7 +1241,7 @@ void MainWindow::updateData()
         socket->readDatagram(datagram.data(),len,&host,&port);
 
         //tamj ghi log vào textbrowser msg
-        QString message = QString::fromUtf8(datagram);
+        QString message = QString::fromUtf8(datagram.toHex());
         ui->textBrowser_msg->append("Received from " + host.toString() + ":" + QString::number(port) + " - " + message);
 
         //phản hồi từ tracker
@@ -2517,5 +2520,9 @@ void MainWindow::on_pushButton_pause_toggled(bool checked)
         cap = VideoCapture("rtsp://10.0.0.2:8001/charmStream");
         camAvailable = true;
 
+    }
+    else
+    {
+        camAvailable = false;
     }
 }

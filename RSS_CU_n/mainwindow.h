@@ -322,6 +322,7 @@ private:
 //    void SendVisionROIPosition();
     void SendVisionROIPosition(int16_t x, int16_t y);
     void SendVisionROISize(int16_t sx, int16_t sy);
+    void SendVisionEstab(bool enable);
 };
 
 #endif // MAINWINDOW_H
