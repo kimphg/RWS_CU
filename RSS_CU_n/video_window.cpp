@@ -41,7 +41,7 @@ void video_window::paintEvent(QPaintEvent *p)
             else
             {
                 pPainter->setPen(penYellow);
-                qDebug() << "======================KHANG=======================";
+//                qDebug() << "======================KHANG=======================";
             }
             pPainter->drawRect(box.x, box.y, box.width, box.height);
         }

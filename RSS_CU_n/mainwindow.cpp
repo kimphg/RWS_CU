@@ -93,7 +93,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setFixedSize(1024,768);
     this->statusBar()->setStyleSheet("background-color: rgb(58, 65, 60); color:rgb(255, 255, 255)");
     socket = new QUdpSocket(this);
-    videoSocket = new QUdpSocket(this);
+    videoManager = new VideoThread();
+    connect(videoManager,&VideoThread::newVideo,this,&MainWindow::updateVideo);
+    videoManager->start();
     mControl.setSocket(socket);
     CConfig::readFile();
     //    ui->frame_gui->hide();
@@ -112,23 +114,22 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         this->statusBar()->showMessage("Socket failure, port busy");
     }
-    if(videoSocket->bind(12345))
-    {
-        //        connect(navSocket,SIGNAL(readyRead()),this, SLOT(ReadNavData()));
-        //initAverCapture();
-    }
-    else
-    {
-        this->statusBar()->showMessage("Video socket failure, port busy");
-    }
+
+//    else
+//    {
+//        this->statusBar()->showMessage("Video socket failure, port busy");
+//    }
     updateTimer = new QTimer();
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateData()));
-    updateTimer->start(5);
+    updateTimer->start(20);
 
     controlTimer = new QTimer();
     connect(controlTimer, SIGNAL(timeout()), this, SLOT(timer30ms()));
     controlTimer->start(30);
     ui->statusbar-> hide ();
+    videotimer = new QTimer();
+    connect(videotimer, SIGNAL(timeout()), this, SLOT(readVideoStream()));
+    videotimer->start(1);
     params.push_back(CV_IMWRITE_JPEG_QUALITY);
     params.push_back(80); //image quality
 
@@ -209,6 +210,11 @@ MainWindow::MainWindow(QWidget *parent) :
     //* ==========================>
     Setup_button_stype(); //các nút ở các trang config
     ui->stackedWidget->setCurrentIndex(2);
+
+}
+void MainWindow::updateVideo()
+{
+    ui->video_stack_1->SetImg(videoManager->imgVideo);
 
 }
 void MainWindow::Setup_button_stype()
@@ -1222,7 +1228,7 @@ void MainWindow::timer30ms()
 }
 void MainWindow::updateData()
 {
-
+    updateVideo();
     CaptureVideoCamera();
     if(mControl.getIsSerialAvailable())
     {
@@ -1271,7 +1277,7 @@ void MainWindow::updateData()
                     box.height = parts[index + 4].toInt();
 
                     Vector_BoundingBox.append(box);  // Thêm bounding box vào vector
-                    qDebug() << "Bounding box ID: " << box.id << ", (x: " << box.x << ", y: " << box.y << ", w: " << box.width << ", h: " << box.height<< ")";
+//                    qDebug() << "Bounding box ID: " << box.id << ", (x: " << box.x << ", y: " << box.y << ", w: " << box.width << ", h: " << box.height<< ")";
                 }
 
                 // Cập nhật lại các bounding box cho video_window
@@ -1315,78 +1321,11 @@ void MainWindow::updateData()
             processDetectorData(datagram);
 
     }
-    while(videoSocket->hasPendingDatagrams())
-    {
 
-        int len = videoSocket->pendingDatagramSize();
-        QHostAddress host;
-        quint16 port;
-        QByteArray data;
-        data.resize(len);
-
-        videoSocket->readDatagram(data.data(),len,&host,&port);
-        int newFrameID = (uchar)data.at(1);
-        data.remove(0,2);
-        if(newFrameID!=frameID)//new frame
-        {
-            frameID=newFrameID;
-//            frame = cv::imdecode(cv::Mat(1, videoBuff.length(), CV_8UC1, videoBuff.data()), CV_LOAD_IMAGE_UNCHANGED);
-//            cv::imshow ("frame",frame);
-            if(false)//!frame.empty())
-
-            {
-                frameCount++;
-                if(recorder.isOpened())
-                    recorder.write(frame);
-                if(trackermode)
-                {
-                    singleTrackTarget = kcf_tracker.Update(frame);
-                    singleTrackWindow = kcf_tracker.getsearchingRect();
-                    bool trackFail = (singleTrackTarget.area()<100)||(singleTrackTarget.width<5)||(singleTrackTarget.height<5);
-                    if(trackFail)
-                    {
-
-                        showMessage(QString::fromUtf8("Mất bám, đang tìm kiếm..."));
-                        trackermode = 2;
-                    }
-                    else
-                    {
-                        if(trackermode==2)
-                        {
-                            trackermode=1;
-                        }
-                    }
-
-
-                    if(trackermode==1)cv::rectangle(frame,singleTrackTarget,cv::Scalar(255, 0, 0),1,16 );
-                    else cv::rectangle(frame,singleTrackWindow,cv::Scalar(255, 255, 0),1,16 );
-
-
-                }
-                else
-                {
-                    cv::rectangle(frame,trackrect,cv::Scalar(150, 150, 0),1,16 );
-                }
-            }
-
-            imgVideo.loadFromData(videoBuff);
-//            imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
-
-            ui->video_stack_1->SetImg(imgVideo);
-            update();
-
-            videoBuff.clear();
-            videoBuff.append(data);
-
-        }
-        else {
-            videoBuff.append(data);
-            }
-
-    }
 
     _flushall();
 }
+
 void MainWindow::processDatagramLaser(QByteArray data)
 {
 
@@ -2518,7 +2457,7 @@ void MainWindow::on_pushButton_pause_toggled(bool checked)
 //        cap = VideoCapture("D:/video/original.mp4");//(filename.toStdString().data());
 //        cap = VideoCapture("rtsp://10.0.0.2:8001/charmStream");
 //        camAvailable = true;
-        QByteArray command("CCS,VIDSRC,./videos/test_tau.avi");
+        QByteArray command("CCS,VIDSRC,C:/VIDEO/ship_1.mp4");
         socket->writeDatagram(command,QHostAddress("127.0.0.1"), 5000);
 
     }
