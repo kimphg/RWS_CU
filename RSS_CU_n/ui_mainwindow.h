@@ -2059,9 +2059,9 @@ public:
         pushButton_pause->setSizePolicy(sizePolicy3);
         pushButton_pause->setMinimumSize(QSize(70, 90));
         pushButton_pause->setMaximumSize(QSize(16777215, 16777215));
-        pushButton_pause->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/pause_1.png);"));
+        pushButton_pause->setStyleSheet(QString::fromUtf8(""));
         pushButton_pause->setCheckable(true);
-        pushButton_pause->setAutoExclusive(true);
+        pushButton_pause->setAutoExclusive(false);
 
         gridLayout_8->addWidget(pushButton_pause, 0, 0, 1, 1);
 
@@ -2072,7 +2072,7 @@ public:
         pushButton_stop->setMinimumSize(QSize(70, 90));
         pushButton_stop->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/stop_1.png);"));
         pushButton_stop->setCheckable(true);
-        pushButton_stop->setAutoExclusive(true);
+        pushButton_stop->setAutoExclusive(false);
 
         gridLayout_8->addWidget(pushButton_stop, 0, 1, 1, 1);
 
@@ -3638,7 +3638,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 2063, 25));
+        menubar->setGeometry(QRect(0, 0, 2063, 20));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));

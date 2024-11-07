@@ -19,7 +19,7 @@ void video_window::paintEvent(QPaintEvent *p)
 {
     QPainter* pPainter = new QPainter(this);
     pPainter->drawImage(rect(), img,img.rect());
-    delete pPainter;
+
     QWidget::paintEvent(p);
     int www = rect().width();
     printf("Rect:%d",www);
@@ -29,19 +29,20 @@ void video_window::paintEvent(QPaintEvent *p)
     QPen penYellow(Qt::yellow); // Màu vàng cho bounding box bình thường
     QPen penRed(Qt::red);       // Màu đỏ cho bounding box được chọn
 
-    QPainter *painter = new QPainter(this);
+//    QPainter *painter = new QPainter(this);
     if(!Vector_BoundingBox.empty())
         for (const BoundingBox &box : Vector_BoundingBox)
         {
             if (box.id == ID_Selected)
             {
-                painter->setPen(penRed);
+                pPainter->setPen(penRed);
             }
             else
             {
-                painter->setPen(penYellow);
+                pPainter->setPen(penYellow);
                 qDebug() << "======================KHANG=======================";
             }
-            painter->drawRect(box.x, box.y, box.width, box.height);
+            pPainter->drawRect(box.x, box.y, box.width, box.height);
         }
+    delete pPainter;
 }

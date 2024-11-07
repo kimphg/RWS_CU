@@ -319,8 +319,9 @@ private:
     Control_Center_Dialog *m_Control_Center_Dialog;
     QVector<BoundingBox>Vector_BoundingBox;
 
-    void SendVisionROIPosition();
+//    void SendVisionROIPosition();
     void SendVisionROIPosition(int16_t x, int16_t y);
+    void SendVisionROISize(int16_t sx, int16_t sy);
 };
 
 #endif // MAINWINDOW_H

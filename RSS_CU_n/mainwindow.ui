@@ -3158,7 +3158,7 @@
                    </size>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">image: url(:/new/footer_images/Footer_Images/pause_1.png);</string>
+                   <string notr="true"/>
                   </property>
                   <property name="text">
                    <string/>
@@ -3167,7 +3167,7 @@
                    <bool>true</bool>
                   </property>
                   <property name="autoExclusive">
-                   <bool>true</bool>
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
@@ -3195,7 +3195,7 @@
                    <bool>true</bool>
                   </property>
                   <property name="autoExclusive">
-                   <bool>true</bool>
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
@@ -6536,7 +6536,7 @@
      <x>0</x>
      <y>0</y>
      <width>2063</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
