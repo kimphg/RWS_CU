@@ -716,6 +716,27 @@ void MainWindow::processKeyBoardEvent(int key)
         if(newfov>100)newfov=100;
         mControl.setFOV(newfov);//fov wide
     }
+    else if(key==Qt::Key_E)
+    {
+        SendVisionEstab(1);
+    }
+}
+void MainWindow::SendVisionEstab(bool enable)
+{
+    char output[20];
+    output[0]= 0x10;
+    output[1]= 0x00;
+    output[2]= 0x00;
+    output[3]= 0x06;
+    output[4]= 0x00;
+    output[5]= enable;
+
+    for (int i=0;i<6;i++){
+
+         output[6]+=output[i];
+    }
+    QByteArray dataout(output,7);
+    socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
 }
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
