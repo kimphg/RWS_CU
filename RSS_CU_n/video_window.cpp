@@ -14,6 +14,7 @@ video_window::video_window(QWidget *parent) : QFrame(parent)
 void video_window::SetImg(QImage im)
 {
     this->img=im;
+    update();
 }
 void video_window::paintEvent(QPaintEvent *p)
 {

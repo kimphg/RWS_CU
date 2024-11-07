@@ -123,7 +123,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     updateTimer = new QTimer();
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateData()));
-    updateTimer->start(11);
+    updateTimer->start(5);
 
     controlTimer = new QTimer();
     connect(controlTimer, SIGNAL(timeout()), this, SLOT(timer30ms()));
@@ -1329,21 +1329,19 @@ void MainWindow::updateData()
         data.remove(0,2);
         if(newFrameID!=frameID)//new frame
         {
+            frameID=newFrameID;
+//            frame = cv::imdecode(cv::Mat(1, videoBuff.length(), CV_8UC1, videoBuff.data()), CV_LOAD_IMAGE_UNCHANGED);
+//            cv::imshow ("frame",frame);
+            if(false)//!frame.empty())
 
-            frame = cv::imdecode(cv::Mat(1, videoBuff.length(), CV_8UC1, videoBuff.data()), CV_LOAD_IMAGE_UNCHANGED);
-            if(!frame.empty())
             {
                 frameCount++;
                 if(recorder.isOpened())
                     recorder.write(frame);
-
-                update();
-
                 if(trackermode)
                 {
                     singleTrackTarget = kcf_tracker.Update(frame);
                     singleTrackWindow = kcf_tracker.getsearchingRect();
-
                     bool trackFail = (singleTrackTarget.area()<100)||(singleTrackTarget.width<5)||(singleTrackTarget.height<5);
                     if(trackFail)
                     {
@@ -1371,18 +1369,19 @@ void MainWindow::updateData()
                 }
             }
 
-            imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
+            imgVideo.loadFromData(videoBuff);
+//            imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
 
             ui->video_stack_1->SetImg(imgVideo);
             update();
 
-            frameID=newFrameID;
-
             videoBuff.clear();
-//            videoBuff.append(data);
+            videoBuff.append(data);
 
         }
-        else videoBuff.append(data);
+        else {
+            videoBuff.append(data);
+            }
 
     }
 
@@ -2517,8 +2516,10 @@ void MainWindow::on_pushButton_pause_toggled(bool checked)
     if(checked)
     {
 //        cap = VideoCapture("D:/video/original.mp4");//(filename.toStdString().data());
-        cap = VideoCapture("rtsp://10.0.0.2:8001/charmStream");
-        camAvailable = true;
+//        cap = VideoCapture("rtsp://10.0.0.2:8001/charmStream");
+//        camAvailable = true;
+        QByteArray command("CCS,VIDSRC,./videos/test_tau.avi");
+        socket->writeDatagram(command,QHostAddress("127.0.0.1"), 5000);
 
     }
     else
