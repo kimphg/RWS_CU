@@ -480,6 +480,28 @@ void MainWindow::SendVisionROIPosition(int16_t x, int16_t y)
    socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
 
 }
+void MainWindow::SendVisionROISize(int16_t sx, int16_t sy)
+{
+   char output[20];
+   output[0]= 0x10;
+   output[1]= 0x00;
+   output[2]= 0x00;
+   output[3]= 0x06;
+   output[4]= 0x12;
+   output[5]= sx>>8;
+   output[6]= sx;
+   output[7]= 0x13;
+   output[8]= sy>>8;
+   output[9]= sy;
+   for (int i=0;i<10;i++){
+
+        output[10]+=output[i];
+   }
+   QByteArray dataout(output,11);
+
+   socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
+
+}
 void MainWindow::processKeyBoardEvent(int key)
 {
     if(trackermode==0)
@@ -636,6 +658,7 @@ void MainWindow::processKeyBoardEvent(int key)
     else if(key==Qt::Key_Delete)
     {
         on_bt_tracksizeup_2_clicked();
+
     }
     else if(key==Qt::Key_Insert)
     {
@@ -659,12 +682,33 @@ void MainWindow::processKeyBoardEvent(int key)
         }
         mControl.reloadConfig();
     }
+    else if(key==Qt::Key_PageUp)
+    {
+        SendVisionROISize(300,240);
+    }
+    else if(key==Qt::Key_PageDown)
+    {
+        SendVisionROISize(150,100);
+    }
     else if(key==Qt::Key_S)
     {
-        //fov narrow
-        float newfov = mControl.fov/2;
-        if(newfov<2)newfov=2;
-        mControl.setFOV(newfov);//fov wide
+        SendVisionROIPosition(0,-100);
+//        //fov narrow
+//        float newfov = mControl.fov/2;
+//        if(newfov<2)newfov=2;
+//        mControl.setFOV(newfov);//fov wide
+    }
+    else if(key==Qt::Key_A)
+    {
+        SendVisionROIPosition(-100,0);
+    }
+    else if(key==Qt::Key_D)
+    {
+        SendVisionROIPosition(0,100);
+    }
+    else if(key==Qt::Key_W)
+    {
+        SendVisionROIPosition(0,100);
     }
     else if(key==Qt::Key_L)
     {
