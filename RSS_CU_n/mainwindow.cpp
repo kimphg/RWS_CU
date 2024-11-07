@@ -2513,7 +2513,9 @@ void MainWindow::on_pushButton_pause_toggled(bool checked)
 {
     if(checked)
     {
-        cap = VideoCapture("D:/video/original.mp4");//(filename.toStdString().data());
+//        cap = VideoCapture("D:/video/original.mp4");//(filename.toStdString().data());
+        cap = VideoCapture("rtsp://10.0.0.2:8001/charmStream");
         camAvailable = true;
+
     }
 }
