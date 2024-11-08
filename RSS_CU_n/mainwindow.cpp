@@ -214,7 +214,13 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 void MainWindow::updateVideo()
 {
-    ui->video_stack_1->SetImg(videoManager->imgVideo);
+    QByteArray frame = videoManager->getFrame();
+    if(frame.size())
+    {
+    QImage imgVideo;
+    imgVideo.loadFromData(frame);
+    ui->video_stack_1->SetImg(imgVideo);
+    }
 
 }
 void MainWindow::Setup_button_stype()

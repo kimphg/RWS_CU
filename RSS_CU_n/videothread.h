@@ -3,6 +3,7 @@
 
 #include <QImage>
 #include <QObject>
+#include <QQueue>
 #include <QThread>
 #include <QUdpSocket>
 
@@ -13,7 +14,9 @@ public:
     explicit VideoThread(QObject *parent = nullptr);
     void run();
     QUdpSocket* videoSocket;
-    QImage imgVideo;
+//    QImage imgVideo;
+    QQueue<QByteArray> videoBuff;
+    QByteArray getFrame();
 signals:
     void newVideo();
 };

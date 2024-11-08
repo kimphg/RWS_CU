@@ -13,7 +13,7 @@ VideoThread::VideoThread(QObject *parent) : QThread(parent)
 void VideoThread::run()
 {
     int frameID=0;
-    QByteArray videoBuff;
+    QByteArray *videoFrame = new QByteArray();
 
     while(true)
     {
@@ -33,16 +33,26 @@ void VideoThread::run()
             if(newFrameID!=frameID)//new frame
             {
                 frameID=newFrameID;
-                imgVideo.loadFromData(videoBuff);
+//                imgVideo.loadFromData(videoFrame);
+                videoBuff.enqueue(*videoFrame);
 //                emit newVideo();
-                videoBuff.clear();
-                videoBuff.append(data);
+                videoFrame= new QByteArray();
+                videoFrame->append(data);
 
             }
             else {
-                videoBuff.append(data);
+                videoFrame->append(data);
                 }
 
         }
     }
+}
+QByteArray VideoThread::getFrame(){
+    QByteArray frameOutput;
+    if(videoBuff.length()>0)
+    {
+        frameOutput = videoBuff.dequeue();
+        qDebug() <<"buff len:"<<videoBuff.length();
+    }
+    return frameOutput;
 }

@@ -1464,6 +1464,8 @@ release\moc_videothread.cpp: videothread.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qline.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpainterpath.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QQueue \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qqueue.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QThread \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qthread.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtNetwork\QUdpSocket \
@@ -3262,6 +3264,8 @@ release\videothread.obj: videothread.cpp videothread.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qline.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtGui\qpainterpath.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QObject \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QQueue \
+		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qqueue.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\QThread \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtCore\qthread.h \
 		C:\Qt\Qt5.14.2\5.14.2\msvc2017_64\include\QtNetwork\QUdpSocket \
