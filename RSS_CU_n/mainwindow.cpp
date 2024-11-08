@@ -2463,7 +2463,7 @@ void MainWindow::on_pushButton_pause_toggled(bool checked)
 //        cap = VideoCapture("D:/video/original.mp4");//(filename.toStdString().data());
 //        cap = VideoCapture("rtsp://10.0.0.2:8001/charmStream");
 //        camAvailable = true;
-        QByteArray command("CCS,VIDSRC,C:/VIDEO/ship_1.mp4");
+        QByteArray command("CCS,VIDSRC,C:/VIDEO/ship_4.mp4");
         socket->writeDatagram(command,QHostAddress("127.0.0.1"), 5000);
 
     }

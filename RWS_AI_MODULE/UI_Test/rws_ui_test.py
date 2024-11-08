@@ -23,7 +23,8 @@ class ClickableLabel(QLabel):
     def mouseDoubleClickEvent(self, event):
         # Emit signal with the mouse click position when a double-click happens
         self.doubleClicked.emit(event.pos())
-        
+
+# DÙNG CỔNG 5000       
 class ControlCenter(QDialog):
     def __init__(self, parent, cmd_ip="127.0.0.1", cmd_port=5000):
         super().__init__(parent)
@@ -369,6 +370,7 @@ class ControlCenter(QDialog):
         else:
             print(f"Invalid tracker config received: {data_str}")
 
+
 class RWSController(QMainWindow):
     log_signal = pyqtSignal(str)
     tracker_config_value_sinal = pyqtSignal(str)
@@ -441,7 +443,7 @@ class RWSController(QMainWindow):
         container.setLayout(layout)
         self.setCentralWidget(container)
         
-    def open_control_center(self):
+    def open_control_center(self):#MỞ DIALOG CONTROL CENTER LÊN
         widget = ControlCenter(self, self.cmd_ip, self.cmd_port)
         self.tracker_config_value_sinal.connect(widget.update_tracker_config)
         if self.current_frame is not None:
