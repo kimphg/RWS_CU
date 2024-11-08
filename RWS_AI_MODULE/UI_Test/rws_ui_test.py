@@ -171,32 +171,54 @@ class ControlCenter(QDialog):
         self.vidstab_sm_button.clicked.connect(self.set_vidstab_sm)
         self.get_vidstab_sm_button.clicked.connect(self.get_vidstab_sm)
         
-        # Row 13: Video stabilizer smoothing window
-        self.mode_lineedit = QLineEdit()
-        self.get_mode_button = QPushButton("Get")
-        main_layout.addWidget(QLabel("Current mode"), 17, 0)
-        main_layout.addWidget(self.mode_lineedit, 17, 1)
-        main_layout.addWidget(self.get_mode_button, 17, 3)
-        self.get_mode_button.clicked.connect(self.get_mode)
+        # Row 14: Max fps send from controlelr
+        self.max_fps_lineedit = QLineEdit()
+        self.max_fps_button = QPushButton("Set limit FPS")
+        self.get_max_fps_button = QPushButton("Get")
+        main_layout.addWidget(QLabel("Max FPS"), 14, 0)
+        main_layout.addWidget(self.max_fps_lineedit, 14, 1)
+        main_layout.addWidget(self.max_fps_button, 14, 2)
+        main_layout.addWidget(self.get_max_fps_button, 14, 3)
+        self.max_fps_button.clicked.connect(self.set_max_fps)
+        self.get_max_fps_button.clicked.connect(self.get_max_fps)
         
-        # Row 14: Track center object
+        # Row 15: Max video size
+        self.max_video_size_lineedit = QLineEdit()
+        self.max_video_size_button = QPushButton("Set max video size")
+        self.get_max_video_size_button = QPushButton("Get")
+        main_layout.addWidget(QLabel("Max video size: w,h)"), 15, 0)
+        main_layout.addWidget(self.max_video_size_lineedit, 15, 1)
+        main_layout.addWidget(self.max_video_size_button, 15, 2)
+        main_layout.addWidget(self.get_max_video_size_button, 15, 3)
+        self.max_video_size_button.clicked.connect(self.set_max_video_size)
+        self.get_max_video_size_button.clicked.connect(self.get_max_video_size)
+        
+        
+        # Row 16: Track center object
         self.recvid_button = QPushButton("Track center object")
-        main_layout.addWidget(QLabel("Track object in center frame"), 14, 0)
-        main_layout.addWidget(self.recvid_button, 14, 1)
+        main_layout.addWidget(QLabel("Track object in center frame"), 16, 0)
+        main_layout.addWidget(self.recvid_button, 16, 1)
         self.recvid_button.clicked.connect(self.track_center_object)
         
-        # Row 15: Reconnect Video Source
+        # Row 17: Reconnect Video Source
         self.recvid_button = QPushButton("Reconnect Video Source")
-        main_layout.addWidget(QLabel("Reconnect Video"), 15, 0)
-        main_layout.addWidget(self.recvid_button, 15, 1)
+        main_layout.addWidget(QLabel("Reconnect Video"), 17, 0)
+        main_layout.addWidget(self.recvid_button, 17, 1)
         self.recvid_button.clicked.connect(self.reconnect_video)
         
-        # Row 16: Confirm track
+        # Row 18: Confirm track
         self.confirm_track_button = QPushButton("Confirm track")
-        main_layout.addWidget(QLabel("Confirm track"), 16, 0)
-        main_layout.addWidget(self.confirm_track_button, 16, 1)
+        main_layout.addWidget(QLabel("Confirm track"), 18, 0)
+        main_layout.addWidget(self.confirm_track_button, 18, 1)
         self.confirm_track_button.clicked.connect(self.confirm_track)
 
+        # Row 19: Current mode
+        self.mode_lineedit = QLineEdit()
+        self.get_mode_button = QPushButton("Get")
+        main_layout.addWidget(QLabel("Current mode"), 19, 0)
+        main_layout.addWidget(self.mode_lineedit, 19, 1)
+        main_layout.addWidget(self.get_mode_button, 19, 3)
+        self.get_mode_button.clicked.connect(self.get_mode)
         
         self.setLayout(main_layout)
         
@@ -228,6 +250,22 @@ class ControlCenter(QDialog):
         
     def get_vidstab_sm(self):
         cmd = f'CCG,VIDSTABSM'
+        self.send_command(cmd)
+        
+    def set_max_fps(self):
+        cmd = f'CCS,MAXFPS,{self.max_fps_lineedit.text()}'
+        self.send_command(cmd)
+        
+    def get_max_fps(self):
+        cmd = f'CCG,MAXFPS'
+        self.send_command(cmd)
+        
+    def set_max_video_size(self):
+        cmd = f'CCS,MAXVIDSIZE,{self.max_video_size_lineedit.text()}'
+        self.send_command(cmd)
+        
+    def get_max_video_size(self):
+        cmd = f'CCG,MAXVIDSIZE'
         self.send_command(cmd)
 
     def send_command(self, command):
@@ -367,6 +405,12 @@ class ControlCenter(QDialog):
             self.vidstab_enable_lineedit.setText(data_value)
         elif data_type == "VIDSTABSM":
             self.vidstab_sm_lineedit.setText(data_value)
+        elif data_type == "MAXFPS":
+            self.max_fps_lineedit.setText(data_value)
+        elif data_type == "MAXVIDSIZE":
+            if len(parts) < 4:
+                return
+            self.max_video_size_lineedit.setText(parts[2]+","+parts[3])
         else:
             print(f"Invalid tracker config received: {data_str}")
 
@@ -380,6 +424,9 @@ class RWSController(QMainWindow):
         self.statusBar().showMessage('Ready')
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket.bind((frame_ip, frame_port))
+        
+        self.current_frame_w = 1920
+        self.current_frame_h = 1080
         
         self.data_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.data_socket.bind((data_ip, data_port))
@@ -561,6 +608,10 @@ class RWSController(QMainWindow):
         self.current_frame = frame
         
         height, width, channel = frame.shape
+        
+        self.current_frame_w = width
+        self.current_frame_h = height
+        
         bytes_per_line = 3 * width
         
                 # Convert from BGR (OpenCV format) to RGB (for QImage)
@@ -628,6 +679,8 @@ class RWSController(QMainWindow):
                 continue
             
             if parts[0] == "TTM": # detection data
+                self.result_label.setText(data_str)
+                
                 # Get the number of targets
                 n_target = int(parts[1])
 
@@ -639,10 +692,13 @@ class RWSController(QMainWindow):
                 for _ in range(n_target):
                     # Parse each track's information and append it as a list [id, x1, y1, w, h]
                     track_id = int(parts[index])
-                    x1 = int(parts[index + 1])
-                    y1 = int(parts[index + 2])
-                    w = int(parts[index + 3])
-                    h = int(parts[index + 4])
+                    x_center = int(float(parts[index + 1])*self.current_frame_w)
+                    y_center = int(float(parts[index + 2])*self.current_frame_h)
+                    w = int(float(parts[index + 3])*self.current_frame_w)
+                    h = int(float(parts[index + 4])*self.current_frame_h)
+                    
+                    x1 = x_center-w//2
+                    y1 = y_center-h//2
 
                     # Append the parsed object as a list [id, x1, y1, w, h] to the results
                     parsed_results.append([track_id, x1, y1, w, h])
@@ -650,16 +706,21 @@ class RWSController(QMainWindow):
                     # Move to the next set of track data (each track has 5 parts: id, x1, y1, w, h)
                     index += 5
                 self.current_detection = parsed_results
-                self.result_label.setText(", ".join([str(item) for sublist in self.current_detection for item in sublist]))
+                # self.result_label.setText(", ".join([str(item) for sublist in self.current_detection for item in sublist]))
                 
             elif parts[0] == "TFT": # tracker focus target - bouding box of current tracking target
+                self.result_label.setText(data_str)
+                
                 confirm = int(parts[1])
-                x = int(parts[2])
-                y = int(parts[3])
-                w = int(parts[4])
-                h = int(parts[5])
-                self.current_tracking = [confirm, x, y, w, h]
-                self.result_label.setText(", ".join(map(str, self.current_tracking)))
+                x_center = int(float(parts[2]))*self.current_frame_w
+                y_center = int(float(parts[3]))*self.current_frame_h
+                w = int(float(parts[4]))*self.current_frame_w
+                h = int(float(parts[5]))*self.current_frame_h
+                
+                x1 = x_center-w//2
+                y1 = y_center-h//2
+                self.current_tracking = [confirm, x1, y1, w, h]
+                # self.result_label.setText(", ".join(map(str, self.current_tracking)))
             
             elif parts[0] == "TNO":
                 notify_str = ",".join(parts[1:])
