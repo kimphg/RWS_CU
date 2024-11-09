@@ -17,8 +17,8 @@ public:
 //    QImage imgVideo;
     QQueue<QByteArray> videoBuff;
     QByteArray getFrame();
-signals:
-    void newVideo();
+//signals:
+//    void newVideo();
 };
 
 #endif // VIDEOTHREAD_H

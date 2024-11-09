@@ -30,8 +30,8 @@ class YOLODetector:
         self.detect_conf = detect_conf
         self.track_conf = track_conf
         
-        self.process_video_width = 1920 
-        self.process_video_height = 1080
+        self.process_video_width = 1024 
+        self.process_video_height = 768
         
         self.deepsort_tracker = DeepSort(max_age=max_age, max_iou_distance=max_iou_distance, n_init=n_init, nms_max_overlap=nms_max_overlap)
         

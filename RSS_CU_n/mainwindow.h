@@ -276,9 +276,12 @@ private slots:
 
     void on_pushButton_pause_toggled(bool checked);
     void updateVideo();
+    void on_pushButton_open_file_clicked();
+
 public:
     void setButtonStyle(QPushButton *button, const QString &image1Path, const QString &image2Path);
 
+    void sendCommand(QString command);
 private:
     bool isEqualizeHis = false;
     bool nightMode = false;
