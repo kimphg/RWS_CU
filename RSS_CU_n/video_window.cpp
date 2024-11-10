@@ -14,6 +14,12 @@ video_window::video_window(QWidget *parent) : QFrame(parent)
 void video_window::SetImg(QImage im)
 {
     this->img=im;
+    update();
+}
+QRect video_window::bb2rect(BoundingBox bb)
+{
+    QRect output((bb.x-bb.width/2.0)*width(), (bb.y-bb.height/2.0)*height(), bb.width*width(), bb.height*height());
+    return output;
 }
 void video_window::paintEvent(QPaintEvent *p)
 {
@@ -21,15 +27,14 @@ void video_window::paintEvent(QPaintEvent *p)
     pPainter->drawImage(rect(), img,img.rect());
 
     QWidget::paintEvent(p);
-    int www = rect().width();
-    printf("Rect:%d",www);
-    _flushall();
+//    int www = rect().width();
+//    printf("Rect:%d",www);
+//    _flushall();
 
     //--> vẽ các bounding box
-    QPen penYellow(Qt::yellow); // Màu vàng cho bounding box bình thường
-    QPen penRed(Qt::red);       // Màu đỏ cho bounding box được chọn
+    QPen penYellow(Qt::yellow,2); // Màu vàng cho bounding box bình thường
+    QPen penRed(Qt::red,3);       // Màu đỏ cho bounding box được chọn
 
-//    QPainter *painter = new QPainter(this);
     if(!Vector_BoundingBox.empty())
         for (const BoundingBox &box : Vector_BoundingBox)
         {
@@ -40,9 +45,43 @@ void video_window::paintEvent(QPaintEvent *p)
             else
             {
                 pPainter->setPen(penYellow);
-                qDebug() << "======================KHANG=======================";
             }
-            pPainter->drawRect(box.x, box.y, box.width, box.height);
+            QRect bbrect = bb2rect(box);
+            pPainter->drawRect(bbrect);
+            pPainter->drawText(bbrect,QString::number(box.id));
         }
     delete pPainter;
+}
+
+int video_window::getID_Selected() const
+{
+    return ID_Selected;
+}
+
+void video_window::selectNext()
+{
+    if(!Vector_BoundingBox.empty())
+    {
+        for (const BoundingBox &box : Vector_BoundingBox)
+        {
+            if (box.id > ID_Selected)
+            {
+                ID_Selected =box.id;
+                return;
+            }
+
+        }
+        ID_Selected = -1;
+        for (const BoundingBox &box : Vector_BoundingBox)
+        {
+            if (box.id > ID_Selected)
+            {
+                ID_Selected =box.id;
+                return;
+            }
+
+        }
+
+    }
+
 }

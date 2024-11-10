@@ -30,6 +30,9 @@ class YOLODetector:
         self.detect_conf = detect_conf
         self.track_conf = track_conf
         
+        self.process_video_width = 1024 
+        self.process_video_height = 768
+        
         self.deepsort_tracker = DeepSort(max_age=max_age, max_iou_distance=max_iou_distance, n_init=n_init, nms_max_overlap=nms_max_overlap)
         
         # video stabilizer
@@ -45,6 +48,16 @@ class YOLODetector:
     def set_videocapture(self, cap):
         logger.debug('Video capture source set.')
         self.cap = cap
+        # refresh vidstab because frame size maybe changed, will got error
+        self.stabilizer = VidStab()
+        self.feed_stablizer_frame_index = 0
+        
+    def set_process_video_size(self, process_w, process_h):
+        self.process_video_width = process_w
+        self.process_video_height = process_h
+        self.stabilizer = VidStab()
+        self.feed_stablizer_frame_index = 0
+
         
     def set_enable_stabilizer(self, enable):
         self.enable_stabilizer = enable
@@ -150,6 +163,10 @@ class YOLODetector:
             # Break the loop if no frame is returned (end of video)
             if not ret:
                 break
+            
+            # resize if need
+            if frame.shape[1] != self.process_video_width or frame.shape[0] != self.process_video_height:
+                frame = cv2.resize(frame, (self.process_video_width, self.process_video_height), interpolation=cv2.INTER_AREA)
             
             # stablilze frame
             if self.enable_stabilizer:
@@ -264,6 +281,51 @@ class YOLODetector:
 
             # Append the bounding box and ID info to the result
             result_parts.append(f"{track_id},{int(x1)},{int(y1)},{int(w)},{int(h)}")
+
+        # Add the target count at the second position
+        result_parts.insert(1, str(n_target))
+
+        # Join the result parts into a comma-separated string
+        return ",".join(result_parts)
+    
+    def get_current_result_string_v2(self):
+        """
+        Parse the current tracking results into a string format:
+        TTM,n_target, bb1id, bb1centerx, bb1centery, bb1w, bb1h, ..., bbnid, bbncenterx, bbncentery, bbnw, bbnw
+
+        Returns:
+            str: A formatted string containing the tracking results for each object.
+        """
+        if not self.current_result:
+            return "TTM,0"  # Return the header with no targets if no results are available
+
+        result_parts = ["TTM"]  # Start with the header
+        n_target = 0  # Counter for the number of valid tracks
+
+        # Iterate through the tracking results
+        for track in self.current_result:
+            if not track.is_confirmed():
+                continue  # Skip unconfirmed tracks
+
+            # Extract track details
+            track_id = track.track_id  # Unique ID for the object
+            x1, y1, w, h = track.to_ltwh()  # Bounding box (left, top, width, height)
+            conf = track.get_det_conf()
+            if conf is None:
+                conf = 0  # If there's no associated detection, set confidence to 0
+                
+            # Convert to center and normalize width/height
+            center_x = (x1 + w / 2) / self.process_video_width  # Normalize center x to [0, 1]
+            center_y = (y1 + h / 2) / self.process_video_height  # Normalize center y to [0, 1]
+            norm_w = w / self.process_video_width  # Normalize width to [0, 1]
+            norm_h = h / self.process_video_height  # Normalize height to [0, 1]
+            
+            # Increment the valid track counter
+            n_target += 1
+
+            # Append the bounding box and ID info to the result
+            # result_parts.append(f"{track_id},{int(x1)},{int(y1)},{int(w)},{int(h)}")
+            result_parts.append(f"{track_id},{center_x:.6f},{center_y:.6f},{norm_w:.6f},{norm_h:.6f}")
 
         # Add the target count at the second position
         result_parts.insert(1, str(n_target))

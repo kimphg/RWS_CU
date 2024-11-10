@@ -53,6 +53,10 @@ class CV2Tracker():
         self.stabilizer_smoothing_window = 5 # default 5
         self.feed_stablizer_frame_index = 0
         
+        # resize video base to this w,h before process it
+        self.process_video_width = 1920 
+        self.process_video_height = 1080
+        
     def init_tracker(self):
         logger.info(f'Initialize tracker: {self.name} - {self.tracker_param}')
         # Validate tracker type
@@ -74,6 +78,15 @@ class CV2Tracker():
     def set_videocapture(self, cap):
         logger.debug('Video capture source set.')
         self.cap = cap
+        # refresh vidstab because frame size maybe changed, will got error
+        self.stabilizer = VidStab()
+        self.feed_stablizer_frame_index = 0
+        
+    def set_process_video_size(self, process_w, process_h):
+        self.process_video_width = process_w
+        self.process_video_height = process_h
+        self.stabilizer = VidStab()
+        self.feed_stablizer_frame_index = 0
         
     def initialize_baseline_histogram(self, frame, bbox):
         x, y, w, h = bbox
@@ -166,6 +179,12 @@ class CV2Tracker():
             # Break the loop if no frame is returned (end of video)
             if not ret:
                 break
+            
+            # If you are shrinking the image, you should prefer to use INTER_AREA interpolation
+            # https://stackoverflow.com/questions/23853632/which-kind-of-interpolation-best-for-resizing-image
+            # resize if need
+            if frame.shape[1] != self.process_video_width or frame.shape[0] != self.process_video_height:
+                frame = cv2.resize(frame, (self.process_video_width, self.process_video_height), interpolation=cv2.INTER_AREA)
             
             # stablilze frame
             if self.enable_stabilizer:
@@ -280,6 +299,32 @@ class CV2Tracker():
         x,y,w,h = self.current_result
         confirm_value = 1 if self.confirmed else 0
         result_parts.append(f"{confirm_value},{int(x)},{int(y)},{int(w)},{int(h)}")
+        
+        return ",".join(result_parts)
+    
+    def get_current_result_string_v2(self):
+        """
+        Parse the current tracking results into a string format:
+        TFT,conf,bbx,bby,bbw,bbh
+
+        Returns:
+            str: A formatted string containing the tracking results.
+        """
+        if not self.current_result:
+            return "TFT,0,0,0,0"  # Return the header with no targets if no results are available
+
+        result_parts = ["TFT"]  # Start with the header
+        x,y,w,h = self.current_result
+        
+        # Convert to center and normalize width/height
+        center_x = (int(x) + int(w) / 2) / self.process_video_width  # Normalize center x to [0, 1]
+        center_y = (int(y) + int(h) / 2) / self.process_video_height  # Normalize center y to [0, 1]
+        norm_w = int(w) / self.process_video_width  # Normalize width to [0, 1]
+        norm_h = int(h) / self.process_video_height  # Normalize height to [0, 1]
+        
+        confirm_value = 1 if self.confirmed else 0
+        # result_parts.append(f"{confirm_value},{int(x)},{int(y)},{int(w)},{int(h)}")
+        result_parts.append(f"{confirm_value},{center_x:.6f},{center_y:.6f},{norm_w:.6f},{norm_h:.6f}")
         
         return ",".join(result_parts)
         
