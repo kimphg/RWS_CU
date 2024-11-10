@@ -11,6 +11,7 @@ struct BoundingBox {
     float y;
     float width;
     float height;
+    int mode;
 };
 
 class video_window : public QFrame

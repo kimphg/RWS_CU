@@ -38,17 +38,28 @@ void video_window::paintEvent(QPaintEvent *p)
     if(!Vector_BoundingBox.empty())
         for (const BoundingBox &box : Vector_BoundingBox)
         {
-            if (box.id == ID_Selected)
+            if((box.id==0))//single tracking
             {
                 pPainter->setPen(penRed);
+                QRect bbrect = bb2rect(box);
+                pPainter->drawRect(bbrect);
+                pPainter->drawText(bbrect,QString::number(box.mode));
+            }
+            else if ((box.id == ID_Selected))
+            {
+                pPainter->setPen(penRed);
+                QRect bbrect = bb2rect(box);
+                pPainter->drawRect(bbrect);
+                pPainter->drawText(bbrect,QString::number(box.id));
             }
             else
             {
                 pPainter->setPen(penYellow);
+                QRect bbrect = bb2rect(box);
+                pPainter->drawRect(bbrect);
+                pPainter->drawText(bbrect,QString::number(box.id));
             }
-            QRect bbrect = bb2rect(box);
-            pPainter->drawRect(bbrect);
-            pPainter->drawText(bbrect,QString::number(box.id));
+
         }
     delete pPainter;
 }

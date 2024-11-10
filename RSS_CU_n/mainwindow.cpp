@@ -1281,6 +1281,7 @@ void MainWindow::updateData()
 
         if (parts[0] == "TTM")  // Kiểm tra xem gói tin có bắt đầu bằng "TTM" và đủ dữ liệu
         {
+            trackermode = 0;
             int n_target = parts[1].toInt(); // Số lượng bounding box
 
             // Kiểm tra kích thước tối thiểu cần thiết cho các bounding box để tránh mấy lỗi xàm xàm
@@ -1299,7 +1300,7 @@ void MainWindow::updateData()
                     box.y = parts[index + 2].toFloat(&ok2);
                     box.width = parts[index + 3].toFloat(&ok3);
                     box.height = parts[index + 4].toFloat(&ok4);
-
+                    box.mode=-1;
                     if(ok0&&ok1&&ok2&&ok3&&ok4)Vector_BoundingBox.append(box);  // Thêm bounding box vào vector
                     else qDebug() << "Bounding box read failure: "<<parts[index];
                 }
@@ -1308,13 +1309,14 @@ void MainWindow::updateData()
                 ui->video_stack_1->Vector_BoundingBox = Vector_BoundingBox;
             }
         }
-        if (parts[0] == "TFT")  // Kiểm tra xem gói tin có bắt đầu bằng "TTM" và đủ dữ liệu
+        if (parts[0] == "TFT")  // Kiểm tra gói tin thông tin bám
         {
-
+            trackermode = 1;
             Vector_BoundingBox.clear();
             BoundingBox box;
             bool ok0,ok1,ok2,ok3,ok4;// kiểm tra hợp lệ của các string
-            box.id = parts[1].toInt(&ok0);
+            box.mode=parts[1].toInt(&ok0);
+            box.id = 0;//;
             box.x = parts[1 + 1].toFloat(&ok1);
             box.y = parts[1 + 2].toFloat(&ok2);
             box.width = parts[1 + 3].toFloat(&ok3);
