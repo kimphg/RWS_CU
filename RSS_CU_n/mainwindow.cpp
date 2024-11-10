@@ -464,15 +464,17 @@ void MainWindow::SendVisionEstab(bool enable)
     output[0]= 0x10;
     output[1]= 0x0c;
     output[2]= 0x00;
-    output[3]= 0x02;
+    output[3]= 0x04;
     output[4]= 0x00;
     output[5]= enable;
-    output[6]=0;
-    for (int i=0;i<6;i++){
+    output[6]= 0x01;
+    output[7]= 0x02;
+    output[8]=0;
+    for (int i=0;i<8;i++){
 
-         output[6]+=output[i];
+         output[8]+=output[i];
     }
-    QByteArray dataout(output,7);
+    QByteArray dataout(output,9);
     socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
     printf("estab enabled\n");
     _flushall();
@@ -486,7 +488,7 @@ void MainWindow::SendVisionROIPosition(int16_t x, int16_t y)
    output[3]= 0x06;
    output[4]= 0x10;
    output[5]= x>>8;
-   output[6]= x;
+   output[6]= x&0xff;
    output[7]= 0x11;
    output[8]= y>>8;
    output[9]= y;
