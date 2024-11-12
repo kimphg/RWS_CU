@@ -42,21 +42,21 @@ void video_window::paintEvent(QPaintEvent *p)
             {
                 pPainter->setPen(penRed);
                 QRect bbrect = bb2rect(box);
-                pPainter->drawRect(bbrect);
+                pPainter->drawRect(bbrect);// todo: draw rect with corners only https://stackoverflow.com/questions/45993826/how-do-i-draw-only-corners-of-a-rectangle-in-android-canvas
                 pPainter->drawText(bbrect,QString::number(box.mode));
             }
-            else if ((box.id == ID_Selected))
+            else if ((box.id == ID_Selected))//selected detection
             {
                 pPainter->setPen(penRed);
                 QRect bbrect = bb2rect(box);
-                pPainter->drawRect(bbrect);
+                pPainter->drawRect(bbrect);// todo: draw rect with corners only
                 pPainter->drawText(bbrect,QString::number(box.id));
             }
-            else
+            else//not selected detection
             {
                 pPainter->setPen(penYellow);
                 QRect bbrect = bb2rect(box);
-                pPainter->drawRect(bbrect);
+                pPainter->drawRect(bbrect);// todo: draw rect with corners only
                 pPainter->drawText(bbrect,QString::number(box.id));
             }
 

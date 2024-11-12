@@ -1326,7 +1326,7 @@ void MainWindow::updateData()
             ui->video_stack_1->Vector_BoundingBox = Vector_BoundingBox;
 
         }
-
+//%WINDIR%\System32\cmd.exe "/K" C:\ProgramData\miniconda3\Scripts\activate.bat C:\ProgramData\miniconda3
         if(len==2){//ping msg
             int byte = (unsigned char)datagram.at(0);
             int stimCon = (unsigned char)datagram.at(1);
