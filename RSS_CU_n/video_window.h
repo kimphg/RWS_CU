@@ -21,6 +21,8 @@ public:
     explicit video_window(QWidget *parent = nullptr);
 public:
     void SetImg(QImage im);
+    void drawRectCorners(QPainter* pPainter, const QRect& rect, int cornerLength);
+
 private:
     QImage img;
     QRect bb2rect(BoundingBox bb);
