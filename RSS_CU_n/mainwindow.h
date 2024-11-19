@@ -284,17 +284,18 @@ private slots:
 
     void on_pushButton_autoRequestStatus_toggled(bool checked);
 
-    void processActuatorResponse();
-    void processMotionResponse();
-    void processMcuResponse();
+//    void processActuatorResponse();
+//    void processMotionResponse();
+//    void processMcuResponse();
 
+    void requestSystemStat();
 public:
     void setButtonStyle(QPushButton *button, const QString &image1Path, const QString &image2Path);
 
     void sendCommand(QString command);
     void CheckStatusSocket(const QString& ipAddress, quint16 port, const QString& message);
-    void SendStatusRequest();
-    void setupUdpListeners();
+    void StartStatusRequest();
+//    void setupUdpListeners();
 private:
     bool isEqualizeHis = false;
     bool nightMode = false;
@@ -315,7 +316,7 @@ private:
     void DrawVideoTargets(QPainter *p);
     void draw_sight_cv(int posx, int posy);
     void ReadVideoInfo(QStringList data);
-    void processDatagram(QByteArray data);
+//    void processDatagram(QByteArray data);
     double track_p =2,track_i=0,track_d=0;
     double fallVideo=0;
 //    double mScaleX = 1,mScaleY=1;
@@ -345,9 +346,10 @@ private:
 
     QTimer *RequestStatusTimer;
 
-    QUdpSocket* actuatorSocket;
-    QUdpSocket* motionSocket;
-    QUdpSocket* mcuSocket;
+//    QUdpSocket* actuatorSocket;
+//    QUdpSocket* motionSocket;
+    //    QUdpSocket* mcuSocket;
+    void processUDP(QByteArray data);
 };
 
 #endif // MAINWINDOW_H

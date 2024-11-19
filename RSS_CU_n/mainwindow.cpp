@@ -220,7 +220,8 @@ MainWindow::MainWindow(QWidget *parent) :
     Setup_button_stype(); //các nút ở các trang config
     ui->stackedWidget->setCurrentIndex(2);
 
-    setupUdpListeners();
+//    setupUdpListeners();
+    StartStatusRequest();
 
 }
 
@@ -416,19 +417,7 @@ void MainWindow::Setup_button_stype()
                 "}"
                 );
 
-    ui->pushButton_autoRequestStatus->setStyleSheet(
-                "QPushButton { "
-                "    color: rgb(123, 154, 147);"
-                "    border: 2px solid rgb(123, 154, 147);"
-                "}"
-                "QPushButton:hover { "
-                "    border: 1px solid rgb(0, 245, 210);"
-                "}"
-                "QPushButton:pressed { "
-                "    color: rgb(0, 245, 210);"
-                "    border: 2px solid rgb(0, 245, 210);"
-                "}"
-                );
+
 
     ui->pushButton_save->setStyleSheet(
                 "QPushButton { "
@@ -1313,12 +1302,12 @@ void MainWindow::timer30ms()
 void MainWindow::updateData()
 {
     updateVideo();
-    CaptureVideoCamera();
-    if(mControl.getIsSerialAvailable())
-    {
-        QByteArray ba = mControl.getSerialData();
-        if(ba.size())processDatagram(ba);
-    }
+//    CaptureVideoCamera();
+//    if(mControl.getIsSerialAvailable())
+//    {
+//        QByteArray ba = mControl.getSerialData();
+//        if(ba.size())processDatagram(ba);
+//    }
 
     while(socket->hasPendingDatagrams())
     {
@@ -1387,26 +1376,60 @@ void MainWindow::updateData()
             ui->video_stack_1->Vector_BoundingBox = Vector_BoundingBox;
 
         }
-        //%WINDIR%\System32\cmd.exe "/K" C:\ProgramData\miniconda3\Scripts\activate.bat C:\ProgramData\miniconda3
-        if(len==2){//ping msg
-            int byte = (unsigned char)datagram.at(0);
-            int stimCon = (unsigned char)datagram.at(1);
-            int gyro1 = stimCon&0x03;
-            int gyro2 = (stimCon&0x0c)>>2;
-            int gyro3 = (stimCon&0x30)>>4;
-            int a = mControl.lastPing;
-            int b = mControl.lastPing>>8;
-            int c = mControl.lastPing>>16;
-            int d = mControl.lastPing>>24;
-            int res = (unsigned char)((a*b)+(c*d));
-            if(byte==(res))
-            {
-                int curTime = clock();
-                int pingtime = curTime-mControl.lastPing;
-                //                ui->label_cu_connection->setText(QString::number(pingtime));
-                //                ui->label_stim_stat->setText(QString::number(gyro1)+"-"+QString::number(gyro2)+"-"+QString::number(gyro3));
-            }
+        if (parts[0] == "MSR")  // Kiểm tra gói tin thông tin Motion Status Report
+        {
+
+           for(int i=1;i<parts.length();i++)
+           {
+               QStringList fields = parts[i].split(':');
+               if(fields.length()==2)
+               {
+                   QString dataType = fields[0];
+                   QString dataValue = fields[1];
+                   if(dataType=="gyro1")
+                   {
+                       ui->lineEdit_gyro1->setText(dataValue);
+                   }
+                   else if(dataType=="gyro2")
+                   {
+                       ui->lineEdit_gyro2->setText(dataValue);
+                   }
+                   else if(dataType=="gyro3")
+                   {
+                       ui->lineEdit_gyro_3->setText(dataValue);
+                   }
+                   else if(dataType=="uptime")
+                   {
+                       ui->lineEdit_uptime->setText(dataValue);
+                   }
+
+                   //todo: thêm gmotor,res,vlimit,hlimit,act1,act2,coil1,coil2
+               }
+           }
+
         }
+
+
+        //%WINDIR%\System32\cmd.exe "/K" C:\ProgramData\miniconda3\Scripts\activate.bat C:\ProgramData\miniconda3
+//        if(len==2){//ping msg
+//            int byte = (unsigned char)datagram.at(0);
+//            int stimCon = (unsigned char)datagram.at(1);
+//            int gyro1 = stimCon&0x03;
+//            int gyro2 = (stimCon&0x0c)>>2;
+//            int gyro3 = (stimCon&0x30)>>4;
+//            int a = mControl.lastPing;
+//            int b = mControl.lastPing>>8;
+//            int c = mControl.lastPing>>16;
+//            int d = mControl.lastPing>>24;
+//            int res = (unsigned char)((a*b)+(c*d));
+//            if(byte==(res))
+//            {
+//                int curTime = clock();
+//                int pingtime = curTime-mControl.lastPing;
+//                //                ui->label_cu_connection->setText(QString::number(pingtime));
+//                //                ui->label_stim_stat->setText(QString::number(gyro1)+"-"+QString::number(gyro2)+"-"+QString::number(gyro3));
+//            }
+//        }
         if(port==4002)//joystick port
         {
             mControl.joystickInput(datagram);
@@ -1414,7 +1437,7 @@ void MainWindow::updateData()
         }
         else if(port==4001)//CU port
         {
-            processDatagram(datagram);
+//            processDatagram(datagram);
         }
         else if(port==4003)//Cam port
         {
@@ -1480,93 +1503,97 @@ void MainWindow::processDetectorData(QByteArray data)
     }
 
 }
-QByteArray dataFrameBuff;
+//QByteArray dataFrameBuff;
 
-void MainWindow::processDatagram(QByteArray data)
+//void MainWindow::processDatagram(QByteArray data)
+//{
+//    if( cuconcount <99)cuconcount ++;
+//    else  cuconcount = 0;
+//    if(mControl.getWorkMode()==0)
+//    {
+//        float scale  = 10;
+//        QByteArrayList datar =  data.split('\n');
+//        for(int i=1;i<datar.size()-1;i++)
+//            dataPlot.push_back(QString(datar.at(i)).toDouble()*scale);
+//        while(dataPlot.size()>800)dataPlot.pop_front();
+//    }
+//    if(dataFrameBuff.length()<1000)dataFrameBuff.append(data);
+//    else dataFrameBuff=data;
+//    if(!(dataFrameBuff.contains('\n')))return;
+//    QString stringData(dataFrameBuff);
+//    dataFrameBuff.clear();
+//    QStringList datasentences =  stringData.split("$");
+//    for(QString sentence : datasentences)
+//    {
+//        QStringList dataFields = sentence.split(',');
+
+//        if(dataFields.size())
+//        {
+//            if(dataFields[0].contains("TGC")&&dataFields.size()>5)
+//            {
+
+//                if(dataFields[0].contains("TGC")&&dataFields.size()>=10)
+//                {
+//                    //                    ui->label_speed->setText(sentence);
+
+//                }
+//            }
+//            else if(dataFields[0].contains("MSGS")&&dataFields.size()>=5)
+//            {
+//                mControl.isCuAlive = true;
+//                this->statusBar()->showMessage(sentence);
+//                QStringList azistr = dataFields[2].split(':');
+//                if(azistr.length()==2)
+//                {
+//                    double azi = azistr[1].toDouble();
+//                    //                    ui->view_azi->setValue(azi);
+
+//                }
+//                azistr = dataFields[3].split(':');
+//                if(azistr.length()==2)
+//                {
+//                    double ele = azistr[1].toDouble();
+
+//                }
+
+//            }
+//            else if(dataFields[0].contains("MSG")&&dataFields.size()>=2)
+//            {
+//                mControl.isCuAlive = true;
+//                //                QString messages = ui->textBrowser_msg->toPlainText();
+
+//                //                if(messages.count('\n')>20)
+//                //                {
+//                //                    messages.append(dataFields[1]);
+//                //                    int firstLine = messages.indexOf('\n');
+//                //                    messages.remove(0,firstLine+1);
+//                //                    ui->textBrowser_msg->clear();
+//                //                    ui->textBrowser_msg->append(messages);
+//                //                }
+//                //                else {
+//                //                    ui->textBrowser_msg->append(dataFields[1]);
+//                //                }
+
+//            }
+//            else if(sentence.contains("TGT")&&dataFields.size()>5)
+//            {
+//                ReadVideoTargets(dataFields);
+//            }
+//            else if(sentence.contains("FPS")&&dataFields.size()>1)
+//            {
+//                ReadVideoInfo(dataFields);
+//            }
+//        }
+//        else
+//        {
+
+//        }
+//    }
+
+//}
+void MainWindow::processUDP(QByteArray data)
 {
-    if( cuconcount <99)cuconcount ++;
-    else  cuconcount = 0;
-    if(mControl.getWorkMode()==0)
-    {
-        float scale  = 10;
-        QByteArrayList datar =  data.split('\n');
-        for(int i=1;i<datar.size()-1;i++)
-            dataPlot.push_back(QString(datar.at(i)).toDouble()*scale);
-        while(dataPlot.size()>800)dataPlot.pop_front();
-    }
-    if(dataFrameBuff.length()<1000)dataFrameBuff.append(data);
-    else dataFrameBuff=data;
-    if(!(dataFrameBuff.contains('\n')))return;
-    QString stringData(dataFrameBuff);
-    dataFrameBuff.clear();
-    QStringList datasentences =  stringData.split("$");
-    for(QString sentence : datasentences)
-    {
-        QStringList dataFields = sentence.split(',');
-
-        if(dataFields.size())
-        {
-            if(dataFields[0].contains("TGC")&&dataFields.size()>5)
-            {
-
-                if(dataFields[0].contains("TGC")&&dataFields.size()>=10)
-                {
-                    //                    ui->label_speed->setText(sentence);
-
-                }
-            }
-            else if(dataFields[0].contains("MSGS")&&dataFields.size()>=5)
-            {
-                mControl.isCuAlive = true;
-                this->statusBar()->showMessage(sentence);
-                QStringList azistr = dataFields[2].split(':');
-                if(azistr.length()==2)
-                {
-                    double azi = azistr[1].toDouble();
-                    //                    ui->view_azi->setValue(azi);
-
-                }
-                azistr = dataFields[3].split(':');
-                if(azistr.length()==2)
-                {
-                    double ele = azistr[1].toDouble();
-
-                }
-
-            }
-            else if(dataFields[0].contains("MSG")&&dataFields.size()>=2)
-            {
-                mControl.isCuAlive = true;
-                //                QString messages = ui->textBrowser_msg->toPlainText();
-
-                //                if(messages.count('\n')>20)
-                //                {
-                //                    messages.append(dataFields[1]);
-                //                    int firstLine = messages.indexOf('\n');
-                //                    messages.remove(0,firstLine+1);
-                //                    ui->textBrowser_msg->clear();
-                //                    ui->textBrowser_msg->append(messages);
-                //                }
-                //                else {
-                //                    ui->textBrowser_msg->append(dataFields[1]);
-                //                }
-
-            }
-            else if(sentence.contains("TGT")&&dataFields.size()>5)
-            {
-                ReadVideoTargets(dataFields);
-            }
-            else if(sentence.contains("FPS")&&dataFields.size()>1)
-            {
-                ReadVideoInfo(dataFields);
-            }
-        }
-        else
-        {
-
-        }
-    }
-
+    QByteArrayList dataFields = data.split(',');
 }
 void MainWindow::ReadVideoInfo(QStringList data)
 {
@@ -2583,48 +2610,48 @@ void MainWindow::on_bt_system_diagnostic_clicked()
 {
     ui->stackedWidget->setCurrentIndex(5);
 }
+void MainWindow::requestSystemStat()
+{
+    CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,all");
+//        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,coil2");
+//        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act1");
+//        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act2");
 
-void MainWindow::SendStatusRequest()
+    CheckStatusSocket(Motion_ip, Motion_port, "CSS,all");
+//        CheckStatusSocket(Motion_ip, Motion_port, "CSS,cmotor");
+//        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro1");
+//        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro2");
+//        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro3");
+//        CheckStatusSocket(Motion_ip, Motion_port, "CSS,res");
+//        CheckStatusSocket(Motion_ip, Motion_port, "CSS,vlimit");
+//        CheckStatusSocket(Motion_ip, Motion_port, "CSS,hlimit");
+
+    CheckStatusSocket(MCU_ip, MCU_port, "CSS,track");
+    CheckStatusSocket(MCU_ip, MCU_port, "CSS,cam");
+}
+
+void MainWindow::StartStatusRequest()
 {
     RequestStatusTimer = new QTimer(this);
 
-    connect(RequestStatusTimer, &QTimer::timeout, this, [this]()
-    {
-        // Send 14 UDP packets with different request codes
-        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,coil1");
-        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,coil2");
-        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act1");
-        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act2");
-
-        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gmotor");
-        CheckStatusSocket(Motion_ip, Motion_port, "CSS,cmotor");
-        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro1");
-        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro2");
-        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro3");
-        CheckStatusSocket(Motion_ip, Motion_port, "CSS,res");
-        CheckStatusSocket(Motion_ip, Motion_port, "CSS,vlimit");
-        CheckStatusSocket(Motion_ip, Motion_port, "CSS,hlimit");
-
-        CheckStatusSocket(MCU_ip, MCU_port, "CSS,track");
-        CheckStatusSocket(MCU_ip, MCU_port, "CSS,cam");
-
-    });
-    RequestStatusTimer->start(ui->lineEdit_checkStatusTimer->text().toInt());  // Start the timer with the specified interval
+    connect(RequestStatusTimer, SIGNAL(timeout()), this, SLOT(requestSystemStat()));
+    RequestStatusTimer->start(2000);  // Start the timer with the specified interval
 }
 
 void MainWindow::on_pushButton_autoRequestStatus_clicked() {
-    if (RequestStatusTimer && RequestStatusTimer->isActive())
-    {
-        RequestStatusTimer->stop();
-        delete RequestStatusTimer;
-        RequestStatusTimer = nullptr;
-        ui->pushButton_autoRequestStatus->setText("Auto Request Status");
-    }
-    else
-    {
-        SendStatusRequest();  // Start sending requests with a new timer
-        ui->pushButton_autoRequestStatus->setText("Stop Requesting");
-    }
+//    if (RequestStatusTimer && RequestStatusTimer->isActive())
+//    {
+//        RequestStatusTimer->stop();
+//        delete RequestStatusTimer;
+//        RequestStatusTimer = nullptr;
+//        ui->pushButton_autoRequestStatus->setText("Auto Request Status");
+//    }
+//    else
+//    {
+//          // Start sending requests with a new timer
+//        ui->pushButton_autoRequestStatus->setText("Stop Requesting");
+//    }
+
 }
 
 void MainWindow::on_pushButton_autoRequestStatus_toggled(bool checked)
@@ -2632,48 +2659,48 @@ void MainWindow::on_pushButton_autoRequestStatus_toggled(bool checked)
 
 }
 
-void MainWindow::setupUdpListeners() {
-    // nhận socket cho Actuator
-    actuatorSocket = new QUdpSocket(this);
-    actuatorSocket->bind(4002);
-    connect(actuatorSocket, &QUdpSocket::readyRead, this, &MainWindow::processActuatorResponse);
+//void MainWindow::setupUdpListeners() {
+//    // nhận socket cho Actuator
+//    actuatorSocket = new QUdpSocket(this);
+//    actuatorSocket->bind(4002);
+//    connect(actuatorSocket, &QUdpSocket::readyRead, this, &MainWindow::processActuatorResponse);
 
-    // nhận socket cho Motion
-    motionSocket = new QUdpSocket(this);
-    motionSocket->bind(4003);
-    connect(motionSocket, &QUdpSocket::readyRead, this, &MainWindow::processMotionResponse);
+//    // nhận socket cho Motion
+//    motionSocket = new QUdpSocket(this);
+//    motionSocket->bind(4003);
+//    connect(motionSocket, &QUdpSocket::readyRead, this, &MainWindow::processMotionResponse);
 
-    // nhận socket cho MCU
-    mcuSocket = new QUdpSocket(this);
-    mcuSocket->bind(4004);
-    connect(mcuSocket, &QUdpSocket::readyRead, this, &MainWindow::processMcuResponse);
-}
+//    // nhận socket cho MCU
+//    mcuSocket = new QUdpSocket(this);
+//    mcuSocket->bind(4004);
+//    connect(mcuSocket, &QUdpSocket::readyRead, this, &MainWindow::processMcuResponse);
+//}
 
 // Các hàm để xử lý phản hồi từ các máy
-void MainWindow::processActuatorResponse() {
-    while (actuatorSocket->hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(actuatorSocket->pendingDatagramSize());
-        actuatorSocket->readDatagram(datagram.data(), datagram.size());
-        // Xử lý dữ liệu nhận được từ Actuator
+//void MainWindow::processActuatorResponse() {
+//    while (actuatorSocket->hasPendingDatagrams()) {
+//        QByteArray datagram;
+//        datagram.resize(actuatorSocket->pendingDatagramSize());
+//        actuatorSocket->readDatagram(datagram.data(), datagram.size());
+//        // Xử lý dữ liệu nhận được từ Actuator
 
-    }
-}
+//    }
+//}
 
-void MainWindow::processMotionResponse() {
-    while (motionSocket->hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(motionSocket->pendingDatagramSize());
-        motionSocket->readDatagram(datagram.data(), datagram.size());
-        // Xử lý dữ liệu nhận được từ Motion
-    }
-}
+//void MainWindow::processMotionResponse() {
+//    while (motionSocket->hasPendingDatagrams()) {
+//        QByteArray datagram;
+//        datagram.resize(motionSocket->pendingDatagramSize());
+//        motionSocket->readDatagram(datagram.data(), datagram.size());
+//        // Xử lý dữ liệu nhận được từ Motion
+//    }
+//}
 
-void MainWindow::processMcuResponse() {
-    while (mcuSocket->hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(mcuSocket->pendingDatagramSize());
-        mcuSocket->readDatagram(datagram.data(), datagram.size());
-        // Xử lý dữ liệu nhận được từ MCU
-    }
-}
+//void MainWindow::processMcuResponse() {
+//    while (mcuSocket->hasPendingDatagrams()) {
+//        QByteArray datagram;
+//        datagram.resize(mcuSocket->pendingDatagramSize());
+//        mcuSocket->readDatagram(datagram.data(), datagram.size());
+//        // Xử lý dữ liệu nhận được từ MCU
+//    }
+//}

@@ -133,12 +133,12 @@ class CGimbalController
     unsigned long lastStimByteTime;
     int    pulseMode = 1;
     float  fov;
-    int    mGyroCount;
+    int    mGyroCount1=0,mGyroCount2=0,mGyroCount3=0;// fps count for gyros 
   
     float  mUserMaxspdH ; //DPS
     float  mUserMaxSpdV ;//DPS
     float  maxAccH, maxAccV;
-    bool   isSetupChanged;
+    bool   isSetupChanged;//flag important changes
     
     //    double sumEv=0,sumEh=0;
     int    workMode = 0;
@@ -146,7 +146,7 @@ class CGimbalController
     double userEle = 0, userAzi = 0;
     float v_integrate = 0;
   public:
-    int stimCon = 0;
+    // int stimCon = 0;
     void setCalib(double hcalib, double vcalib);
     void setParam(String param,float value)
     {
@@ -207,7 +207,7 @@ class CGimbalController
     void setCT(int c11, int c12, int c21, int c22);
     bool isStimConnected;
     int  ct11, ct12, ct21, ct22;
-    void reportStat(int idleCount);
+    String reportStat();
 
     void setMaxAcc(float hvalue, float vvalue)
     {
@@ -295,23 +295,73 @@ void CGimbalController::setCalib(double hcalib, double
   stim_data.y_bias = vSpeedCalib;
   stim_data.z_bias = hSpeedCalib;
 }
-
-void CGimbalController::reportStat(int idleCount)
+unsigned long int lastReportTime=0;
+String CGimbalController::reportStat()
 {
+  String report;
   if (getSensors())setStimMode(0);
-  pelco_count = 0;
-  stimCon = mGyroCount / 10;
-  mGyroCount = 0;
-  if (!isSetupChanged)return;
-  isSetupChanged = false;
-  return;
+  unsigned long int curTime=millis();
+  int dt=(curTime-lastReportTime);
+  
+  if(dt<1000)
+  {
+    return report;
+  }
+  else
+  {
+    lastReportTime = curTime;
+    report = "MSR,";
+    pelco_count = 0;
+    float gyro_fps = mGyroCount1*1000.0 / dt;
+    mGyroCount1 = 0;
+    report.append("gyro1:");
+    report.append(String(gyro_fps));
+    report.append(",");
+    gyro_fps = mGyroCount2*1000.0 / dt;
+    mGyroCount2 = 0;
+    report.append("gyro2:");
+    report.append(String(gyro_fps));
+    report.append(",");
+    gyro_fps = mGyroCount3*1000.0 / dt;
+    mGyroCount3 = 0;
+    report.append("gyro3:");
+    report.append(String(gyro_fps));
+    report.append(",");
+    report.append("gmotor:");
+    report.append(String(1));
+    report.append(",");
+    report.append("cmotor:");
+    report.append(String(1));
+    report.append(",");
+    report.append("res:");
+    report.append(String(1));
+    report.append(",");
+    report.append("vlimit:");
+    report.append(String(ct11+ct12*2));
+    report.append(",");
+    report.append("hlimit:");
+    report.append(String(ct21+ct22*2));
+    report.append(",");
+    report.append("coil1:");
+    report.append("OK");
+    report.append(",");
+    report.append("coil2:");
+    report.append("OK");
+    report.append(",");
+    report.append("uptime:");
+    report.append(String(curTime/1000.0));
+    report.append(",");
+  // Serial.println(report);
+    return report;
+  }
+  
 
   //        controlerReport();
 }
 
 void CGimbalController::initGimbal()
 {
-  mGyroCount = 0;
+  mGyroCount1 = 0;
   isSetupChanged = true;
   maxAccH = 0.1;
   maxAccV = 0.1;
@@ -647,7 +697,7 @@ void CGimbalController::readSensorData()//200 microseconds
     if (readStim(databyte, (timeMicros - lastStimByteTime), &stim_data)) // one packet per millisencond
     {
       mStimMsgCount++;
-      mGyroCount++;
+      mGyroCount1++;
       addZhistory(stim_data.z_rate);
 
     }
@@ -691,7 +741,8 @@ void CGimbalController::readSensorData()//200 microseconds
           float vs = bytesToFloat(rawgyroV[19], rawgyroV[20], rawgyroV[21], rawgyroV[22]);
            
           gyroX =kalmanGyroV.getFilteredValue(vs * 100.0);
-          if(abs(gyroX)<1){
+          mGyroCount2++;
+          if(abs(gyroX)<2){
             sumGyroX += gyroX;
             countGyroX++;
           }
@@ -723,6 +774,7 @@ void CGimbalController::readSensorData()//200 microseconds
     if (gyroByteIndexH < 50)
     {
       rawgyroH[gyroByteIndexH] = databyte;
+      mGyroCount3++;
       if (gyroByteIndexH == 2)
       {
         gyroMsgLenH = databyte;
