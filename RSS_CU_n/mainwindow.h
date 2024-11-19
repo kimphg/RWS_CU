@@ -278,10 +278,23 @@ private slots:
     void updateVideo();
     void on_pushButton_open_file_clicked();
 
+    void on_bt_system_diagnostic_clicked();
+
+    void on_pushButton_autoRequestStatus_clicked();
+
+    void on_pushButton_autoRequestStatus_toggled(bool checked);
+
+    void processActuatorResponse();
+    void processMotionResponse();
+    void processMcuResponse();
+
 public:
     void setButtonStyle(QPushButton *button, const QString &image1Path, const QString &image2Path);
 
     void sendCommand(QString command);
+    void CheckStatusSocket(const QString& ipAddress, quint16 port, const QString& message);
+    void SendStatusRequest();
+    void setupUdpListeners();
 private:
     bool isEqualizeHis = false;
     bool nightMode = false;
@@ -329,6 +342,12 @@ private:
     void SendVisionROIPosition(int16_t x, int16_t y);
     void SendVisionROISize(int16_t sx, int16_t sy);
     void SendVisionEstab(bool enable);
+
+    QTimer *RequestStatusTimer;
+
+    QUdpSocket* actuatorSocket;
+    QUdpSocket* motionSocket;
+    QUdpSocket* mcuSocket;
 };
 
 #endif // MAINWINDOW_H

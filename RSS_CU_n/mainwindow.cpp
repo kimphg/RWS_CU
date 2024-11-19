@@ -13,6 +13,15 @@
 #define SCR_W 1280
 #define SCR_H 1024
 
+#define MCU_ip "192.168.0.74"
+#define MCU_port 5000
+
+#define Actuator_ip "192.168.0.8"
+#define Actuator_port 4001
+
+#define Motion_ip "192.168.0.7"
+#define Motion_port 4001
+
 #include "UsbDevice.h"
 HANDLE usbDevHandle ;
 int usbDevMode = 0;
@@ -94,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->statusBar()->setStyleSheet("background-color: rgb(58, 65, 60); color:rgb(255, 255, 255)");
     socket = new QUdpSocket(this);
     videoManager = new VideoThread();
-//    connect(videoManager,&VideoThread::newVideo,this,&MainWindow::updateVideo);
+    //    connect(videoManager,&VideoThread::newVideo,this,&MainWindow::updateVideo);
     videoManager->start(VideoThread::TimeCriticalPriority);
     mControl.setSocket(socket);
     CConfig::readFile();
@@ -115,10 +124,10 @@ MainWindow::MainWindow(QWidget *parent) :
         this->statusBar()->showMessage("Socket failure, port busy");
     }
 
-//    else
-//    {
-//        this->statusBar()->showMessage("Video socket failure, port busy");
-//    }
+    //    else
+    //    {
+    //        this->statusBar()->showMessage("Video socket failure, port busy");
+    //    }
     updateTimer = new QTimer();
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateData()));
     updateTimer->start(10);
@@ -211,15 +220,25 @@ MainWindow::MainWindow(QWidget *parent) :
     Setup_button_stype(); //các nút ở các trang config
     ui->stackedWidget->setCurrentIndex(2);
 
+    setupUdpListeners();
+
 }
+
+void MainWindow::CheckStatusSocket(const QString& ipAddress, quint16 port, const QString& message)
+{
+    QUdpSocket udpSocket;
+    QByteArray data = message.toUtf8();
+    udpSocket.writeDatagram(data, QHostAddress(ipAddress), port);
+}
+
 void MainWindow::updateVideo()
 {
     QByteArray frame = videoManager->getFrame();
     if(frame.size())
     {
-    QImage imgVideo;
-    imgVideo.loadFromData(frame);
-    ui->video_stack_1->SetImg(imgVideo);
+        QImage imgVideo;
+        imgVideo.loadFromData(frame);
+        ui->video_stack_1->SetImg(imgVideo);
     }
 
 }
@@ -396,6 +415,48 @@ void MainWindow::Setup_button_stype()
                 "    border: 2px solid rgb(0, 245, 210);"
                 "}"
                 );
+
+    ui->pushButton_autoRequestStatus->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+                );
+
+    ui->pushButton_save->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+                );
+
+    ui->pushButton_selectAll->setStyleSheet(
+                "QPushButton { "
+                "    color: rgb(123, 154, 147);"
+                "    border: 2px solid rgb(123, 154, 147);"
+                "}"
+                "QPushButton:hover { "
+                "    border: 1px solid rgb(0, 245, 210);"
+                "}"
+                "QPushButton:pressed { "
+                "    color: rgb(0, 245, 210);"
+                "    border: 2px solid rgb(0, 245, 210);"
+                "}"
+                );
 }
 void MainWindow::usbInit()
 {
@@ -484,7 +545,7 @@ void MainWindow::SendVisionEstab(bool enable)
     output[8]=0;
     for (int i=0;i<8;i++){
 
-         output[8]+=output[i];
+        output[8]+=output[i];
     }
     QByteArray dataout(output,9);
     socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
@@ -493,46 +554,46 @@ void MainWindow::SendVisionEstab(bool enable)
 }
 void MainWindow::SendVisionROIPosition(int16_t x, int16_t y)
 {
-   char output[20];
-   output[0]= 0x10;
-   output[1]= 0x00;
-   output[2]= 0x00;
-   output[3]= 0x06;
-   output[4]= 0x10;
-   output[5]= x>>8;
-   output[6]= x&0xff;
-   output[7]= 0x11;
-   output[8]= y>>8;
-   output[9]= y;
-   for (int i=0;i<10;i++){
+    char output[20];
+    output[0]= 0x10;
+    output[1]= 0x00;
+    output[2]= 0x00;
+    output[3]= 0x06;
+    output[4]= 0x10;
+    output[5]= x>>8;
+    output[6]= x&0xff;
+    output[7]= 0x11;
+    output[8]= y>>8;
+    output[9]= y;
+    for (int i=0;i<10;i++){
 
         output[10]+=output[i];
-   }
-   QByteArray dataout(output,11);
+    }
+    QByteArray dataout(output,11);
 
-   socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
+    socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
 
 }
 void MainWindow::SendVisionROISize(int16_t sx, int16_t sy)
 {
-   char output[20];
-   output[0]= 0x10;
-   output[1]= 0x00;
-   output[2]= 0x00;
-   output[3]= 0x06;
-   output[4]= 0x12;
-   output[5]= sx>>8;
-   output[6]= sx;
-   output[7]= 0x13;
-   output[8]= sy>>8;
-   output[9]= sy;
-   for (int i=0;i<10;i++){
+    char output[20];
+    output[0]= 0x10;
+    output[1]= 0x00;
+    output[2]= 0x00;
+    output[3]= 0x06;
+    output[4]= 0x12;
+    output[5]= sx>>8;
+    output[6]= sx;
+    output[7]= 0x13;
+    output[8]= sy>>8;
+    output[9]= sy;
+    for (int i=0;i<10;i++){
 
         output[10]+=output[i];
-   }
-   QByteArray dataout(output,11);
+    }
+    QByteArray dataout(output,11);
 
-   socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
+    socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
 
 }
 void MainWindow::processKeyBoardEvent(int key)
@@ -587,31 +648,31 @@ void MainWindow::processKeyBoardEvent(int key)
 
     if(key == Qt::Key_T){//start tracking
         if(trackermode==0){
-        int idToTrack = ui->video_stack_1->getID_Selected();
-        sendCommand("CTC,"+QString::number(idToTrack)+",0");
-        trackermode = 1;
-//         showMessage("Bắt đầu bám");
+            int idToTrack = ui->video_stack_1->getID_Selected();
+            sendCommand("CTC,"+QString::number(idToTrack)+",0");
+            trackermode = 1;
+            //         showMessage("Bắt đầu bám");
         }
         else
         {
             int idToTrack = ui->video_stack_1->getID_Selected();
             sendCommand("CTC,"+QString::number(idToTrack)+",1");
             trackermode = 0;
-//             showMessage("Dừng bám");
+            //             showMessage("Dừng bám");
         }
-//        if((!frame.empty())&&trackermode == 0)
-//        {
-//            kcf_tracker.trackLostSens = CConfig::getDouble("trackLostSens",2.5);
-//            if(kcf_tracker.Init(frame,trackrect))
-//                //            ui->textBrowser_msg->append("target too big");
-//                kcf_tracker.setLearning_rate(CConfig::getDouble("track_learn_rate",0.025));
-//            trackermode = 1;
-//            showMessage("Bắt đầu bám");
-//            trackpoint_x=(sight_x);
-//            trackpoint_y=sight_y;
+        //        if((!frame.empty())&&trackermode == 0)
+        //        {
+        //            kcf_tracker.trackLostSens = CConfig::getDouble("trackLostSens",2.5);
+        //            if(kcf_tracker.Init(frame,trackrect))
+        //                //            ui->textBrowser_msg->append("target too big");
+        //                kcf_tracker.setLearning_rate(CConfig::getDouble("track_learn_rate",0.025));
+        //            trackermode = 1;
+        //            showMessage("Bắt đầu bám");
+        //            trackpoint_x=(sight_x);
+        //            trackpoint_y=sight_y;
 
-//        }
-//        else trackerShutdown();
+        //        }
+        //        else trackerShutdown();
 
     }
     else if(key == Qt::Key_R){
@@ -681,8 +742,8 @@ void MainWindow::processKeyBoardEvent(int key)
     else if(key==Qt::Key_F12)
     {
 
-//        cap = VideoCapture(1);//(filename.toStdString().data());
-//        camAvailable = true;
+        //        cap = VideoCapture(1);//(filename.toStdString().data());
+        //        camAvailable = true;
     }
     else if(key==Qt::Key_End)
     {
@@ -741,10 +802,10 @@ void MainWindow::processKeyBoardEvent(int key)
     else if(key==Qt::Key_S)
     {
         SendVisionROIPosition(0,-100);
-//        //fov narrow
-//        float newfov = mControl.fov/2;
-//        if(newfov<2)newfov=2;
-//        mControl.setFOV(newfov);//fov wide
+        //        //fov narrow
+        //        float newfov = mControl.fov/2;
+        //        if(newfov<2)newfov=2;
+        //        mControl.setFOV(newfov);//fov wide
     }
     else if(key==Qt::Key_A)
     {
@@ -799,17 +860,17 @@ void MainWindow::CaptureVideoCamera()
     {
 
         incomeFrame = cap.read(frameOrg);//single capture image
-//        Mat smoothedFrame;
-//        if((!frameOrg.empty())&&(!frameOld.empty()))
-//        {
-//            Mat M = estimateRigidTransform(frameOld,frameOrg,0);
-//            warpAffine(frameOrg,smoothedFrame,M,Size(640,480),INTER_NEAREST|WARP_INVERSE_MAP) ;
+        //        Mat smoothedFrame;
+        //        if((!frameOrg.empty())&&(!frameOld.empty()))
+        //        {
+        //            Mat M = estimateRigidTransform(frameOld,frameOrg,0);
+        //            warpAffine(frameOrg,smoothedFrame,M,Size(640,480),INTER_NEAREST|WARP_INVERSE_MAP) ;
 
-//            frameOld =frameOrg ;
-//            frameOrg=smoothedFrame;
-//        }
-//        else
-//            frameOld =frameOrg ;
+        //            frameOld =frameOrg ;
+        //            frameOrg=smoothedFrame;
+        //        }
+        //        else
+        //            frameOld =frameOrg ;
 
         if(!incomeFrame)
         {
@@ -822,11 +883,11 @@ void MainWindow::CaptureVideoCamera()
             if(nightMode)cv::cvtColor(frameOrg, frame, CV_BGR2GRAY);
             else cv::cvtColor(frameOrg, frame, CV_BGR2RGB);
 
-//            if((frameOrg.cols!=frame_process_W)||(frameOrg.rows!=frame_process_H))
-//            {
-//                cv::resize(frame,frame,cv::Size(frame_process_W,frame_process_H));
+            //            if((frameOrg.cols!=frame_process_W)||(frameOrg.rows!=frame_process_H))
+            //            {
+            //                cv::resize(frame,frame,cv::Size(frame_process_W,frame_process_H));
 
-//            }
+            //            }
             incomeFrame = true;
             waitKey(100);
         }
@@ -834,7 +895,7 @@ void MainWindow::CaptureVideoCamera()
         {
             imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
             ui->video_stack_1->SetImg(imgVideo);
-//            cv::imshow("imgVideo",frame);
+            //            cv::imshow("imgVideo",frame);
         }
 
     }
@@ -1326,7 +1387,7 @@ void MainWindow::updateData()
             ui->video_stack_1->Vector_BoundingBox = Vector_BoundingBox;
 
         }
-//%WINDIR%\System32\cmd.exe "/K" C:\ProgramData\miniconda3\Scripts\activate.bat C:\ProgramData\miniconda3
+        //%WINDIR%\System32\cmd.exe "/K" C:\ProgramData\miniconda3\Scripts\activate.bat C:\ProgramData\miniconda3
         if(len==2){//ping msg
             int byte = (unsigned char)datagram.at(0);
             int stimCon = (unsigned char)datagram.at(1);
@@ -2499,9 +2560,9 @@ void MainWindow::on_pushButton_pause_toggled(bool checked)
 {
     if(checked)
     {
-//        cap = VideoCapture("D:/video/original.mp4");//(filename.toStdString().data());
-//        cap = VideoCapture("rtsp://10.0.0.2:8001/charmStream");
-//        camAvailable = true;
+        //        cap = VideoCapture("D:/video/original.mp4");//(filename.toStdString().data());
+        //        cap = VideoCapture("rtsp://10.0.0.2:8001/charmStream");
+        //        camAvailable = true;
 
         sendCommand("CCS,VIDSRC,C:/VIDEO/ship_4.mp4");
     }
@@ -2514,6 +2575,105 @@ void MainWindow::on_pushButton_pause_toggled(bool checked)
 void MainWindow::on_pushButton_open_file_clicked()
 {
     QString file1Name = QFileDialog::getOpenFileName(this,
-             tr("Open Video File"), "C:/VIDEO/", tr("Video Files (*.*)"));
-        sendCommand("CCS,VIDSRC,"+file1Name);
+                                                     tr("Open Video File"), "C:/VIDEO/", tr("Video Files (*.*)"));
+    sendCommand("CCS,VIDSRC,"+file1Name);
+}
+
+void MainWindow::on_bt_system_diagnostic_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+void MainWindow::SendStatusRequest()
+{
+    RequestStatusTimer = new QTimer(this);
+
+    connect(RequestStatusTimer, &QTimer::timeout, this, [this]()
+    {
+        // Send 14 UDP packets with different request codes
+        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,coil1");
+        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,coil2");
+        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act1");
+        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act2");
+
+        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gmotor");
+        CheckStatusSocket(Motion_ip, Motion_port, "CSS,cmotor");
+        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro1");
+        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro2");
+        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro3");
+        CheckStatusSocket(Motion_ip, Motion_port, "CSS,res");
+        CheckStatusSocket(Motion_ip, Motion_port, "CSS,vlimit");
+        CheckStatusSocket(Motion_ip, Motion_port, "CSS,hlimit");
+
+        CheckStatusSocket(MCU_ip, MCU_port, "CSS,track");
+        CheckStatusSocket(MCU_ip, MCU_port, "CSS,cam");
+
+    });
+    RequestStatusTimer->start(ui->lineEdit_checkStatusTimer->text().toInt());  // Start the timer with the specified interval
+}
+
+void MainWindow::on_pushButton_autoRequestStatus_clicked() {
+    if (RequestStatusTimer && RequestStatusTimer->isActive())
+    {
+        RequestStatusTimer->stop();
+        delete RequestStatusTimer;
+        RequestStatusTimer = nullptr;
+        ui->pushButton_autoRequestStatus->setText("Auto Request Status");
+    }
+    else
+    {
+        SendStatusRequest();  // Start sending requests with a new timer
+        ui->pushButton_autoRequestStatus->setText("Stop Requesting");
+    }
+}
+
+void MainWindow::on_pushButton_autoRequestStatus_toggled(bool checked)
+{
+
+}
+
+void MainWindow::setupUdpListeners() {
+    // nhận socket cho Actuator
+    actuatorSocket = new QUdpSocket(this);
+    actuatorSocket->bind(4002);
+    connect(actuatorSocket, &QUdpSocket::readyRead, this, &MainWindow::processActuatorResponse);
+
+    // nhận socket cho Motion
+    motionSocket = new QUdpSocket(this);
+    motionSocket->bind(4003);
+    connect(motionSocket, &QUdpSocket::readyRead, this, &MainWindow::processMotionResponse);
+
+    // nhận socket cho MCU
+    mcuSocket = new QUdpSocket(this);
+    mcuSocket->bind(4004);
+    connect(mcuSocket, &QUdpSocket::readyRead, this, &MainWindow::processMcuResponse);
+}
+
+// Các hàm để xử lý phản hồi từ các máy
+void MainWindow::processActuatorResponse() {
+    while (actuatorSocket->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(actuatorSocket->pendingDatagramSize());
+        actuatorSocket->readDatagram(datagram.data(), datagram.size());
+        // Xử lý dữ liệu nhận được từ Actuator
+
+    }
+}
+
+void MainWindow::processMotionResponse() {
+    while (motionSocket->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(motionSocket->pendingDatagramSize());
+        motionSocket->readDatagram(datagram.data(), datagram.size());
+        // Xử lý dữ liệu nhận được từ Motion
+    }
+}
+
+void MainWindow::processMcuResponse() {
+    while (mcuSocket->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(mcuSocket->pendingDatagramSize());
+        mcuSocket->readDatagram(datagram.data(), datagram.size());
+        // Xử lý dữ liệu nhận được từ MCU
+    }
 }
