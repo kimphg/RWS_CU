@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     UsbDevice.cpp \
     qcustomslider.cpp \
     video_window.cpp \
-    videostab.cpp
+    videostab.cpp \
+    videothread.cpp
 
 HEADERS  += \
     compasscustom_widget.h \
@@ -56,7 +57,8 @@ HEADERS  += \
     UsbDevice.h \
     qcustomslider.h \
     video_window.h \
-    videostab.h
+    videostab.h \
+    videothread.h
 
 FORMS    += mainwindow.ui \
     control_center_dialog.ui \

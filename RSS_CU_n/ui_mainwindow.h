@@ -10,6 +10,7 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDateTimeEdit>
 #include <QtWidgets/QFrame>
@@ -281,6 +282,7 @@ public:
     QGridLayout *gridLayout_8;
     QPushButton *pushButton_pause;
     QPushButton *pushButton_stop;
+    QPushButton *pushButton_open_file;
     QWidget *widget_19;
     QVBoxLayout *verticalLayout_24;
     QLabel *label_129;
@@ -2076,6 +2078,20 @@ public:
 
         gridLayout_8->addWidget(pushButton_stop, 0, 1, 1, 1);
 
+        pushButton_open_file = new QPushButton(frame_22);
+        pushButton_open_file->setObjectName(QString::fromUtf8("pushButton_open_file"));
+        sizePolicy3.setHeightForWidth(pushButton_open_file->sizePolicy().hasHeightForWidth());
+        pushButton_open_file->setSizePolicy(sizePolicy3);
+        pushButton_open_file->setMinimumSize(QSize(70, 90));
+        pushButton_open_file->setStyleSheet(QString::fromUtf8("image: url(:/new/footer_images/Footer_Images/stop_1.png);"));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/new/ir_sight_images/IrSight_images/NUC 1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_open_file->setIcon(icon);
+        pushButton_open_file->setCheckable(true);
+        pushButton_open_file->setAutoExclusive(false);
+
+        gridLayout_8->addWidget(pushButton_open_file, 0, 2, 1, 1);
+
 
         verticalLayout_25->addWidget(frame_22);
 
@@ -3798,6 +3814,7 @@ public:
         label_134->setText(QCoreApplication::translate("MainWindow", "08:01", nullptr));
         pushButton_pause->setText(QString());
         pushButton_stop->setText(QString());
+        pushButton_open_file->setText(QString());
         label_129->setText(QString());
         label_131->setText(QCoreApplication::translate("MainWindow", "10:12", nullptr));
         label_132->setText(QCoreApplication::translate("MainWindow", "13", nullptr));

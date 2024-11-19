@@ -9,6 +9,7 @@
 #include <QFileDialog>
 //#include "c_aver_capture.h"
 #include "c_gimbal_control.h"
+#include "videothread.h"
 //#include "opencv2/core/core.hpp"
 ////#include "opencv2/objdetect.hpp"
 //#include "opencv2/highgui/highgui.hpp"
@@ -53,7 +54,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    QUdpSocket *socket,*videoSocket;
+    QUdpSocket *socket;
     void sendFrameVideo();
     c_gimbal_control mControl;
 //    c_aver_capture mAverCap;
@@ -274,15 +275,20 @@ private slots:
     void on_bt_system_events_clicked();
 
     void on_pushButton_pause_toggled(bool checked);
+    void updateVideo();
+    void on_pushButton_open_file_clicked();
 
 public:
     void setButtonStyle(QPushButton *button, const QString &image1Path, const QString &image2Path);
 
+    void sendCommand(QString command);
 private:
     bool isEqualizeHis = false;
     bool nightMode = false;
+    VideoThread *videoManager;
     QTimer *updateTimer;
     QTimer *controlTimer;
+    QTimer *videotimer;
     Ui::MainWindow *ui;
     void sendFrame();
     std::vector<VideoTarget> vTargetList;

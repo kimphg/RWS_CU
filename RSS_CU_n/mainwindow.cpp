@@ -93,10 +93,12 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setFixedSize(1024,768);
     this->statusBar()->setStyleSheet("background-color: rgb(58, 65, 60); color:rgb(255, 255, 255)");
     socket = new QUdpSocket(this);
-    videoSocket = new QUdpSocket(this);
+    videoManager = new VideoThread();
+//    connect(videoManager,&VideoThread::newVideo,this,&MainWindow::updateVideo);
+    videoManager->start(VideoThread::TimeCriticalPriority);
     mControl.setSocket(socket);
     CConfig::readFile();
-    //    ui->frame_gui->hide();
+    //    ui->frame_gui->hide();○
 
     timer_1sec = new QTimer();
     connect(timer_1sec, SIGNAL(timeout()), this, SLOT(updateInfo()) );
@@ -112,23 +114,22 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         this->statusBar()->showMessage("Socket failure, port busy");
     }
-    if(videoSocket->bind(12345))
-    {
-        //        connect(navSocket,SIGNAL(readyRead()),this, SLOT(ReadNavData()));
-        //initAverCapture();
-    }
-    else
-    {
-        this->statusBar()->showMessage("Video socket failure, port busy");
-    }
+
+//    else
+//    {
+//        this->statusBar()->showMessage("Video socket failure, port busy");
+//    }
     updateTimer = new QTimer();
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateData()));
-    updateTimer->start(5);
+    updateTimer->start(10);
 
     controlTimer = new QTimer();
     connect(controlTimer, SIGNAL(timeout()), this, SLOT(timer30ms()));
     controlTimer->start(30);
     ui->statusbar-> hide ();
+    videotimer = new QTimer();
+    connect(videotimer, SIGNAL(timeout()), this, SLOT(readVideoStream()));
+    videotimer->start(1);
     params.push_back(CV_IMWRITE_JPEG_QUALITY);
     params.push_back(80); //image quality
 
@@ -209,6 +210,17 @@ MainWindow::MainWindow(QWidget *parent) :
     //* ==========================>
     Setup_button_stype(); //các nút ở các trang config
     ui->stackedWidget->setCurrentIndex(2);
+
+}
+void MainWindow::updateVideo()
+{
+    QByteArray frame = videoManager->getFrame();
+    if(frame.size())
+    {
+    QImage imgVideo;
+    imgVideo.loadFromData(frame);
+    ui->video_stack_1->SetImg(imgVideo);
+    }
 
 }
 void MainWindow::Setup_button_stype()
@@ -464,15 +476,17 @@ void MainWindow::SendVisionEstab(bool enable)
     output[0]= 0x10;
     output[1]= 0x0c;
     output[2]= 0x00;
-    output[3]= 0x02;
+    output[3]= 0x04;
     output[4]= 0x00;
     output[5]= enable;
-    output[6]=0;
-    for (int i=0;i<6;i++){
+    output[6]= 0x01;
+    output[7]= 0x02;
+    output[8]=0;
+    for (int i=0;i<8;i++){
 
-         output[6]+=output[i];
+         output[8]+=output[i];
     }
-    QByteArray dataout(output,7);
+    QByteArray dataout(output,9);
     socket->writeDatagram(dataout,QHostAddress("10.0.0.2"),9876);
     printf("estab enabled\n");
     _flushall();
@@ -486,7 +500,7 @@ void MainWindow::SendVisionROIPosition(int16_t x, int16_t y)
    output[3]= 0x06;
    output[4]= 0x10;
    output[5]= x>>8;
-   output[6]= x;
+   output[6]= x&0xff;
    output[7]= 0x11;
    output[8]= y>>8;
    output[9]= y;
@@ -572,21 +586,36 @@ void MainWindow::processKeyBoardEvent(int key)
     //    break;
 
     if(key == Qt::Key_T){//start tracking
-
-        if((!frame.empty())&&trackermode == 0)
-        {
-            kcf_tracker.trackLostSens = CConfig::getDouble("trackLostSens",2.5);
-            if(kcf_tracker.Init(frame,trackrect))
-                //            ui->textBrowser_msg->append("target too big");
-                kcf_tracker.setLearning_rate(CConfig::getDouble("track_learn_rate",0.025));
-            trackermode = 1;
-            showMessage("Bắt đầu bám");
-            trackpoint_x=(sight_x);
-            trackpoint_y=sight_y;
-
+        if(trackermode==0){
+        int idToTrack = ui->video_stack_1->getID_Selected();
+        sendCommand("CTC,"+QString::number(idToTrack)+",0");
+        trackermode = 1;
+//         showMessage("Bắt đầu bám");
         }
-        else trackerShutdown();
+        else
+        {
+            int idToTrack = ui->video_stack_1->getID_Selected();
+            sendCommand("CTC,"+QString::number(idToTrack)+",1");
+            trackermode = 0;
+//             showMessage("Dừng bám");
+        }
+//        if((!frame.empty())&&trackermode == 0)
+//        {
+//            kcf_tracker.trackLostSens = CConfig::getDouble("trackLostSens",2.5);
+//            if(kcf_tracker.Init(frame,trackrect))
+//                //            ui->textBrowser_msg->append("target too big");
+//                kcf_tracker.setLearning_rate(CConfig::getDouble("track_learn_rate",0.025));
+//            trackermode = 1;
+//            showMessage("Bắt đầu bám");
+//            trackpoint_x=(sight_x);
+//            trackpoint_y=sight_y;
 
+//        }
+//        else trackerShutdown();
+
+    }
+    else if(key == Qt::Key_R){
+        ui->video_stack_1->selectNext();
     }
     else if(key == Qt::Key_F1){
 
@@ -1222,7 +1251,7 @@ void MainWindow::timer30ms()
 }
 void MainWindow::updateData()
 {
-
+    updateVideo();
     CaptureVideoCamera();
     if(mControl.getIsSerialAvailable())
     {
@@ -1252,10 +1281,11 @@ void MainWindow::updateData()
 
         if (parts[0] == "TTM")  // Kiểm tra xem gói tin có bắt đầu bằng "TTM" và đủ dữ liệu
         {
+            trackermode = 0;
             int n_target = parts[1].toInt(); // Số lượng bounding box
 
             // Kiểm tra kích thước tối thiểu cần thiết cho các bounding box để tránh mấy lỗi xàm xàm
-            if (parts.size() >= 2 + n_target * 5)
+            if (parts.size() >= (2 + n_target * 5))
             {
                 Vector_BoundingBox.clear();
 
@@ -1264,21 +1294,39 @@ void MainWindow::updateData()
                     int index = 2 + i * 5;  // Vị trí bắt đầu của mỗi bounding box
 
                     BoundingBox box;
-                    box.id = parts[index].toInt();
-                    box.x = parts[index + 1].toInt();
-                    box.y = parts[index + 2].toInt();
-                    box.width = parts[index + 3].toInt();
-                    box.height = parts[index + 4].toInt();
-
-                    Vector_BoundingBox.append(box);  // Thêm bounding box vào vector
-                    qDebug() << "Bounding box ID: " << box.id << ", (x: " << box.x << ", y: " << box.y << ", w: " << box.width << ", h: " << box.height<< ")";
+                    bool ok0,ok1,ok2,ok3,ok4;// kiểm tra hợp lệ của các string
+                    box.id = parts[index].toInt(&ok0);
+                    box.x = parts[index + 1].toFloat(&ok1);
+                    box.y = parts[index + 2].toFloat(&ok2);
+                    box.width = parts[index + 3].toFloat(&ok3);
+                    box.height = parts[index + 4].toFloat(&ok4);
+                    box.mode=-1;
+                    if(ok0&&ok1&&ok2&&ok3&&ok4)Vector_BoundingBox.append(box);  // Thêm bounding box vào vector
+                    else qDebug() << "Bounding box read failure: "<<parts[index];
                 }
 
                 // Cập nhật lại các bounding box cho video_window
                 ui->video_stack_1->Vector_BoundingBox = Vector_BoundingBox;
             }
         }
+        if (parts[0] == "TFT")  // Kiểm tra gói tin thông tin bám
+        {
+            trackermode = 1;
+            Vector_BoundingBox.clear();
+            BoundingBox box;
+            bool ok0,ok1,ok2,ok3,ok4;// kiểm tra hợp lệ của các string
+            box.mode=parts[1].toInt(&ok0);
+            box.id = 0;//;
+            box.x = parts[1 + 1].toFloat(&ok1);
+            box.y = parts[1 + 2].toFloat(&ok2);
+            box.width = parts[1 + 3].toFloat(&ok3);
+            box.height = parts[1 + 4].toFloat(&ok4);
+            if(ok0&&ok1&&ok2&&ok3&&ok4)Vector_BoundingBox.append(box);  // Thêm bounding box vào vector
+            // Cập nhật lại các bounding box cho video_window
+            ui->video_stack_1->Vector_BoundingBox = Vector_BoundingBox;
 
+        }
+//%WINDIR%\System32\cmd.exe "/K" C:\ProgramData\miniconda3\Scripts\activate.bat C:\ProgramData\miniconda3
         if(len==2){//ping msg
             int byte = (unsigned char)datagram.at(0);
             int stimCon = (unsigned char)datagram.at(1);
@@ -1315,78 +1363,11 @@ void MainWindow::updateData()
             processDetectorData(datagram);
 
     }
-    while(videoSocket->hasPendingDatagrams())
-    {
 
-        int len = videoSocket->pendingDatagramSize();
-        QHostAddress host;
-        quint16 port;
-        QByteArray data;
-        data.resize(len);
-
-        videoSocket->readDatagram(data.data(),len,&host,&port);
-        int newFrameID = (uchar)data.at(1);
-        data.remove(0,2);
-        if(newFrameID!=frameID)//new frame
-        {
-            frameID=newFrameID;
-//            frame = cv::imdecode(cv::Mat(1, videoBuff.length(), CV_8UC1, videoBuff.data()), CV_LOAD_IMAGE_UNCHANGED);
-//            cv::imshow ("frame",frame);
-            if(false)//!frame.empty())
-
-            {
-                frameCount++;
-                if(recorder.isOpened())
-                    recorder.write(frame);
-                if(trackermode)
-                {
-                    singleTrackTarget = kcf_tracker.Update(frame);
-                    singleTrackWindow = kcf_tracker.getsearchingRect();
-                    bool trackFail = (singleTrackTarget.area()<100)||(singleTrackTarget.width<5)||(singleTrackTarget.height<5);
-                    if(trackFail)
-                    {
-
-                        showMessage(QString::fromUtf8("Mất bám, đang tìm kiếm..."));
-                        trackermode = 2;
-                    }
-                    else
-                    {
-                        if(trackermode==2)
-                        {
-                            trackermode=1;
-                        }
-                    }
-
-
-                    if(trackermode==1)cv::rectangle(frame,singleTrackTarget,cv::Scalar(255, 0, 0),1,16 );
-                    else cv::rectangle(frame,singleTrackWindow,cv::Scalar(255, 255, 0),1,16 );
-
-
-                }
-                else
-                {
-                    cv::rectangle(frame,trackrect,cv::Scalar(150, 150, 0),1,16 );
-                }
-            }
-
-            imgVideo.loadFromData(videoBuff);
-//            imgVideo = QImage (frame.data, frame.cols, frame.rows, frame.step,QImage::Format_RGB888);
-
-            ui->video_stack_1->SetImg(imgVideo);
-            update();
-
-            videoBuff.clear();
-            videoBuff.append(data);
-
-        }
-        else {
-            videoBuff.append(data);
-            }
-
-    }
 
     _flushall();
 }
+
 void MainWindow::processDatagramLaser(QByteArray data)
 {
 
@@ -2510,7 +2491,10 @@ void MainWindow::on_bt_system_events_clicked()
 {
     ui->stackedWidget->setCurrentIndex(4);
 }
-
+void MainWindow::sendCommand(QString command)
+{
+    socket->writeDatagram(command.toUtf8(),QHostAddress("127.0.0.1"), 5000);
+}
 void MainWindow::on_pushButton_pause_toggled(bool checked)
 {
     if(checked)
@@ -2518,12 +2502,18 @@ void MainWindow::on_pushButton_pause_toggled(bool checked)
 //        cap = VideoCapture("D:/video/original.mp4");//(filename.toStdString().data());
 //        cap = VideoCapture("rtsp://10.0.0.2:8001/charmStream");
 //        camAvailable = true;
-        QByteArray command("CCS,VIDSRC,./videos/test_tau.avi");
-        socket->writeDatagram(command,QHostAddress("127.0.0.1"), 5000);
 
+        sendCommand("CCS,VIDSRC,C:/VIDEO/ship_4.mp4");
     }
     else
     {
         camAvailable = false;
     }
+}
+
+void MainWindow::on_pushButton_open_file_clicked()
+{
+    QString file1Name = QFileDialog::getOpenFileName(this,
+             tr("Open Video File"), "C:/VIDEO/", tr("Video Files (*.*)"));
+        sendCommand("CCS,VIDSRC,"+file1Name);
 }

@@ -1,0 +1,5 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\AFD\Parameters]
+"DefaultReceiveWindow"=dword:00200000
+"DefaultSendWindow"=dword:00200000

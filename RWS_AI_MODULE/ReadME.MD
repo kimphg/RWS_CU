@@ -1,5 +1,11 @@
 # RWS AI MODULE
 
+## TODO
+- [x] Limit FPS send to controller (45 Hz)
+- [x] Limit image size (Full HD 1920x1080)
+- [ ] Add AOI (Area of interest)
+- [x] Fix crash video stabilizer when change video source 
+
 ## Installation
 ```
 conda env create -f rws_env_cuda113.yaml

@@ -38,7 +38,6 @@ class RWSModule():
         self.dest_frame_ip = self.config.get('socket', 'dest_frame_ip', fallback='127.0.0.1')
         self.dest_frame_port = int(self.config.get('socket', 'dest_frame_port', fallback=12345))
         
-        # TODO: Change varibles name
         self.dest_data_ip = self.config.get('socket', 'dest_data_ip', fallback='127.0.0.1')
         self.dest_data_port = int(self.config.get('socket', 'dest_data_port', fallback=4000))
         self.recv_command_ip = self.config.get('socket', 'recv_command_ip', fallback='127.0.0.1')
@@ -46,7 +45,17 @@ class RWSModule():
         
         set_dest_data_address(self.dest_data_ip, self.dest_data_port)
         
+        self.max_fps_send = int(self.config.get('settings', 'max_fps_send', fallback=45))
+        self.max_video_width = int(self.config.get('settings', 'max_video_width', fallback=1920))
+        self.max_video_height = int(self.config.get('settings', 'max_video_height', fallback=1080))
+        self.process_video_width = self.max_video_width
+        self.process_video_height = self.max_video_height
+        self.min_frame_time = 1.0 / self.max_fps_send
+        
         logger.debug("Configuration Values:")
+        logger.debug(f"Max FPS send: {self.max_fps_send}")
+        logger.debug(f"Max video width: {self.max_video_width}")
+        logger.debug(f"Max video height: {self.max_video_height}")
         logger.debug(f"Max Package Size: {self.max_package_size}")
         logger.debug(f"Max Chunks: {self.max_chunks}")
         logger.debug(f"Destination Frame IP: {self.dest_frame_ip}")
@@ -93,6 +102,20 @@ class RWSModule():
                 logger.warning(f'Cannot connect to video source: {self.video_source}')
             else:
                 logger.info(f'Succeed connect to video source: {self.video_source}')
+                
+                # calculate w and h to process
+                self.process_video_width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+                self.process_video_height = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+                if self.process_video_width > self.max_video_width or self.process_video_height > self.max_video_height:
+                    if self.process_video_width / self.max_video_width > self.process_video_height / self.max_video_height:
+                        scale = self.max_video_width / self.process_video_width
+                    else:
+                        scale = self.max_video_height / self.process_video_height
+                    self.process_video_width = int(self.process_video_width * scale)
+                    self.process_video_height = int(self.process_video_height * scale)
+                    logger.debug(f"Resize input video and process with size: ({self.process_video_width},{self.process_video_height})")
+                else:
+                    logger.debug(f"Process video with size: ({self.process_video_width},{self.process_video_height})")
 
         # detector settings
         self.detector = None
@@ -117,6 +140,9 @@ class RWSModule():
             
             self.detector.enable_stabilizer = self.enable_stabilizer
             self.detector.stabilizer_smoothing_window = self.stabilizer_smoothing_window
+            
+            self.detector.process_video_width = self.process_video_width
+            self.detector.process_video_height = self.process_video_height
         else:
             logger.warning('Detector config is not set!')
         
@@ -138,6 +164,9 @@ class RWSModule():
         
         self.tracker.enable_stabilizer = self.enable_stabilizer
         self.tracker.stabilizer_smoothing_window = self.stabilizer_smoothing_window
+        
+        self.tracker.process_video_width = self.process_video_width
+        self.tracker.process_video_height = self.process_video_height
         
         # for receive custom tracking frame
         self.custom_tracking_frame_buffer = b''
@@ -165,16 +194,35 @@ class RWSModule():
             # auto update tracker and detector video capture
             self.tracker.set_videocapture(self.cap)
             self.detector.set_videocapture(self.cap)
+            # calculate w and h to process
+            self.process_video_width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+            self.process_video_height = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            if self.process_video_width > self.max_video_width or self.process_video_height > self.max_video_height:
+                if self.process_video_width / self.max_video_width > self.process_video_height / self.max_video_height:
+                    scale = self.max_video_width / self.process_video_width
+                else:
+                    scale = self.max_video_height / self.process_video_height
+                self.process_video_width = int(self.process_video_width * scale)
+                self.process_video_height = int(self.process_video_height * scale)
+                logger.debug(f"Resize input video and process with size: ({self.process_video_width},{self.process_video_height})")
+            else:
+                logger.debug(f"Process video with size: ({self.process_video_width},{self.process_video_height})")
+                
+            self.detector.set_process_video_size(self.process_video_width, self.process_video_height)
+            self.tracker.set_process_video_size(self.process_video_width, self.process_video_height)
+
             
     def send_current_detection(self):
         # print(f"Need to send: {self.detector.get_current_result_string()}")
-        result_str = self.detector.get_current_result_string()
+        # result_str = self.detector.get_current_result_string()
+        result_str = self.detector.get_current_result_string_v2() # normalize x,y,w,h to [0,1]
         data_to_send = result_str.encode('utf-8')
         self.send_data_socket.sendto(data_to_send, (self.dest_data_ip, self.dest_data_port))
         
     def send_current_tracking_object(self):
         # print(f"Need to send: {self.tracker.get_current_result_string()}")
-        result_str = self.tracker.get_current_result_string()
+        # result_str = self.tracker.get_current_result_string()
+        result_str = self.tracker.get_current_result_string_v2() # normalize x,y,w,h to [0,1]
         data_to_send = result_str.encode('utf-8')
         self.send_data_socket.sendto(data_to_send, (self.dest_data_ip, self.dest_data_port))
         
@@ -406,6 +454,9 @@ class RWSModule():
                     continue
                 
                 if parts[1] == "TMODEL":
+                    if self.single_track_thread is not None and self.single_track_thread.is_alive():
+                        logger.warning("On tracking object, cannot set tracking mode, please stop tracking before set.")
+                        continue
                     if self.tracker_name == 'opencv':
                         if len(parts) < 2:
                             logger.error(f'Invalid CCS tracking model set command {data_str}')
@@ -512,7 +563,49 @@ class RWSModule():
                         self.stabilizer_smoothing_window = int(parts[2])
                         self.tracker.stabilizer_smoothing_window = self.stabilizer_smoothing_window
                         self.detector.stabilizer_smoothing_window = self.stabilizer_smoothing_window
+                        logger.info(f"Set stabilizer smoothing windows to {self.stabilizer_smoothing_window}")
                     continue
+                
+                if parts[1] == "MAXFPS": # max fps send to controller
+                    if not is_int(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                    else:
+                        self.max_fps_send = int(parts[2])
+                        self.min_frame_time = 1.0 / self.max_fps_send
+                        logger.info(f"Set limit FPS send to controller to {self.max_fps_send}")
+                    continue
+                
+                if parts[1] == "MAXVIDSIZE":
+                    if len(parts) < 4:
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                        continue
+                    
+                    if not is_int(parts[2]) or not is_int(parts[3]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str} - Right cmd: CCS,MAXVIDSIZE,w,h')
+                        continue
+                    
+                    self.max_video_width = int(parts[2])
+                    self.max_video_height = int(parts[3])
+                    logger.info(f'Set max video process size to ({self.max_video_width},{self.max_video_height})')
+                    
+                    # calculate process video w and h based on new max video w and h
+                    if self.cap.isOpened():
+                        # calculate w and h to process
+                        self.process_video_width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+                        self.process_video_height = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+                        if self.process_video_width > self.max_video_width or self.process_video_height > self.max_video_height:
+                            if self.process_video_width / self.max_video_width > self.process_video_height / self.max_video_height:
+                                scale = self.max_video_width / self.process_video_width
+                            else:
+                                scale = self.max_video_height / self.process_video_height
+                            self.process_video_width = int(self.process_video_width * scale)
+                            self.process_video_height = int(self.process_video_height * scale)
+                            logger.debug(f"Resize input video and process with size: ({self.process_video_width},{self.process_video_height})")
+                            
+                        self.detector.set_process_video_size(self.process_video_width, self.process_video_height)
+                        self.tracker.set_process_video_size(self.process_video_width, self.process_video_height)
+                    continue
+                
             elif parts[0] == "CCG": # controller config get
                 data_type = parts[1]
                 if data_type == "MODE":
@@ -549,6 +642,10 @@ class RWSModule():
                     self.send_data_to_controller("TCV,VIDSTAB", data_send)
                 elif data_type == "VIDSTABSM":
                     self.send_data_to_controller("TCV,VIDSTABSM", self.stabilizer_smoothing_window)
+                elif data_type == "MAXFPS":
+                    self.send_data_to_controller("TCV,MAXFPS", self.max_fps_send)
+                elif data_type == "MAXVIDSIZE":
+                    self.send_data_to_controller("TCV,MAXVIDSIZE", f'{self.max_video_width},{self.max_video_height}')
                 else:
                     logger.error(f'Invalid controller config get command: {data_str}')
                 continue
@@ -592,6 +689,10 @@ class RWSModule():
         
         t = time.time()
         fps_values = []  
+        
+        over_fps = False        
+        self.min_frame_time = 1.0 / self.max_fps_send
+        
         while True:
             if self.exploration_mode_stop_event.is_set():
                 break
@@ -600,8 +701,11 @@ class RWSModule():
                 frame_send = np.copy(self.detector.current_frame) # copy new frame to send for prevent long time access to self.detector.current_frame, allow detector conituosly update frame
                 
                 if self.draw_fps:
-                    # Calculate FPS for the current frame
-                    fps = 1 / (time.time() - t + 1e-10) # prevent device by zero
+                    if over_fps: # if sleeped in the previous frame for limit fps
+                        fps = self.max_fps_send
+                    else:
+                        # Calculate FPS for the current frame
+                        fps = 1 / (time.time() - t + 1e-10)
                     # Add FPS to the list and keep only the last 10 values
                     fps_values.append(fps)
                     if len(fps_values) > 10:
@@ -620,6 +724,15 @@ class RWSModule():
                 
                 self.frame_counter = (self.frame_counter + 1)%255
                 self.detector.frame_update = False
+                
+                # Measure time taken for frame processing
+                elapsed_time = time.time() - t
+                if elapsed_time < self.min_frame_time:
+                    time.sleep(self.min_frame_time - elapsed_time)  # Sleep to maintain max FPS limit
+                    over_fps = True
+                else:
+                    over_fps = False
+                
                 t = time.time()
                 
                 # drawn frame
@@ -682,6 +795,9 @@ class RWSModule():
         logger.info('Start sendding focus tracking result to Controller')
         t = time.time()
         fps_values = []
+        over_fps = False        
+        self.min_frame_time = 1.0 / self.max_fps_send
+        
         while True:
             if self.single_track_mode_stop_event.is_set():
                 break
@@ -689,8 +805,11 @@ class RWSModule():
                 frame_send = np.copy(self.tracker.current_frame)
                 
                 if self.draw_fps:
-                    # Calculate FPS for the current frame
-                    fps = 1 / (time.time() - t + 1e-10)
+                    if over_fps:
+                        fps = self.max_fps_send
+                    else:
+                        # Calculate FPS for the current frame
+                        fps = 1 / (time.time() - t + 1e-10)
                     # Add FPS to the list and keep only the last 10 values
                     fps_values.append(fps)
                     if len(fps_values) > 10:
@@ -708,7 +827,16 @@ class RWSModule():
                 
                 self.frame_counter = (self.frame_counter + 1) % 255
                 self.tracker.frame_update = False
+                
+                # Measure time taken for frame processing
+                elapsed_time = time.time() - t
+                if elapsed_time < self.min_frame_time:
+                    time.sleep(self.min_frame_time - elapsed_time)  # Sleep to maintain max FPS limit
+                    over_fps = True
+                else:
+                    over_fps = False
                 t = time.time()
+                
                 
                 # cv2.imshow('FRAME', frame_send)
                 # cv2.waitKey(20)
