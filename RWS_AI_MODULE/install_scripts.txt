@@ -1,0 +1,6 @@
+conda create -n rws python=3.11
+pip install torch==2.0.1+cu118 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install numpy==1.26.4
+pip install opencv-contrib-python==4.10.0.84
+pip install ultralytics==8.2.94
+pip install vidstab==1.7.4
