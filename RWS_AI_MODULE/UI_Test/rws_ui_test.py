@@ -478,12 +478,14 @@ class RWSController(QMainWindow):
         control_center.clicked.connect(self.open_control_center)
         
         self.result_label = QLabel("Received result")
+        self.status_label = QLabel("Received system status")
         # self.log_area = QPlainTextEdit(None)
         # self.log_area.setMaximumHeight(100)
         # self.log_area.setPlaceholderText("Log from tracker should be displayed here...")
         
         layout.addLayout(tools_layout)
         layout.addWidget(self.result_label)
+        layout.addWidget(self.status_label)
         layout.addWidget(self.video_label)
         # layout.addWidget(self.log_area)
         container = QWidget()
@@ -721,6 +723,9 @@ class RWSController(QMainWindow):
                 y1 = y_center-h//2
                 self.current_tracking = [confirm, x1, y1, w, h]
                 # self.result_label.setText(", ".join(map(str, self.current_tracking)))
+            
+            elif parts[0] == "TSR": # tracker focus target - bouding box of current tracking target
+                self.status_label.setText(data_str)
             
             elif parts[0] == "TNO":
                 notify_str = ",".join(parts[1:])

@@ -4,3 +4,4 @@ pip install numpy==1.26.4
 pip install opencv-contrib-python==4.10.0.84
 pip install ultralytics==8.2.94
 pip install vidstab==1.7.4
+pip install pynvml==11.5.3

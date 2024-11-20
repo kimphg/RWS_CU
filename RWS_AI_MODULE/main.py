@@ -10,6 +10,7 @@ import numpy as np
 import time
 from drawer import *
 from utils import *
+from system_monitor import get_system_monitor_data, set_current_cam_src
 from enum import Enum
 
 class ModuleMode(Enum):
@@ -86,6 +87,9 @@ class RWSModule():
         self.listen_controller_cmd_stop_event = threading.Event()
         self.listen_controller_cmd_thread = None
         
+        self.send_system_status_stop_event = threading.Event()
+        self.send_system_status_thread = None
+        
         # self.stabilizer = VidStab()
         self.enable_stabilizer = self.config.getboolean('vidstab', 'enable', fallback=False)
         self.stabilizer_smoothing_window = int(self.config.get('vidstab', 'smoothing_window', fallback=5))
@@ -116,7 +120,9 @@ class RWSModule():
                     logger.debug(f"Resize input video and process with size: ({self.process_video_width},{self.process_video_height})")
                 else:
                     logger.debug(f"Process video with size: ({self.process_video_width},{self.process_video_height})")
-
+            
+            set_current_cam_src(self.cap)
+            
         # detector settings
         self.detector = None
         if self.config.get('detector', 'type', fallback='yolo') == 'yolo':
@@ -210,7 +216,8 @@ class RWSModule():
                 
             self.detector.set_process_video_size(self.process_video_width, self.process_video_height)
             self.tracker.set_process_video_size(self.process_video_width, self.process_video_height)
-
+            
+        set_current_cam_src(self.cap)
             
     def send_current_detection(self):
         # print(f"Need to send: {self.detector.get_current_result_string()}")
@@ -257,6 +264,21 @@ class RWSModule():
             # time.sleep(0.001)
             
         # logger.debug(f'Sent frame to {address} id: {frame_counter} - size: {len(data)}')
+        
+    def start_send_system_status(self):
+        logger.info(f'Periodically sent system status to ({self.dest_data_ip}:{self.dest_data_port})')
+        if self.send_system_status_thread is None or not self.send_system_status_thread.is_alive():
+            self.send_system_status_stop_event.clear()
+            self.send_system_status_thread = threading.Thread(target=self._start_send_system_status, args=())
+            self.send_system_status_thread.start()
+            
+    def _start_send_system_status(self):
+        while True:
+            if self.send_system_status_stop_event.is_set():
+                break
+            sys_data = get_system_monitor_data()
+            self.send_data_to_controller('TSR',sys_data)
+            time.sleep(1.5)
         
     def start_listen_controller_command(self):
         logger.info(f'Listening controller command at ({self.recv_command_ip}:{self.recv_command_port})')
@@ -1022,6 +1044,7 @@ if __name__ == "__main__":
     rws_module = RWSModule()
     rws_module.start_exploration_mode()
     rws_module.start_listen_controller_command()
+    rws_module.start_send_system_status()
     
     
     
