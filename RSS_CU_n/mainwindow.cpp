@@ -1379,33 +1379,7 @@ void MainWindow::updateData()
         if (parts[0] == "MSR")  // Kiểm tra gói tin thông tin Motion Status Report
         {
 
-           for(int i=1;i<parts.length();i++)
-           {
-               QStringList fields = parts[i].split(':');
-               if(fields.length()==2)
-               {
-                   QString dataType = fields[0];
-                   QString dataValue = fields[1];
-                   if(dataType=="gyro1")
-                   {
-                       ui->lineEdit_gyro1->setText(dataValue);
-                   }
-                   else if(dataType=="gyro2")
-                   {
-                       ui->lineEdit_gyro2->setText(dataValue);
-                   }
-                   else if(dataType=="gyro3")
-                   {
-                       ui->lineEdit_gyro_3->setText(dataValue);
-                   }
-                   else if(dataType=="uptime")
-                   {
-                       ui->lineEdit_uptime->setText(dataValue);
-                   }
-
-                   //todo: thêm gmotor,res,vlimit,hlimit,act1,act2,coil1,coil2
-               }
-           }
+           readMotionStatus(parts);
 
         }
 
@@ -1451,7 +1425,36 @@ void MainWindow::updateData()
 
     _flushall();
 }
+void MainWindow::readMotionStatus(QStringList parts)
+{
+    for(int i=1;i<parts.length();i++)
+    {
+        QStringList fields = parts[i].split(':');
+        if(fields.length()==2)
+        {
+            QString dataType = fields[0];
+            QString dataValue = fields[1];
+            if(dataType=="gyro1")
+            {
+                ui->lineEdit_gyro1->setText(dataValue);
+            }
+            else if(dataType=="gyro2")
+            {
+                ui->lineEdit_gyro2->setText(dataValue);
+            }
+            else if(dataType=="gyro3")
+            {
+                ui->lineEdit_gyro_3->setText(dataValue);
+            }
+            else if(dataType=="uptime")
+            {
+                ui->lineEdit_uptime->setText(dataValue);
+            }
 
+            //todo: thêm gmotor,res,vlimit,hlimit,act1,act2,coil1,coil2
+        }
+    }
+}
 void MainWindow::processDatagramLaser(QByteArray data)
 {
 
