@@ -11,10 +11,23 @@ byte mac[] = {
  0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED
 };
 IPAddress ip(192, 168, 0, 7);
-IPAddress ipRemote1(192, 168, 0, 160);
+IPAddress ipRemote1(192, 168, 0, 77);
 IPAddress ipRemote2(192, 168, 0, 73);
 EthernetUDP udpsocket;  //eth
 int com_mode;
+void sendUDP(String msg)
+{
+  int len = msg.length();
+  char buf[len];
+  msg.toCharArray(buf, len);
+  // Serial.print(buf);
+  udpsocket.beginPacket(ipRemote1, 4000);
+  udpsocket.write(buf, len);
+  udpsocket.endPacket();
+  udpsocket.beginPacket(ipRemote2, 4000);
+  udpsocket.write(buf, len);
+  udpsocket.endPacket();
+}
 void reportDebug(const char* msg)
 {
 //  //S_CONTROL.print("$MSG,");
@@ -39,6 +52,14 @@ void reportDebug(const char* msg)
   
   Serial.print("$MSG,");
   Serial.println(msg);
+  // int len=strlen(msg);
+  // udpsocket.beginPacket(ipRemote1, 4000);
+  // udpsocket.write(msg, len);
+  // udpsocket.endPacket();
+  // udpsocket.beginPacket(ipRemote2, 4000);
+  // udpsocket.write(msg, len);
+  // udpsocket.endPacket();
+  // sendUDP(String(msg));
 }
 
 std::vector<String> splitString(String input,char sep)
@@ -93,6 +114,14 @@ void reportDebug(const char* msg,float value)
   Serial.print(msg);
   Serial.print(":");
   Serial.println(value);
+  // int len=strlen(msg);
+  // udpsocket.beginPacket(ipRemote1, 4000);
+  // udpsocket.write(msg, len);
+  // udpsocket.endPacket();
+  // udpsocket.beginPacket(ipRemote2, 4000);
+  // udpsocket.write(msg, len);
+  // udpsocket.endPacket();
+  // sendUDP(String(msg));
   //  int i=5;
   // EthReply[0]='$';
   // EthReply[1]='M';

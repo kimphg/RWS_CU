@@ -1321,7 +1321,7 @@ void MainWindow::updateData()
 
         //tamj ghi log vào textbrowser msg
         QString message = QString::fromUtf8(datagram.toHex());
-        ui->textBrowser_msg->append("Received from " + host.toString() + ":" + QString::number(port) + " - " + message);
+//        ui->textBrowser_msg->append("Received from " + host.toString() + ":" + QString::number(port) + " - " + message);
 
         //phản hồi từ tracker
         //Lọc các gói tin tập các bounding box ở chế độ sục sạo
@@ -1358,6 +1358,11 @@ void MainWindow::updateData()
                 // Cập nhật lại các bounding box cho video_window
                 ui->video_stack_1->Vector_BoundingBox = Vector_BoundingBox;
             }
+        }
+        if(parts[0]=="MMSG")
+        {
+            if(parts.length()>=2)
+            ui->textBrowser_msg->append("Motion:"+parts[1]);
         }
         if (parts[0] == "TFT")  // Kiểm tra gói tin thông tin bám
         {
@@ -1446,6 +1451,7 @@ void MainWindow::readMotionStatus(QStringList parts)
             {
                 ui->lineEdit_gyro_3->setText(dataValue);
             }
+
             else if(dataType=="uptime")
             {
                 ui->lineEdit_uptime->setText(dataValue);

@@ -154,19 +154,7 @@ void processCommand(String command) {
     // Serial.print("set param packet");
   }
 }
-void sendUDP(String msg)
-{
-  int len = msg.length();
-  char buf[len];
-  msg.toCharArray(buf, len);
-  // Serial.print(buf);
-  udpsocket.beginPacket(ipRemote1, 4000);
-  udpsocket.write(buf, len);
-  udpsocket.endPacket();
-  udpsocket.beginPacket(ipRemote2, 4000);
-  udpsocket.write(buf, len);
-  udpsocket.endPacket();
-}
+
 void processMessage(String msg) {
   // Serial.print(command);
 

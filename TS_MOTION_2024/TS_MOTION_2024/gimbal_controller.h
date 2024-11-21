@@ -190,7 +190,7 @@ class CGimbalController
         {
           freq1 = value;
         }
-        else if(param.equals("freq1"))
+        else if(param.equals("freq2"))
         {
           freq2 = value;
         }
@@ -552,12 +552,20 @@ void CGimbalController::UserUpdate()//
   if(isStimConnected)
   { 
     isStimConnected = (stimFailCount <5);
-    if(!isStimConnected)reportDebug("STIM disconnected",stimFailCount);
+    if(!isStimConnected)
+    {
+      reportDebug("STIM disconnected",stimFailCount);
+      // sendUDP(String("MMSG,GYRO 1 disconnected"));
+    }
   }
   else 
   {
     isStimConnected = (stimFailCount <5);
-    if(isStimConnected)reportDebug("STIM connected",stimFailCount);
+    if(isStimConnected)
+    {
+      reportDebug("STIM connected",stimFailCount);
+      // sendUDP(String("MMSG,GYRO 1 connected"));
+    }
   }
   if (gyroYok > 0)  gyroYok--;
   else    gyroY = 0;
@@ -605,8 +613,8 @@ void CGimbalController::UserUpdate()//
 //  Serial.println(stim_data.y_rate);
 float zrate = stim_data.z_rate+getZhistory(freq1)*0.7+getZhistory(freq2)*0.3;
     float v_control_d = (v_user_speed+zrate)*param_v_d ;
-    if(v_control_d>0.1)v_control_d=0.1;
-    if(v_control_d<-0.1)v_control_d=-0.1;
+    // if(v_control_d>0.1)v_control_d=0.1;
+    // if(v_control_d<-0.1)v_control_d=-0.1;
     userEle += (v_user_speed) * CONTROL_TIME_STAMP / 12.0;
     float v_control_angle = (userEle + stim_data.z_angle /3.0)  * 60 ;
     v_integrate += v_control_angle/60.0;
@@ -699,7 +707,7 @@ void CGimbalController::readSensorData()//200 microseconds
       mStimMsgCount++;
       mGyroCount1++;
       addZhistory(stim_data.z_rate);
-
+      // Serial.println(stim_data.z_rate);
     }
     lastStimByteTime = timeMicros;
   }
