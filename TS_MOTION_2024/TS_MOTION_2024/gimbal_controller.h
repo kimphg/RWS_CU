@@ -424,11 +424,11 @@ void CGimbalController::initGimbal()
   h_abs_pos = 0;
   v_abs_pos = 0;
   userAlive = 1;
-  param_h_p = 2.0;
-  param_h_i = 2.5;
-  param_h_d = -0.2;
+  param_h_p = 1.2;
+  param_h_i = 2.0;
+  param_h_d = -0.15;
   param_v_p = 2.0;
-  param_v_i = 2.5;
+  param_v_i = 2.2;
   param_v_d = -0.2;
   pinMode(CT1, INPUT);
   pinMode(CT2, INPUT);
