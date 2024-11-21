@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
     compasscustom_widget.cpp \
     control_center_dialog.cpp \
+    dialog_motion_param.cpp \
         mainwindow.cpp \
     c_gimbal_control.cpp \
     c_config.cpp \
@@ -43,6 +44,7 @@ SOURCES += main.cpp\
 HEADERS  += \
     compasscustom_widget.h \
     control_center_dialog.h \
+    dialog_motion_param.h \
     mainwindow.h \
     c_gimbal_control.h \
     c_config.h \
@@ -62,6 +64,7 @@ HEADERS  += \
 
 FORMS    += mainwindow.ui \
     control_center_dialog.ui \
+    dialog_motion_param.ui \
     dialogconfig.ui
 INCLUDEPATH += "C:/opencv/opencv2413/build/include"
 win32:CONFIG(debug, debug|release):LIBS += -L"C:/opencv/opencv2413/build/x64/vc12/lib/" -lopencv_core2413d

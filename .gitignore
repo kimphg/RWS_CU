@@ -27,3 +27,4 @@ build-RSS_CU_n-Desktop_Qt_5_14_2_MSVC2017_64bit-Release/.qmake.stash
 *.Release
 /build-RSS_CU_n-Desktop_Qt_5_14_2_MSVC2017_64bit-Release
 *.Debug
+*.Release
