@@ -167,7 +167,11 @@ void processMessage(String msg) {
       String msg = gimbal.reportStat();
       sendUDP(msg);
     }
-
+    if ((tokens[1].equals("param")) && (tokens.size() == 2)) {
+      // Serial.println(msg);
+      String msg = gimbal.reportParam();
+      sendUDP(msg);
+    }
     else {
       Serial.print("unknown packet");
     }
