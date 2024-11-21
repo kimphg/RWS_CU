@@ -354,59 +354,60 @@ String CGimbalController::reportStat()
   // Serial.println(report);
     return report;
   }
-  String CGimbalController::reportParam()
-{
-  String report;
-  
-  {
-
-    report = "MSR,";
-    pelco_count = 0;
-    float gyro_fps = mGyroCount1*1000.0 / dt;
-    mGyroCount1 = 0;
-    report.append("p:");
-    report.append(String(gyro_fps));
-    report.append(",");
-    gyro_fps = mGyroCount2*1000.0 / dt;
-    mGyroCount2 = 0;
-    report.append("gyro2:");
-    report.append(String(gyro_fps));
-    report.append(",");
-    gyro_fps = mGyroCount3*1000.0 / dt;
-    mGyroCount3 = 0;
-    report.append("gyro3:");
-    report.append(String(gyro_fps));
-    report.append(",");
-    report.append("gmotor:");
-    report.append(String(1));
-    report.append(",");
-    report.append("cmotor:");
-    report.append(String(1));
-    report.append(",");
-    report.append("res:");
-    report.append(String(1));
-    report.append(",");
-    report.append("vlimit:");
-    report.append(String(ct11+ct12*2));
-    report.append(",");
-    report.append("hlimit:");
-    report.append(String(ct21+ct22*2));
-    report.append(",");
-    report.append("coil1:");
-    report.append("OK");
-    report.append(",");
-    report.append("coil2:");
-    report.append("OK");
-    report.append(",");
-    report.append("uptime:");
-    report.append(String(curTime/1000.0));
-    report.append(",");
-  // Serial.println(report);
-    return report;
-  }
-
-  //        controlerReport();
 }
+//   String CGimbalController::reportParam()
+// {
+//   String report;
+  
+//   {
+
+//     report = "MSR,";
+//     pelco_count = 0;
+//     float gyro_fps = mGyroCount1*1000.0 / dt;
+//     mGyroCount1 = 0;
+//     report.append("p:");
+//     report.append(String(gyro_fps));
+//     report.append(",");
+//     gyro_fps = mGyroCount2*1000.0 / dt;
+//     mGyroCount2 = 0;
+//     report.append("gyro2:");
+//     report.append(String(gyro_fps));
+//     report.append(",");
+//     gyro_fps = mGyroCount3*1000.0 / dt;
+//     mGyroCount3 = 0;
+//     report.append("gyro3:");
+//     report.append(String(gyro_fps));
+//     report.append(",");
+//     report.append("gmotor:");
+//     report.append(String(1));
+//     report.append(",");
+//     report.append("cmotor:");
+//     report.append(String(1));
+//     report.append(",");
+//     report.append("res:");
+//     report.append(String(1));
+//     report.append(",");
+//     report.append("vlimit:");
+//     report.append(String(ct11+ct12*2));
+//     report.append(",");
+//     report.append("hlimit:");
+//     report.append(String(ct21+ct22*2));
+//     report.append(",");
+//     report.append("coil1:");
+//     report.append("OK");
+//     report.append(",");
+//     report.append("coil2:");
+//     report.append("OK");
+//     report.append(",");
+//     report.append("uptime:");
+//     report.append(String(curTime/1000.0));
+//     report.append(",");
+//   // Serial.println(report);
+//     return report;
+//   }
+
+//   //        controlerReport();
+// }
 
 void CGimbalController::initGimbal()
 {
@@ -423,12 +424,12 @@ void CGimbalController::initGimbal()
   h_abs_pos = 0;
   v_abs_pos = 0;
   userAlive = 1;
-  param_h_p = 0.0;
-  param_h_i = 0.0;
-  param_h_d = 0.0;
-  param_v_p = 0.0;
-  param_v_i = 0.0;
-  param_v_d = 0.0;
+  param_h_p = 2.0;
+  param_h_i = 2.5;
+  param_h_d = -0.2;
+  param_v_p = 2.0;
+  param_v_i = 2.5;
+  param_v_d = -0.2;
   pinMode(CT1, INPUT);
   pinMode(CT2, INPUT);
   pinMode(CT3, INPUT);
