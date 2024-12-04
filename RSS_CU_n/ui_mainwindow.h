@@ -270,10 +270,14 @@ public:
     QSpacerItem *horizontalSpacer_7;
     QGroupBox *groupBox_16;
     QGridLayout *gridLayout_33;
-    QLabel *label_192;
+    QLabel *label_195;
+    QLineEdit *lineEdit_stt_cam;
     QLabel *label_191;
-    QLineEdit *lineEdit_14;
-    QLineEdit *lineEdit_13;
+    QLineEdit *lineEdit_stt_tracker;
+    QLabel *label_192;
+    QLineEdit *lineEdit_stt_cpu;
+    QLabel *label_194;
+    QLineEdit *lineEdit_stt_gpu;
     QGridLayout *gridLayout_29;
     QGroupBox *groupBox_17;
     QGridLayout *gridLayout_32;
@@ -2024,31 +2028,55 @@ public:
         gridLayout_33 = new QGridLayout(groupBox_16);
         gridLayout_33->setObjectName(QString::fromUtf8("gridLayout_33"));
         gridLayout_33->setVerticalSpacing(2);
-        label_192 = new QLabel(groupBox_16);
-        label_192->setObjectName(QString::fromUtf8("label_192"));
+        label_195 = new QLabel(groupBox_16);
+        label_195->setObjectName(QString::fromUtf8("label_195"));
 
-        gridLayout_33->addWidget(label_192, 1, 0, 1, 1);
+        gridLayout_33->addWidget(label_195, 3, 0, 1, 1);
+
+        lineEdit_stt_cam = new QLineEdit(groupBox_16);
+        lineEdit_stt_cam->setObjectName(QString::fromUtf8("lineEdit_stt_cam"));
+        QFont font6;
+        font6.setPointSize(8);
+        lineEdit_stt_cam->setFont(font6);
+        lineEdit_stt_cam->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
+
+        gridLayout_33->addWidget(lineEdit_stt_cam, 1, 2, 1, 1);
 
         label_191 = new QLabel(groupBox_16);
         label_191->setObjectName(QString::fromUtf8("label_191"));
 
         gridLayout_33->addWidget(label_191, 0, 0, 1, 1);
 
-        lineEdit_14 = new QLineEdit(groupBox_16);
-        lineEdit_14->setObjectName(QString::fromUtf8("lineEdit_14"));
-        QFont font6;
-        font6.setPointSize(8);
-        lineEdit_14->setFont(font6);
-        lineEdit_14->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
+        lineEdit_stt_tracker = new QLineEdit(groupBox_16);
+        lineEdit_stt_tracker->setObjectName(QString::fromUtf8("lineEdit_stt_tracker"));
+        lineEdit_stt_tracker->setFont(font6);
+        lineEdit_stt_tracker->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
 
-        gridLayout_33->addWidget(lineEdit_14, 1, 1, 1, 1);
+        gridLayout_33->addWidget(lineEdit_stt_tracker, 0, 2, 1, 1);
 
-        lineEdit_13 = new QLineEdit(groupBox_16);
-        lineEdit_13->setObjectName(QString::fromUtf8("lineEdit_13"));
-        lineEdit_13->setFont(font6);
-        lineEdit_13->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
+        label_192 = new QLabel(groupBox_16);
+        label_192->setObjectName(QString::fromUtf8("label_192"));
 
-        gridLayout_33->addWidget(lineEdit_13, 0, 1, 1, 1);
+        gridLayout_33->addWidget(label_192, 1, 0, 1, 1);
+
+        lineEdit_stt_cpu = new QLineEdit(groupBox_16);
+        lineEdit_stt_cpu->setObjectName(QString::fromUtf8("lineEdit_stt_cpu"));
+        lineEdit_stt_cpu->setFont(font6);
+        lineEdit_stt_cpu->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
+
+        gridLayout_33->addWidget(lineEdit_stt_cpu, 2, 2, 1, 1);
+
+        label_194 = new QLabel(groupBox_16);
+        label_194->setObjectName(QString::fromUtf8("label_194"));
+
+        gridLayout_33->addWidget(label_194, 2, 0, 1, 1);
+
+        lineEdit_stt_gpu = new QLineEdit(groupBox_16);
+        lineEdit_stt_gpu->setObjectName(QString::fromUtf8("lineEdit_stt_gpu"));
+        lineEdit_stt_gpu->setFont(font6);
+        lineEdit_stt_gpu->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
+
+        gridLayout_33->addWidget(lineEdit_stt_gpu, 3, 2, 1, 1);
 
 
         gridLayout_30->addWidget(groupBox_16, 0, 1, 1, 1);
@@ -4115,8 +4143,10 @@ public:
         label_177->setText(QCoreApplication::translate("MainWindow", "Latitude:", nullptr));
         label_178->setText(QCoreApplication::translate("MainWindow", "Altitude:", nullptr));
         groupBox_16->setTitle(QCoreApplication::translate("MainWindow", "TRACKER", nullptr));
-        label_192->setText(QCoreApplication::translate("MainWindow", "Tr\341\272\241ng th\303\241i camera:", nullptr));
+        label_195->setText(QCoreApplication::translate("MainWindow", "Tr\341\272\241ng th\303\241i GPU:", nullptr));
         label_191->setText(QCoreApplication::translate("MainWindow", "H\341\273\207 x\341\273\255 l\303\275 b\303\241m \341\272\243nh:", nullptr));
+        label_192->setText(QCoreApplication::translate("MainWindow", "Tr\341\272\241ng th\303\241i camera:", nullptr));
+        label_194->setText(QCoreApplication::translate("MainWindow", "Tr\341\272\241ng th\303\241i CPU:", nullptr));
         groupBox_17->setTitle(QCoreApplication::translate("MainWindow", "MOTION", nullptr));
         label_189->setText(QCoreApplication::translate("MainWindow", "C\303\241c c\341\272\243m bi\341\272\277n h\341\272\241n v\341\273\213 t\341\272\247m:", nullptr));
         label_186->setText(QCoreApplication::translate("MainWindow", "Tr\341\272\241ng th\303\241i Gyro 2:", nullptr));

@@ -2960,22 +2960,15 @@
                    <property name="verticalSpacing">
                     <number>2</number>
                    </property>
-                   <item row="1" column="0">
-                    <widget class="QLabel" name="label_192">
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="label_195">
                      <property name="text">
-                      <string>Trạng thái camera:</string>
+                      <string>Trạng thái GPU:</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label_191">
-                     <property name="text">
-                      <string>Hệ xử lý bám ảnh:</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QLineEdit" name="lineEdit_14">
+                   <item row="1" column="2">
+                    <widget class="QLineEdit" name="lineEdit_stt_cam">
                      <property name="font">
                       <font>
                        <pointsize>8</pointsize>
@@ -2986,8 +2979,53 @@
                      </property>
                     </widget>
                    </item>
-                   <item row="0" column="1">
-                    <widget class="QLineEdit" name="lineEdit_13">
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_191">
+                     <property name="text">
+                      <string>Hệ xử lý bám ảnh:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="2">
+                    <widget class="QLineEdit" name="lineEdit_stt_tracker">
+                     <property name="font">
+                      <font>
+                       <pointsize>8</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(0, 245, 210);</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_192">
+                     <property name="text">
+                      <string>Trạng thái camera:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="2">
+                    <widget class="QLineEdit" name="lineEdit_stt_cpu">
+                     <property name="font">
+                      <font>
+                       <pointsize>8</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(0, 245, 210);</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_194">
+                     <property name="text">
+                      <string>Trạng thái CPU:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="2">
+                    <widget class="QLineEdit" name="lineEdit_stt_gpu">
                      <property name="font">
                       <font>
                        <pointsize>8</pointsize>

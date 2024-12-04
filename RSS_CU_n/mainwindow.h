@@ -351,6 +351,7 @@ private:
     //    QUdpSocket* mcuSocket;
     void processUDP(QByteArray data);
     void readMotionStatus(QStringList parts);
+    void readTrackerStatus(QStringList parts);
 };
 
 #endif // MAINWINDOW_H

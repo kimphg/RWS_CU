@@ -1387,6 +1387,12 @@ void MainWindow::updateData()
            readMotionStatus(parts);
 
         }
+        if (parts[0] == "TSR")  // Kiểm tra gói tin thông tin Motion Status Report
+        {
+
+           readTrackerStatus(parts);
+
+        }
 
 
         //%WINDIR%\System32\cmd.exe "/K" C:\ProgramData\miniconda3\Scripts\activate.bat C:\ProgramData\miniconda3
@@ -1456,6 +1462,40 @@ void MainWindow::readMotionStatus(QStringList parts)
             {
                 ui->lineEdit_uptime->setText(dataValue);
             }
+
+            //todo: thêm gmotor,res,vlimit,hlimit,act1,act2,coil1,coil2
+        }
+    }
+}
+void MainWindow::readTrackerStatus(QStringList parts)
+{
+    for(int i=1;i<parts.length();i++)
+    {
+        QStringList fields = parts[i].split(':');
+        if(fields.length()==2)
+        {
+            QString dataType = fields[0];
+            QString dataValue = fields[1];
+            if(dataType=="camera")
+            {
+                ui->lineEdit_stt_cam->setText(dataValue);
+            }
+            else if(dataType=="cpu")
+            {
+                ui->lineEdit_stt_cpu->setText(dataValue);
+            }
+            else if(dataType=="gpu")
+            {
+                ui->lineEdit_stt_gpu->setText(dataValue);
+            }
+//            else if(dataType=="gyro3")
+//            {
+//                ui->lineEdit_gyro_3->setText(dataValue);
+//            }
+//            else if(dataType=="uptime")
+//            {
+//                ui->lineEdit_uptime->setText(dataValue);
+//            }
 
             //todo: thêm gmotor,res,vlimit,hlimit,act1,act2,coil1,coil2
         }
