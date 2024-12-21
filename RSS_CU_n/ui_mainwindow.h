@@ -3997,7 +3997,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(5);
+        stackedWidget->setCurrentIndex(1);
         stackedWidget_dasight_2->setCurrentIndex(0);
         stackedWidget_dasight_3->setCurrentIndex(0);
         stackedWidget_irsight_2->setCurrentIndex(0);
@@ -4035,15 +4035,15 @@ public:
         label->setText(QCoreApplication::translate("MainWindow", "Day Sight", nullptr));
         label_6->setText(QCoreApplication::translate("MainWindow", "System", nullptr));
         bt_f_4_2->setText(QString());
-        label_84->setText(QCoreApplication::translate("MainWindow", "Mode", nullptr));
+        label_84->setText(QCoreApplication::translate("MainWindow", "Ch\341\272\277 \304\221\341\273\231:", nullptr));
         label_99->setText(QCoreApplication::translate("MainWindow", "STAB", nullptr));
         label_101->setText(QCoreApplication::translate("MainWindow", "M8", nullptr));
         label_100->setText(QCoreApplication::translate("MainWindow", "M2HB", nullptr));
         pushButton_continuous_shot->setText(QString());
         pushButton_burst_shot->setText(QString());
         pushButton_single_shot->setText(QString());
-        label_93->setText(QCoreApplication::translate("MainWindow", "Ammo", nullptr));
-        label_90->setText(QCoreApplication::translate("MainWindow", "Weapon", nullptr));
+        label_93->setText(QCoreApplication::translate("MainWindow", "Lo\341\272\241i \304\221\341\272\241n:", nullptr));
+        label_90->setText(QCoreApplication::translate("MainWindow", "V\305\251 kh\303\255:", nullptr));
         label_102->setText(QCoreApplication::translate("MainWindow", "100", nullptr));
         label_103->setText(QCoreApplication::translate("MainWindow", "/999", nullptr));
         label_104->setText(QCoreApplication::translate("MainWindow", "736", nullptr));
@@ -4077,15 +4077,15 @@ public:
         pushButton_025mrad->setText(QCoreApplication::translate("MainWindow", "0.25 mrad", nullptr));
         pushButton_5mrad->setText(QCoreApplication::translate("MainWindow", "5 mrad", nullptr));
         groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "Initial Fire Corrections", nullptr));
-        groupBox_3->setTitle(QCoreApplication::translate("MainWindow", "Current Configuration ", nullptr));
-        label_138->setText(QCoreApplication::translate("MainWindow", "Elevation:", nullptr));
+        groupBox_3->setTitle(QCoreApplication::translate("MainWindow", "C\341\272\245u h\303\254nh hi\341\273\207n t\341\272\241i", nullptr));
+        label_138->setText(QCoreApplication::translate("MainWindow", "T\341\272\247m:", nullptr));
         label_140->setText(QCoreApplication::translate("MainWindow", "0 mrad", nullptr));
-        label_139->setText(QCoreApplication::translate("MainWindow", "Azimuth:", nullptr));
+        label_139->setText(QCoreApplication::translate("MainWindow", "H\306\260\341\273\233ng:", nullptr));
         label_141->setText(QCoreApplication::translate("MainWindow", "0 mrad", nullptr));
-        groupBox_4->setTitle(QCoreApplication::translate("MainWindow", "New Configuration", nullptr));
-        label_142->setText(QCoreApplication::translate("MainWindow", "Elevation:", nullptr));
+        groupBox_4->setTitle(QCoreApplication::translate("MainWindow", "C\341\272\245u h\303\254nh m\341\273\233i", nullptr));
+        label_142->setText(QCoreApplication::translate("MainWindow", "T\341\272\247m:", nullptr));
         label_144->setText(QCoreApplication::translate("MainWindow", "0 mrad", nullptr));
-        label_143->setText(QCoreApplication::translate("MainWindow", "Azimuth:", nullptr));
+        label_143->setText(QCoreApplication::translate("MainWindow", "H\306\260\341\273\233ng:", nullptr));
         label_145->setText(QCoreApplication::translate("MainWindow", "0 mrad", nullptr));
         pushButton_elevation->setText(QCoreApplication::translate("MainWindow", "Elevation", nullptr));
         pushButton_05_mrad_second->setText(QCoreApplication::translate("MainWindow", "0.5 mrad", nullptr));
