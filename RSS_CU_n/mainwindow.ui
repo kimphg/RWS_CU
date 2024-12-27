@@ -1672,7 +1672,7 @@
           <string notr="true">background-color: rgba(3,38,44,255);</string>
          </property>
          <property name="currentIndex">
-          <number>5</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="frame_video_stack_1">
           <layout class="QVBoxLayout" name="verticalLayout_27" stretch="5,1">
@@ -1719,7 +1719,7 @@
                 <string notr="true">color: rgb(123, 154, 147);</string>
                </property>
                <property name="title">
-                <string>Fire Correction Step</string>
+                <string>Hiệu chỉnh bắn</string>
                </property>
               </widget>
              </item>
@@ -1879,7 +1879,7 @@
                 <string notr="true">color: rgb(123, 154, 147);</string>
                </property>
                <property name="title">
-                <string>Initial Fire Corrections</string>
+                <string>Hiệu chỉnh bắn ban đầu</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_30" stretch="2,2,3">
                 <property name="leftMargin">
@@ -2208,7 +2208,7 @@
                 <string notr="true">color: rgb(123, 154, 147);</string>
                </property>
                <property name="title">
-                <string>Warning Fire</string>
+                <string>Bắn cảnh cáo</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_31" stretch="2,2">
                 <property name="leftMargin">
@@ -2232,7 +2232,7 @@
                    </font>
                   </property>
                   <property name="title">
-                   <string>Current Configuration </string>
+                   <string>Cấu hình hiện tại</string>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_17">
                    <item row="1" column="1">
@@ -2245,28 +2245,35 @@
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_146">
                      <property name="text">
-                      <string>State:</string>
+                      <string>Trạng thái:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_148">
                      <property name="text">
-                      <string>Displacement:</string>
+                      <string>Độ lệch:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="0" column="1">
                     <widget class="QLabel" name="label_147">
                      <property name="text">
-                      <string>Deactivated</string>
+                      <string>Tắt</string>
                      </property>
                     </widget>
                    </item>
                    <item row="2" column="1">
                     <widget class="QLabel" name="label_154">
                      <property name="text">
-                      <string>RIGHT</string>
+                      <string>Trái</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_196">
+                     <property name="text">
+                      <string>Hướng lệch:</string>
                      </property>
                     </widget>
                    </item>
@@ -2282,20 +2289,20 @@
                    </font>
                   </property>
                   <property name="title">
-                   <string>New Configuration</string>
+                   <string>Cấu hình mới</string>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_18">
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_152">
                      <property name="text">
-                      <string>Displacement:</string>
+                      <string>Độ lệch:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="0" column="1">
                     <widget class="QLabel" name="label_151">
                      <property name="text">
-                      <string>Deactivated</string>
+                      <string>Tắt</string>
                      </property>
                     </widget>
                    </item>
@@ -2309,14 +2316,21 @@
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_150">
                      <property name="text">
-                      <string>State:</string>
+                      <string>Trạng thái:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="2" column="1">
                     <widget class="QLabel" name="label_155">
                      <property name="text">
-                      <string>RIGHT</string>
+                      <string>Phải</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="label_197">
+                     <property name="text">
+                      <string>Hướng  lệch:</string>
                      </property>
                     </widget>
                    </item>
@@ -2360,7 +2374,7 @@
                 <string notr="true">color: rgb(123, 154, 147);</string>
                </property>
                <property name="text">
-                <string>LEFT</string>
+                <string>Trái</string>
                </property>
               </widget>
              </item>
@@ -2381,7 +2395,7 @@
                 <string notr="true">color: rgb(123, 154, 147);</string>
                </property>
                <property name="text">
-                <string>RIGHT</string>
+                <string>Phải</string>
                </property>
               </widget>
              </item>
@@ -2402,7 +2416,7 @@
                 <string notr="true">color: rgb(123, 154, 147);</string>
                </property>
                <property name="text">
-                <string>Deactivated</string>
+                <string>Tắt</string>
                </property>
               </widget>
              </item>
@@ -2425,7 +2439,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="title">
-              <string>Event List</string>
+              <string>Danh sách sự kiện hê thống</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_33" stretch="7,2">
               <item>
@@ -2442,7 +2456,7 @@
                     </font>
                    </property>
                    <property name="text">
-                    <string>Laser Ranging</string>
+                    <string>Đo xa</string>
                    </property>
                   </widget>
                  </item>
@@ -2454,7 +2468,7 @@
                     </font>
                    </property>
                    <property name="text">
-                    <string>Tracker Launching</string>
+                    <string>Bám ảnh</string>
                    </property>
                   </widget>
                  </item>
@@ -2466,7 +2480,7 @@
                     </font>
                    </property>
                    <property name="text">
-                    <string>Lost Tracker Target</string>
+                    <string>Mất bám</string>
                    </property>
                   </widget>
                  </item>
@@ -2478,7 +2492,7 @@
                     </font>
                    </property>
                    <property name="text">
-                    <string>Firing</string>
+                    <string>Hỏa lực</string>
                    </property>
                   </widget>
                  </item>
@@ -2490,7 +2504,7 @@
                     </font>
                    </property>
                    <property name="text">
-                    <string>Bit Execution</string>
+                    <string>Thao tác </string>
                    </property>
                   </widget>
                  </item>
@@ -2529,7 +2543,7 @@
                    <string notr="true">color: rgb(123, 154, 147);</string>
                   </property>
                   <property name="text">
-                   <string>Select All</string>
+                   <string>Chọn</string>
                   </property>
                  </widget>
                 </item>
@@ -2550,7 +2564,7 @@
                    <string notr="true">color: rgb(123, 154, 147);</string>
                   </property>
                   <property name="text">
-                   <string>Save</string>
+                   <string>Lưu</string>
                   </property>
                  </widget>
                 </item>
@@ -2585,7 +2599,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="title">
-              <string>Event Properties</string>
+              <string>Thông tin</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_15">
               <item>
@@ -2596,7 +2610,7 @@
                    <string notr="true">color: rgb(123, 154, 147);</string>
                   </property>
                   <property name="text">
-                   <string>Gyros and Tachometers:</string>
+                   <string>Con quay và emcoder:</string>
                   </property>
                  </widget>
                 </item>
@@ -2628,41 +2642,41 @@
                    <string notr="true">color: rgb(123, 154, 147);</string>
                   </property>
                   <property name="title">
-                   <string>General</string>
+                   <string>Thông tin</string>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_24">
                    <item row="2" column="0">
                     <widget class="QLabel" name="label_164">
                      <property name="text">
-                      <string>Fire Mode:</string>
+                      <string>Chế độ HL:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_163">
                      <property name="text">
-                      <string>Weapon Type:</string>
+                      <string>Loại vk:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="3" column="0">
                     <widget class="QLabel" name="label_165">
                      <property name="text">
-                      <string>Shots Number:</string>
+                      <string>Cơ số đạn:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_162">
                      <property name="text">
-                      <string>Event Type:</string>
+                      <string>Loại sự kiện:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="4" column="0">
                     <widget class="QLabel" name="label_166">
                      <property name="text">
-                      <string>Mode:</string>
+                      <string>Chế độ:</string>
                      </property>
                     </widget>
                    </item>
@@ -2681,34 +2695,34 @@
                    <string notr="true">color: rgb(123, 154, 147);</string>
                   </property>
                   <property name="title">
-                   <string>Sensors</string>
+                   <string>Chi tiết:</string>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_25">
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_167">
                      <property name="text">
-                      <string>Total Current:</string>
+                      <string>Dòng tổng:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="2" column="0">
                     <widget class="QLabel" name="label_169">
                      <property name="text">
-                      <string>Elevation Angle:</string>
+                      <string>Góc tầm:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_168">
                      <property name="text">
-                      <string>Tranversal Angle:</string>
+                      <string>Góc hướng:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="3" column="0">
                     <widget class="QLabel" name="label_170">
                      <property name="text">
-                      <string>Temperature:</string>
+                      <string>Nhiệt độ:</string>
                      </property>
                     </widget>
                    </item>
@@ -2775,20 +2789,20 @@
                    <string notr="true">color: rgb(123, 154, 147);</string>
                   </property>
                   <property name="title">
-                   <string>Range</string>
+                   <string>Cự ly</string>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_27">
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_174">
                      <property name="text">
-                      <string>Range:</string>
+                      <string>Cư ly:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_175">
                      <property name="text">
-                      <string>Mode:</string>
+                      <string>Chế độ đo xa:</string>
                      </property>
                     </widget>
                    </item>
@@ -2820,7 +2834,7 @@
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_172">
                      <property name="text">
-                      <string>Brightness:</string>
+                      <string>Độ sáng:</string>
                      </property>
                     </widget>
                    </item>
@@ -2852,21 +2866,21 @@
                    <item row="0" column="0">
                     <widget class="QLabel" name="label_176">
                      <property name="text">
-                      <string>Longitude:</string>
+                      <string>Kinh độ:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="label_177">
                      <property name="text">
-                      <string>Latitude:</string>
+                      <string>Vĩ độ:</string>
                      </property>
                     </widget>
                    </item>
                    <item row="2" column="0">
                     <widget class="QLabel" name="label_178">
                      <property name="text">
-                      <string>Altitude:</string>
+                      <string>Cao độ:</string>
                      </property>
                     </widget>
                    </item>
@@ -4115,7 +4129,7 @@
 </string>
              </property>
              <property name="text">
-              <string>Next</string>
+              <string>Tiếp</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -4166,7 +4180,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Gain Modes</string>
+              <string>Chế độ khuếch đại</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -4198,7 +4212,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Brightness (+)</string>
+              <string>Tăng sáng (+)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -4230,7 +4244,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Brightness (-)</string>
+              <string>Giảm sáng (-)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -4262,7 +4276,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Contrast (+)</string>
+              <string>Tăng tương phản (+)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -4294,7 +4308,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Contrast (-)</string>
+              <string>Giảm tương phản (-)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -4377,7 +4391,7 @@
 </string>
                  </property>
                  <property name="text">
-                  <string>Next</string>
+                  <string>Tiếp</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -4428,7 +4442,7 @@
                   <string notr="true">color: rgb(123, 154, 147);</string>
                  </property>
                  <property name="text">
-                  <string>ON/OFF</string>
+                  <string>Bật/tắt</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -4460,7 +4474,7 @@
                   <string notr="true">color: rgb(123, 154, 147);</string>
                  </property>
                  <property name="text">
-                  <string>Digital Zoom In </string>
+                  <string>Zoom số xa</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -4492,7 +4506,7 @@
                   <string notr="true">color: rgb(123, 154, 147);</string>
                  </property>
                  <property name="text">
-                  <string>Digital Zoom Out</string>
+                  <string>Zoom số gần</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -4524,7 +4538,7 @@
                   <string notr="true">color: rgb(123, 154, 147);</string>
                  </property>
                  <property name="text">
-                  <string>Edge Enhancement</string>
+                  <string>Nổi biên</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -4608,7 +4622,7 @@
 </string>
                  </property>
                  <property name="text">
-                  <string>Next</string>
+                  <string>Tiếp</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignCenter</set>
@@ -4804,7 +4818,7 @@
 </string>
              </property>
              <property name="text">
-              <string>Next</string>
+              <string>Tiếp</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -4855,7 +4869,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Image Tabilization</string>
+              <string>Chống rung hình ảnh</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -4924,7 +4938,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="page">
           <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -5212,7 +5226,7 @@
 </string>
              </property>
              <property name="text">
-              <string>Next</string>
+              <string>Tiếp</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5263,7 +5277,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Gain Modes </string>
+              <string>Chế độ khuếch đại</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5295,7 +5309,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Brightness (+)</string>
+              <string>Tăng sáng (+)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5327,7 +5341,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Brightness (-)</string>
+              <string>Giảm sáng (-)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5359,7 +5373,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Contrast (+)</string>
+              <string>Tăng tương phản(+)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5391,7 +5405,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Contrast (-)</string>
+              <string>Giảm tương phản (-)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5449,7 +5463,7 @@
 </string>
              </property>
              <property name="text">
-              <string>Next</string>
+              <string>Tiếp</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5500,7 +5514,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>ON/OFF</string>
+              <string>Bật/tắt</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5532,7 +5546,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Digital Zoom In</string>
+              <string>Zoom số xa</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5564,7 +5578,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Digital Zoom Out</string>
+              <string>Zoom số gần</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5596,7 +5610,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Infinity Focus</string>
+              <string>Tiêu cự xa</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5628,7 +5642,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Edge Enhancement</string>
+              <string>Nổi biên</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5686,7 +5700,7 @@
 </string>
              </property>
              <property name="text">
-              <string>Next</string>
+              <string>Tiếp</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5737,7 +5751,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Polarity</string>
+              <string>Phân cực</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5801,7 +5815,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Freeze/Unfreeze</string>
+              <string>Dừng hình</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5895,7 +5909,7 @@
 </string>
              </property>
              <property name="text">
-              <string>Range Cross</string>
+              <string>Cự ly dấu cộng</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -5927,7 +5941,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Range Square</string>
+              <string>Cự ly ô vuông</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6072,7 +6086,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="page_19">
           <layout class="QVBoxLayout" name="verticalLayout_15">
@@ -6354,7 +6368,7 @@
 </string>
              </property>
              <property name="text">
-              <string>Next</string>
+              <string>Tiếp</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6399,7 +6413,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Initial Fire Corrections</string>
+              <string>Hiệu chỉnh bắn</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6425,7 +6439,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Fire Control</string>
+              <string>Điều khiển bắn</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6451,7 +6465,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Fire Prediction</string>
+              <string>Lượng đón</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6477,7 +6491,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Super Elevation</string>
+              <string>Siêu tầm</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6503,7 +6517,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Warning Fire</string>
+              <string>Bắn cảnh cáo</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6555,7 +6569,7 @@
 </string>
              </property>
              <property name="text">
-              <string>Next</string>
+              <string>Tiếp</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6600,7 +6614,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Move To Standby</string>
+              <string>Chuyển chế độ chờ</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6618,6 +6632,16 @@
              <property name="text">
               <string/>
              </property>
+             <property name="icon">
+              <iconset resource="WeaponResourcesFile.qrc">
+               <normaloff>:/new/WeaponImages/Weapon_Images/WEAPON_TYPE_2.png</normaloff>:/new/WeaponImages/Weapon_Images/WEAPON_TYPE_2.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
+             </property>
             </widget>
            </item>
            <item>
@@ -6626,7 +6650,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Change Cannon ???</string>
+              <string>Thay đổi vũ khí</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6749,7 +6773,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Boresight</string>
+              <string>Căn chỉnh </string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6762,7 +6786,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Alignment</string>
+              <string>thước ngắm</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -6794,7 +6818,7 @@
               <string notr="true">color: rgb(123, 154, 147);</string>
              </property>
              <property name="text">
-              <string>Calibrate Drift</string>
+              <string>Chỉnh độ trôi</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -7054,6 +7078,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="WeaponResourcesFile.qrc"/>
   <include location="IrSight_ResourcesFile.qrc"/>
  </resources>
  <connections/>
