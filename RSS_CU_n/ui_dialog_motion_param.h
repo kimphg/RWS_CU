@@ -54,7 +54,7 @@ public:
     {
         if (Dialog_motion_param->objectName().isEmpty())
             Dialog_motion_param->setObjectName(QString::fromUtf8("Dialog_motion_param"));
-        Dialog_motion_param->resize(956, 325);
+        Dialog_motion_param->resize(988, 376);
         gridLayout = new QGridLayout(Dialog_motion_param);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         groupBox_setup = new QGroupBox(Dialog_motion_param);
@@ -218,15 +218,15 @@ public:
         label_5->setText(QCoreApplication::translate("Dialog_motion_param", "H\341\273\207 s\341\273\221 \304\221i\341\273\201u khi\341\273\203n v\303\262ng h\341\273\237:", nullptr));
         label_8->setText(QCoreApplication::translate("Dialog_motion_param", "T\341\272\247m:", nullptr));
         label_7->setText(QCoreApplication::translate("Dialog_motion_param", "H\306\260\341\273\233ng:", nullptr));
-        lineEdit_vp->setText(QCoreApplication::translate("Dialog_motion_param", "0.59", nullptr));
+        lineEdit_vp->setText(QCoreApplication::translate("Dialog_motion_param", "3", nullptr));
         label_6->setText(QCoreApplication::translate("Dialog_motion_param", "Tri\341\273\207t rung 1", nullptr));
         lineEdit_open_loop->setText(QCoreApplication::translate("Dialog_motion_param", "0.57", nullptr));
         lineEdit_vibration_1->setText(QCoreApplication::translate("Dialog_motion_param", "25", nullptr));
         label_4->setText(QCoreApplication::translate("Dialog_motion_param", "H\341\273\207 s\341\273\221 D:", nullptr));
-        lineEdit_vd->setText(QCoreApplication::translate("Dialog_motion_param", "0.18", nullptr));
+        lineEdit_vd->setText(QCoreApplication::translate("Dialog_motion_param", "-1", nullptr));
         label_2->setText(QCoreApplication::translate("Dialog_motion_param", "H\341\273\207 s\341\273\221 P:", nullptr));
         lineEdit_hd->setText(QCoreApplication::translate("Dialog_motion_param", "0.1", nullptr));
-        lineEdit_vi->setText(QCoreApplication::translate("Dialog_motion_param", "0.12", nullptr));
+        lineEdit_vi->setText(QCoreApplication::translate("Dialog_motion_param", "0.1", nullptr));
         lineEdit_hp->setText(QCoreApplication::translate("Dialog_motion_param", "0.5", nullptr));
         label_3->setText(QCoreApplication::translate("Dialog_motion_param", "H\341\273\207 s\341\273\221 I:", nullptr));
         lineEdit_hi->setText(QCoreApplication::translate("Dialog_motion_param", "0.3", nullptr));
