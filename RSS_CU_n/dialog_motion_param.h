@@ -19,6 +19,7 @@ public:
 private slots:
     void on_bt_send_pid_clicked();
 
+    void timerEvent(QTimerEvent *event);
 private:
     Ui::Dialog_motion_param *ui;
     void setParam(QString com, float value);

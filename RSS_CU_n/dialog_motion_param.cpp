@@ -14,8 +14,14 @@ Dialog_motion_param::Dialog_motion_param(QWidget *parent) :
         //        connect(navSocket,SIGNAL(readyRead()),this, SLOT(ReadNavData()));
         //initAverCapture();
     }
+    startTimer(1000);
 }
-
+void Dialog_motion_param::timerEvent(QTimerEvent *event)
+{
+    QByteArray dataout;
+    dataout.append("CSS,param");
+    socket->writeDatagram(dataout,QHostAddress("192.168.0.7"),4001);
+}
 Dialog_motion_param::~Dialog_motion_param()
 {
     delete ui;

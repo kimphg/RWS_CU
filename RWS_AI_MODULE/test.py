@@ -2,7 +2,7 @@
 import cv2
 
 # Open the default camera
-cam = cv2.VideoCapture("rtsp://10.0.0.2:8001/charmStream")
+cam = cv2.VideoCapture("rtsp://192.168.1.240/stream3")
 
 # Get the default frame width and height
 frame_width = int(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
