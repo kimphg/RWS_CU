@@ -219,7 +219,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //* ==========================>
     Setup_button_stype(); //các nút ở các trang config
     ui->stackedWidget->setCurrentIndex(2);
-
+    ui->label_logo->setFixedSize(90,90);
 //    setupUdpListeners();
     StartStatusRequest();
 

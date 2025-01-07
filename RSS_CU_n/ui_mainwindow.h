@@ -336,7 +336,7 @@ public:
     QPushButton *pushButton_open_file;
     QWidget *widget_19;
     QVBoxLayout *verticalLayout_24;
-    QLabel *label_129;
+    QLabel *label_logo;
     QFrame *frame_20;
     QGridLayout *gridLayout_9;
     QLabel *label_131;
@@ -2454,11 +2454,11 @@ public:
         verticalLayout_24->setSpacing(0);
         verticalLayout_24->setObjectName(QString::fromUtf8("verticalLayout_24"));
         verticalLayout_24->setContentsMargins(0, 0, 0, 0);
-        label_129 = new QLabel(widget_19);
-        label_129->setObjectName(QString::fromUtf8("label_129"));
-        label_129->setStyleSheet(QString::fromUtf8("image: url(:/images/images/app_logo.png);"));
+        label_logo = new QLabel(widget_19);
+        label_logo->setObjectName(QString::fromUtf8("label_logo"));
+        label_logo->setStyleSheet(QString::fromUtf8("image: url(:/images/images/app_logo.png);"));
 
-        verticalLayout_24->addWidget(label_129);
+        verticalLayout_24->addWidget(label_logo);
 
         frame_20 = new QFrame(widget_19);
         frame_20->setObjectName(QString::fromUtf8("frame_20"));
@@ -4188,7 +4188,7 @@ public:
         pushButton_pause->setText(QString());
         pushButton_stop->setText(QString());
         pushButton_open_file->setText(QString());
-        label_129->setText(QString());
+        label_logo->setText(QString());
         label_131->setText(QCoreApplication::translate("MainWindow", "10:12", nullptr));
         label_132->setText(QCoreApplication::translate("MainWindow", "13", nullptr));
         label_130->setText(QCoreApplication::translate("MainWindow", "16/10/2024", nullptr));

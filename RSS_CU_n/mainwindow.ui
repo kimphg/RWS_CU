@@ -3735,7 +3735,7 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="label_129">
+              <widget class="QLabel" name="label_logo">
                <property name="styleSheet">
                 <string notr="true">image: url(:/images/images/app_logo.png);</string>
                </property>

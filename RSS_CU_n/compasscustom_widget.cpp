@@ -168,7 +168,9 @@ void CompassCustom_Widget::drawCompass(QPainter &painter, const QPoint &center, 
 }
 void CompassCustom_Widget::drawArrow_blue(QPainter &painter, const QPoint &p1, const QPoint &p2)
 {
-    painter.setPen(QPen(QColor(0,245, 210), 1));
+//    painter.setPen(QPen(QColor(0,245, 210), 1));
+     painter.setPen(QPen(QColor(255,0, 255), 1));
+
 
     //chiều dài của phần đáy của tam giác
     double baseLength = 10.0;
@@ -187,7 +189,7 @@ void CompassCustom_Widget::drawArrow_blue(QPainter &painter, const QPoint &p1, c
     QPolygonF triangle;//polygon cho tam giác này
     triangle << QPointF(baseP1) << QPointF(baseP2) << p2;
 
-    painter.setBrush(QColor(0,245, 210));
+    painter.setBrush(QColor(255,0, 255));
     painter.drawPolygon(triangle);
 }
 void CompassCustom_Widget::drawArrow_yellow(QPainter &painter, const QPoint &p1, const QPoint &p2)
