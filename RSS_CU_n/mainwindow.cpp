@@ -130,7 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //    }
     updateTimer = new QTimer();
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateData()));
-    updateTimer->start(10);
+    updateTimer->start(20);
 
     controlTimer = new QTimer();
     connect(controlTimer, SIGNAL(timeout()), this, SLOT(timer30ms()));
@@ -138,7 +138,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusbar-> hide ();
     videotimer = new QTimer();
     connect(videotimer, SIGNAL(timeout()), this, SLOT(readVideoStream()));
-    videotimer->start(1);
+    videotimer->start(10);
     params.push_back(CV_IMWRITE_JPEG_QUALITY);
     params.push_back(80); //image quality
 
