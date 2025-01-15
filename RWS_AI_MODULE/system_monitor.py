@@ -62,4 +62,5 @@ def get_system_monitor_data():
 
 if __name__ == "__main__":
     # Example usage
-    print(get_system_monitor_data())
+    while True:
+        print(get_system_monitor_data())

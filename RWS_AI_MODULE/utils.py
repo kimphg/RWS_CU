@@ -90,3 +90,12 @@ def is_int(string):
     except ValueError:
     # Return False if Error
         return False
+    
+import ipaddress
+
+def is_valid_ip(ip):
+    try:
+        ipaddress.ip_address(ip)
+        return True
+    except ValueError:
+        return False
