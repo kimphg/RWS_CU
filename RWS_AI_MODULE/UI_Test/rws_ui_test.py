@@ -186,13 +186,12 @@ class ControlCenter(QDialog):
         self.max_video_size_lineedit = QLineEdit()
         self.max_video_size_button = QPushButton("Set max video size")
         self.get_max_video_size_button = QPushButton("Get")
-        main_layout.addWidget(QLabel("Max video size: w,h)"), 15, 0)
+        main_layout.addWidget(QLabel("Max video size: w,h"), 15, 0)
         main_layout.addWidget(self.max_video_size_lineedit, 15, 1)
         main_layout.addWidget(self.max_video_size_button, 15, 2)
         main_layout.addWidget(self.get_max_video_size_button, 15, 3)
         self.max_video_size_button.clicked.connect(self.set_max_video_size)
         self.get_max_video_size_button.clicked.connect(self.get_max_video_size)
-        
         
         # Row 16: Track center object
         self.recvid_button = QPushButton("Track center object")
@@ -219,6 +218,28 @@ class ControlCenter(QDialog):
         main_layout.addWidget(self.mode_lineedit, 19, 1)
         main_layout.addWidget(self.get_mode_button, 19, 3)
         self.get_mode_button.clicked.connect(self.get_mode)
+        
+        # Row 20 Dest frame IP,port
+        self.dest_frame_lineedit = QLineEdit()
+        self.dest_frame_button = QPushButton("Set dest frame")
+        self.get_dest_frame_button = QPushButton("Get")
+        main_layout.addWidget(QLabel("Dest frame IP,port"), 20, 0)
+        main_layout.addWidget(self.dest_frame_lineedit, 20, 1)
+        main_layout.addWidget(self.dest_frame_button, 20, 2)
+        main_layout.addWidget(self.get_dest_frame_button, 20, 3)
+        self.dest_frame_button.clicked.connect(self.set_dest_frame)
+        self.get_dest_frame_button.clicked.connect(self.get_dest_frame)
+        
+        # Row 21 Dest data IP,port
+        self.dest_data_lineedit = QLineEdit()
+        self.dest_data_button = QPushButton("Set dest data")
+        self.get_dest_data_button = QPushButton("Get")
+        main_layout.addWidget(QLabel("Dest Data IP,port"), 21, 0)
+        main_layout.addWidget(self.dest_data_lineedit, 21, 1)
+        main_layout.addWidget(self.dest_data_button, 21, 2)
+        main_layout.addWidget(self.get_dest_data_button, 21, 3)
+        self.dest_data_button.clicked.connect(self.set_dest_data)
+        self.get_dest_data_button.clicked.connect(self.get_dest_data)
         
         self.setLayout(main_layout)
         
@@ -266,6 +287,22 @@ class ControlCenter(QDialog):
         
     def get_max_video_size(self):
         cmd = f'CCG,MAXVIDSIZE'
+        self.send_command(cmd)
+        
+    def set_dest_frame(self):
+        cmd = f'CCS,DESTFR,{self.dest_frame_lineedit.text()}'
+        self.send_command(cmd)
+        
+    def get_dest_frame(self):
+        cmd = f'CCG,DESTFR'
+        self.send_command(cmd)
+        
+    def set_dest_data(self):
+        cmd = f'CCS,DESTDATA,{self.dest_data_lineedit.text()}'
+        self.send_command(cmd)
+        
+    def get_dest_data(self):
+        cmd = f'CCG,DESTDATA'
         self.send_command(cmd)
 
     def send_command(self, command):
@@ -411,6 +448,14 @@ class ControlCenter(QDialog):
             if len(parts) < 4:
                 return
             self.max_video_size_lineedit.setText(parts[2]+","+parts[3])
+        elif data_type == "DESTFR":
+            if len(parts) < 4:
+                return
+            self.dest_frame_lineedit.setText(parts[2]+","+parts[3])
+        elif data_type == "DESTDATA":
+            if len(parts) < 4:
+                return
+            self.dest_data_lineedit.setText(parts[2]+","+parts[3])
         else:
             print(f"Invalid tracker config received: {data_str}")
 

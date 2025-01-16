@@ -23,6 +23,7 @@ if prj_path not in sys.path:
 
 class RWSModule():
     def __init__(self, config_path='config.ini'):
+        self.config_path = config_path
         self.config = configparser.ConfigParser()
         self.config.read(config_path) 
         
@@ -628,6 +629,57 @@ class RWSModule():
                         self.tracker.set_process_video_size(self.process_video_width, self.process_video_height)
                     continue
                 
+                if parts[1] == "DESTFR":
+                    if len(parts) < 4:
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                        continue
+                    
+                    if not is_valid_ip(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str} - Right cmd: CCS,DESTFR,ip,port')
+                        continue
+                    
+                    if not is_int(parts[3]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str} - Right cmd: CCS,DESTFR,ip,port')
+                        continue
+                    
+                    self.dest_frame_ip = parts[2]
+                    self.dest_frame_port = int(parts[3])
+                    logger.info(f'Sending frame to address: ({self.dest_frame_ip},{self.dest_frame_port})')
+                    
+                    # save to config
+                    self.config.set('socket', 'dest_frame_ip', f'{self.dest_frame_ip}')  
+                    self.config.set('socket', 'dest_frame_port', f'{self.dest_frame_port}')
+                    with open(self.config_path, 'w') as config_file:
+                        self.config.write(config_file)    
+                    continue
+                
+                if parts[1] == "DESTDATA":
+                    if len(parts) < 4:
+                        logger.error(f'Invalid CCS command (invalid param) {data_str}')
+                        continue
+                    
+                    if not is_valid_ip(parts[2]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str} - Right cmd: CCS,DESTDATA,ip,port')
+                        continue
+                    
+                    if not is_int(parts[3]):
+                        logger.error(f'Invalid CCS command (invalid param) {data_str} - Right cmd: CCS,DESTDATA,ip,port')
+                        continue
+                    
+                    self.dest_data_ip = parts[2]
+                    self.dest_data_port = int(parts[3])
+                    logger.info(f'Sending data to address: ({self.dest_data_ip},{self.dest_data_port})')
+                    set_dest_data_address(self.dest_data_ip, self.dest_data_port)
+                    
+                    # save data to config
+                    # save to config
+                    self.config.set('socket', 'dest_data_ip', f'{self.dest_data_ip}')  
+                    self.config.set('socket', 'dest_data_port', f'{self.dest_data_port}')
+                    # Save changes back to the file
+                    with open(self.config_path, 'w') as config_file:
+                        self.config.write(config_file)
+                    continue
+                
             elif parts[0] == "CCG": # controller config get
                 data_type = parts[1]
                 if data_type == "MODE":
@@ -668,6 +720,10 @@ class RWSModule():
                     self.send_data_to_controller("TCV,MAXFPS", self.max_fps_send)
                 elif data_type == "MAXVIDSIZE":
                     self.send_data_to_controller("TCV,MAXVIDSIZE", f'{self.max_video_width},{self.max_video_height}')
+                elif data_type == "DESTFR":
+                    self.send_data_to_controller("TCV,DESTFR", f'{self.dest_frame_ip},{self.dest_frame_port}')
+                elif data_type == "DESTDATA":
+                    self.send_data_to_controller("TCV,DESTDATA", f'{self.dest_data_ip},{self.dest_data_port}')
                 else:
                     logger.error(f'Invalid controller config get command: {data_str}')
                 continue
