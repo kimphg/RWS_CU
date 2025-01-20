@@ -1,9 +1,9 @@
 
 #ifndef COMMON
 #define COMMON
-#define S_STIM Serial3
-#define S_MT_V Serial1//20 byte packets
-#define S_MT_H Serial2
+#define S_STIM Serial6
+#define S_MT_V Serial4
+#define S_MT_H Serial5
 
 #include <NativeEthernet.h>
 #include <NativeEthernetUdp.h>
@@ -12,7 +12,7 @@ byte mac[] = {
 };
 IPAddress ip(192, 168, 0, 7);
 IPAddress ipRemote1(192, 168, 0, 77);
-IPAddress ipRemote2(192, 168, 0, 73);
+IPAddress ipRemote2(192, 168, 0, 192);
 EthernetUDP udpsocket;  //eth
 int com_mode;
 void sendUDP(String msg)

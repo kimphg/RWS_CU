@@ -30,11 +30,11 @@ void loop() {
   
   // put your main code here, to run repeatedly:
     int period_pulse=400000;
-    for (int i=0;i<2000;i++)
+    for (int i=0;i<2005;i++)
     {
       float speed = sin(i*3.14/2000.0);
-      period_pulse = 80/(abs(speed)+0.05);
-      if(period_pulse<85)period_pulse=85;
+      period_pulse = 40/(abs(speed)+0.05);
+      if(period_pulse<45)period_pulse=45;
       digitalWrite(PD1, HIGH);
       digitalWrite(13, digitalRead(IN1));
       if(digitalRead(IN1))
@@ -51,8 +51,8 @@ void loop() {
     for (int i=0;i<2000;i++)
     {
       float speed = sin(i*3.14/2000.0);
-      period_pulse = 80/(abs(speed)+0.05);
-      if(period_pulse<85)period_pulse=85;
+      period_pulse = 40/(abs(speed)+0.05);
+      if(period_pulse<45)period_pulse=45;
       digitalWrite(PD1, LOW);
       // Serial.println(period_pulse);
       // Serial.println(digitalRead(IN1));

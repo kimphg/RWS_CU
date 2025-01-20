@@ -75,7 +75,6 @@ public:
     QFrame *frame1;
     QGridLayout *gridLayout;
     QLabel *label_84;
-    QLabel *label_99;
     QLabel *label_101;
     QLabel *label_100;
     QWidget *widget_7;
@@ -89,6 +88,7 @@ public:
     QHBoxLayout *horizontalLayout_4;
     QLabel *label_102;
     QLabel *label_103;
+    QPushButton *pushButton_stab;
     QWidget *widget_3;
     QVBoxLayout *verticalLayout_21;
     QFrame *frame_3;
@@ -877,18 +877,11 @@ public:
 
         gridLayout->addWidget(label_84, 0, 0, 1, 1);
 
-        label_99 = new QLabel(frame1);
-        label_99->setObjectName(QString::fromUtf8("label_99"));
+        label_101 = new QLabel(frame1);
+        label_101->setObjectName(QString::fromUtf8("label_101"));
         QFont font;
         font.setBold(true);
         font.setWeight(75);
-        label_99->setFont(font);
-        label_99->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
-
-        gridLayout->addWidget(label_99, 0, 1, 1, 1);
-
-        label_101 = new QLabel(frame1);
-        label_101->setObjectName(QString::fromUtf8("label_101"));
         label_101->setFont(font);
         label_101->setStyleSheet(QString::fromUtf8("color: rgb(0, 245, 210);"));
 
@@ -985,6 +978,12 @@ public:
 
 
         gridLayout->addWidget(widget_8, 3, 1, 1, 1);
+
+        pushButton_stab = new QPushButton(frame1);
+        pushButton_stab->setObjectName(QString::fromUtf8("pushButton_stab"));
+        pushButton_stab->setCheckable(true);
+
+        gridLayout->addWidget(pushButton_stab, 0, 1, 1, 1);
 
 
         verticalLayout_20->addWidget(frame1);
@@ -4013,7 +4012,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(3);
+        stackedWidget->setCurrentIndex(5);
         stackedWidget_dasight_2->setCurrentIndex(0);
         stackedWidget_dasight_3->setCurrentIndex(0);
         stackedWidget_irsight_2->setCurrentIndex(3);
@@ -4052,7 +4051,6 @@ public:
         label_6->setText(QCoreApplication::translate("MainWindow", "H\341\273\207 th\341\273\221ng", nullptr));
         bt_f_4_2->setText(QString());
         label_84->setText(QCoreApplication::translate("MainWindow", "Ch\341\272\277 \304\221\341\273\231:", nullptr));
-        label_99->setText(QCoreApplication::translate("MainWindow", "STAB", nullptr));
         label_101->setText(QCoreApplication::translate("MainWindow", "M8", nullptr));
         label_100->setText(QCoreApplication::translate("MainWindow", "M2HB", nullptr));
         pushButton_continuous_shot->setText(QString());
@@ -4062,6 +4060,7 @@ public:
         label_90->setText(QCoreApplication::translate("MainWindow", "V\305\251 kh\303\255:", nullptr));
         label_102->setText(QCoreApplication::translate("MainWindow", "100", nullptr));
         label_103->setText(QCoreApplication::translate("MainWindow", "/999", nullptr));
+        pushButton_stab->setText(QCoreApplication::translate("MainWindow", "STAB", nullptr));
         label_104->setText(QCoreApplication::translate("MainWindow", "736", nullptr));
         label_105->setText(QCoreApplication::translate("MainWindow", "m", nullptr));
         label_106->setText(QString());
