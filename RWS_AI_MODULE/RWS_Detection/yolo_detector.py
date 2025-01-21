@@ -3,7 +3,8 @@ import threading, os, json
 from ultralytics import YOLO
 from vidstab import VidStab
 from deep_sort_realtime.deepsort_tracker import DeepSort
-
+from utils import get_aoi_bbox
+from drawer import draw_aoi
 
 import logging
 logging.getLogger('ultralytics').setLevel(logging.ERROR)
@@ -40,6 +41,11 @@ class YOLODetector:
         self.enable_stabilizer = False # default false
         self.stabilizer_smoothing_window = 5 # default 5
         self.feed_stablizer_frame_index = 0
+        
+        # aoi (area of interest) config
+        self.enable_aoi = False
+        self.aoi_w = 640
+        self.aoi_h = 480
 
         self.model_path = model_path
         if model_path:
@@ -66,6 +72,15 @@ class YOLODetector:
             self.feed_stablizer_frame_index = 0
         else:
             logger.debug(f'Disabled video stabilizer')
+            
+    def set_aoi_config(self, enable, w=640, h=480):
+        self.enable_aoi = enable
+        self.aoi_w = w
+        self.aoi_h = h
+        if enable:
+            logger.debug(f'Enabled AOI with size: ({w},{h})')
+        else:
+            logger.debug(f'Disabled AOI')
             
     def set_model(self, model_path):
         """
@@ -167,6 +182,12 @@ class YOLODetector:
             # resize if need
             if frame.shape[1] != self.process_video_width or frame.shape[0] != self.process_video_height:
                 frame = cv2.resize(frame, (self.process_video_width, self.process_video_height), interpolation=cv2.INTER_AREA)
+                
+                
+            if self.enable_aoi:
+                bbox = get_aoi_bbox(frame.shape[1], frame.shape[0], self.aoi_w, self.aoi_h)
+                frame = draw_aoi(frame, bbox)
+                
             
             # stablilze frame
             if self.enable_stabilizer:

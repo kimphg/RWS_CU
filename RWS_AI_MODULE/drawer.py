@@ -113,6 +113,11 @@ def draw_yolo_result(frame, results):
                        (0,255,0), 2)
     return frame
 
+def draw_aoi(frame, box, color = (0,255,255)):
+    x,y,w,h = box
+    cv2.rectangle(frame, (x, y), (x+w, y+h), color, 2)
+    return frame
+
 if __name__ == "__main__":
     img = cv2.imread('/media/hoc/WORK/remote/AnhPhuong/TRACKING_CONTROL_SYSTEM/Projects/RWS_CU/TaiLieu/app_logo.png')
     img = draw_tracking_result(img, [100,100, 120, 65])

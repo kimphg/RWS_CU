@@ -53,6 +53,12 @@ class CV2Tracker():
         self.stabilizer_smoothing_window = 5 # default 5
         self.feed_stablizer_frame_index = 0
         
+        
+        # aoi (area of interest) config
+        self.enable_aoi = False
+        self.aoi_w = 640
+        self.aoi_h = 480
+        
         # resize video base to this w,h before process it
         self.process_video_width = 1920 
         self.process_video_height = 1080
@@ -74,6 +80,15 @@ class CV2Tracker():
             self.feed_stablizer_frame_index = 0
         else:
             logger.debug(f'Disabled video stabilizer')
+            
+    def set_aoi_config(self, enable, w=640, h=480):
+        self.enable_aoi = enable
+        self.aoi_w = w
+        self.aoi_h = h
+        if enable:
+            logger.debug(f'Enabled AOI with size: ({w},{h})')
+        else:
+            logger.debug(f'Disabled AOI')
         
     def set_videocapture(self, cap):
         logger.debug('Video capture source set.')

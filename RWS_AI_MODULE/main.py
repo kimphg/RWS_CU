@@ -78,6 +78,7 @@ class RWSModule():
         self.frame_counter = 0 # index of frame for seding via UDP
         self.draw_fps = True
         self.draw_result = True # draw bounding box of detecor or tracker to frame (before send)
+        self.draw_aoi = True
         
         self.exploration_mode_stop_event = threading.Event()
         self.exploration_thread = None
@@ -94,6 +95,10 @@ class RWSModule():
         # self.stabilizer = VidStab()
         self.enable_stabilizer = self.config.getboolean('vidstab', 'enable', fallback=False)
         self.stabilizer_smoothing_window = int(self.config.get('vidstab', 'smoothing_window', fallback=5))
+        
+        self.enable_aoi = self.config.getboolean('aoi', 'enable', fallback=False)
+        self.aoi_w = int(self.config.get('aoi', 'aoi_w', fallback=640))
+        self.aoi_h = int(self.config.get('aoi', 'aoi_h', fallback=640))
         
         self.current_mode = ModuleMode.EXPLORATION.value # 1 for exloration, 0 for focus tracking
         if self.video_source is not None:
@@ -150,6 +155,8 @@ class RWSModule():
             
             self.detector.process_video_width = self.process_video_width
             self.detector.process_video_height = self.process_video_height
+            
+            self.detector.set_aoi_config(self.enable_aoi, self.aoi_w, self.aoi_h)
         else:
             logger.warning('Detector config is not set!')
         
@@ -168,6 +175,12 @@ class RWSModule():
             from RWS_Tracker.rws_tracker import RWSTracker
             self.tracker = RWSTracker(self.tracker_name, self.tracker_param, self.tracker_model, \
                                     iou_threshold=self.tracker_iou_threshold, alpha=self.tracker_alpha, hist_diff_threshold=self.tracker_hist_diff_threshold)
+        
+        
+        self.tracker.set_aoi_config(self.enable_aoi, self.aoi_w, self.aoi_h)
+        # self.tracker.enable_aoi = self.enable_aoi
+        # self.tracker.aoi_w = self.aoi_w
+        # self.tracker.aoi_h = self.aoi_h
         
         self.tracker.enable_stabilizer = self.enable_stabilizer
         self.tracker.stabilizer_smoothing_window = self.stabilizer_smoothing_window

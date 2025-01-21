@@ -72,6 +72,29 @@ def calculate_iou(boxA, boxB):
 
     return iou
 
+def get_aoi_bbox(frame_width, frame_height, aoi_width, aoi_height):
+    """
+    Calculate the AOI position in the center of the frame.
+
+    Parameters:
+        frame_width (int): Width of the frame.
+        frame_height (int): Height of the frame.
+        aoi_width (int): Width of the AOI.
+        aoi_height (int): Height of the AOI.
+
+    Returns:
+        tuple: (x, y, width, height) of the AOI.
+    """
+    # If AOI is larger than the frame, return the whole frame
+    if aoi_width >= frame_width or aoi_height >= frame_height:
+        return 0, 0, frame_width, frame_height
+    
+    # Calculate top-left corner (x, y) for centered AOI
+    x = (frame_width - aoi_width) // 2
+    y = (frame_height - aoi_height) // 2
+    
+    return x, y, aoi_width, aoi_height
+
 # Custom boolean function 
 def is_float(string):
     try:
