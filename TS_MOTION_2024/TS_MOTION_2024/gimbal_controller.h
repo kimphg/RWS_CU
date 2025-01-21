@@ -1,46 +1,49 @@
 #ifndef GIMBAL_CONTROLLER_H
 #define GIMBAL_CONTROLLER_H
 #include "kalmano.h"
+#include "sens_hbk.h"
+#include "sens_motus.h"
 Kalman kalmanGyroV(0.3,0.6,100,0); 
 //float resultArray[2000];
 //int resultArrayId=0;
 #define CTRL_DATA_BUF_LEN 50
 #define CONTROL_DELAY_FILTER
 #define MOTOR_PULSE_CLOCK 1000000
-#define PD1 23
-#define PS1 22
-#define PD2 21
-#define PS2 20
+#define PD1 9
+#define PS1 10
+#define PD2 11
+#define PS2 12
 #define CT1 5
 #define HISTORY_LENGTH 100
-float stim_z_history[HISTORY_LENGTH];
-int stim_z_history_index = 0; 
-void addZhistory(float input)
-{
-  if(stim_z_history_index>=HISTORY_LENGTH)stim_z_history_index=0;
-      stim_z_history[stim_z_history_index] = input;
-      stim_z_history_index++;
-}
-float getZhistory(int delay)
-{
-  int index = stim_z_history_index-delay;
-  if(index<0)index = HISTORY_LENGTH+index;
-  return stim_z_history[index];
+// float stim_z_history[HISTORY_LENGTH];
+// int stim_z_history_index = 0; 
+// void addZhistory(float input)
+// {
+//   if(stim_z_history_index>=HISTORY_LENGTH)stim_z_history_index=0;
+//       stim_z_history[stim_z_history_index] = input;
+//       stim_z_history_index++;
+// }
+// float getZhistory(int delay)
+// {
+//   int index = stim_z_history_index-delay;
+//   if(index<0)index = HISTORY_LENGTH+index;
+//   return stim_z_history[index];
   
-}
-
+// }
+SensHBK sens2,sens3;
+SensMotus sens1;
 #define CT2 4
 #define CT3 3
 #define CT4 2
 #define PPR1 2000
 #define GEAR1 200
-#define PPR2 2000
-#define GEAR2 500
+#define PPR2 25000
+#define GEAR2 44
 #define STAB_TRANSFER_TIME 2000.0
 #define CONTROL_TIME_STAMP 0.001
 float MAX_ACC = 5;
 float MAX_ACC_H = 1;
-#include "stim.h"
+// #include "stim.h"
 //#include "ModbusRtu.h"
 //#define MODBUS_PORT Serial1
 //Modbus mbMaster(0,MODBUS_PORT,0);
@@ -49,25 +52,11 @@ int modbus_idle_t = 100;
 unsigned long u32wait;
 //uint16_t au16data[16];
 //uint16_t output16data[16];
-uint8_t u8state = 0; //!< machine state
-uint8_t u8query = 0; //!< pointer to message query
+// uint8_t u8state = 0; //!< machine state
+// uint8_t u8query = 0; //!< pointer to message query
 double max_stab_spd = 90;
-float gyroX = 0, gyroY = 0;
-int gyroXok = 0, gyroYok = 0;
-unsigned char rawgyroH[50];
-unsigned char rawgyroV[50];
-unsigned char lastbyteGyroV, lastbyteGyroH;
-int gyroByteIndexH = -1;
-int gyroByteIndexV = -1;
-int rawgyroX = 0;
-double sumGyroX = 0;
-int countGyroX = 0;
-float biasGyroX = 0.1;
-double sumGyroY = 0;
-int countGyroY = 0;
-float biasGyroY = 0.31;
-int gyroMsgLenH = 0;
-int gyroMsgLenV = 0;
+
+
 //void modbusSetup()
 //{
 //    // telegram 0: read registers
@@ -94,7 +83,7 @@ IntervalTimer controlTimer;
 IntervalTimer motorTimer;
 
 IntervalTimer sensorTimer;
-static  StimData stim_data;
+// static  StimData stim_data;
 int mStimMsgCount = 0;
 //float stim_v_speed =0;
 //float stim_h_speed =0;
@@ -129,11 +118,11 @@ class CGimbalController
     float  vSpeedFeedback ;
     double hSpeedFeedback ;
     int    control_oldID;
-    int    stimCount=0,stimFailCount=0;
-    unsigned long lastStimByteTime;
+    // int    stimCount=0,stimFailCount=0;
+    // unsigned long lastStimByteTime;
     int    pulseMode = 1;
     float  fov;
-    int    mGyroCount1=0,mGyroCount2=0,mGyroCount3=0;// fps count for gyros 
+    // int    mGyroCount1=0,mGyroCount2=0,mGyroCount3=0;// fps count for gyros 
   
     float  mUserMaxspdH ; //DPS
     float  mUserMaxSpdV ;//DPS
@@ -194,14 +183,21 @@ class CGimbalController
         {
           freq2 = value;
         }
+        else if(param.equals("stab"))
+        {
+          mStabMode = value;
+          
+        }
         else
         {
           reportDebug("Unknown param");
-          return;
+          
         }
-        // reportDebug("param set");
+        Serial.print("param set:");
+        Serial.print(param);
+        Serial.print("=");
         Serial.print(value);
-        Serial.print(' ');
+        Serial.print('\n');
         isSetupChanged = true;
     }
     void setCT(int c11, int c12, int c21, int c22);
@@ -223,10 +219,10 @@ class CGimbalController
     }
     void initGimbal();
     void setPPR(unsigned int hppr, unsigned int vppr);
-    void setKalmanZ(double pn, double sn)
-    {
-      initKalmanZ(pn, sn);
-    }
+    // void setKalmanZ(double pn, double sn)
+    // {
+    //   // initKalmanZ(pn, sn);
+    // }
     int getSensors() {
       return ct11 * 8 + ct12 * 4 + ct21 * 2 + ct22;
     }
@@ -252,8 +248,8 @@ class CGimbalController
     {
 
       mStabMode = value;
-      stim_data.z_angle = 0;
-      stim_data.y_angle = 0;
+      // stim_data.z_angle = 0;
+      // stim_data.y_angle = 0;
       userEle = 0;
       userAzi = 0;
       hPulseBuff = 0;
@@ -292,8 +288,8 @@ void CGimbalController::setCalib(double hcalib, double
 {
   vSpeedCalib = vcalib;
   hSpeedCalib = hcalib;
-  stim_data.y_bias = vSpeedCalib;
-  stim_data.z_bias = hSpeedCalib;
+  // stim_data.y_bias = vSpeedCalib;
+  // stim_data.z_bias = hSpeedCalib;
 }
 unsigned long int lastReportTime=0;
 String CGimbalController::reportStat()
@@ -312,20 +308,16 @@ String CGimbalController::reportStat()
     lastReportTime = curTime;
     report = "MSR,";
     pelco_count = 0;
-    float gyro_fps = mGyroCount1*1000.0 / dt;
-    mGyroCount1 = 0;
+    // float gyro_fps = mGyroCount1*1000.0 / dt;
+    // mGyroCount1 = 0;
     report.append("gyro1:");
-    report.append(String(gyro_fps));
+    // report.append(String(sens1.getfps(1000)));
     report.append(",");
-    gyro_fps = mGyroCount2*1000.0 / dt;
-    mGyroCount2 = 0;
     report.append("gyro2:");
-    report.append(String(gyro_fps));
+    report.append(String(sens2.getfps(1.0)));
     report.append(",");
-    gyro_fps = mGyroCount3*1000.0 / dt;
-    mGyroCount3 = 0;
     report.append("gyro3:");
-    report.append(String(gyro_fps));
+    report.append(String(sens3.getfps(1.0)));
     report.append(",");
     report.append("gmotor:");
     report.append(String(1));
@@ -411,7 +403,6 @@ String CGimbalController::reportStat()
 
 void CGimbalController::initGimbal()
 {
-  mGyroCount1 = 0;
   isSetupChanged = true;
   maxAccH = 0.1;
   maxAccV = 0.1;
@@ -469,7 +460,7 @@ void CGimbalController::initGimbal()
   control_oldID = 0;
   h_pulse_clock_counter = 0;
   v_pulse_clock_counter = 0;
-  resetStimState(&stim_data);
+  // resetStimState(&stim_data);
 }
 
 void CGimbalController::setPPR(unsigned int hppr, unsigned int vppr)
@@ -589,38 +580,6 @@ void CGimbalController::UserUpdate()//
     v_user_speed *= 0.6;
   }
 
-
-  stimCount = mStimMsgCount;
-  mStimMsgCount = 0;
-   if(stimCount==0)
-   {
-    stimFailCount++;
-    
-   }
-   else stimFailCount=0;
-  
-  if(isStimConnected)
-  { 
-    isStimConnected = (stimFailCount <5);
-    if(!isStimConnected)
-    {
-      reportDebug("STIM disconnected",stimFailCount);
-      // sendUDP(String("MMSG,GYRO 1 disconnected"));
-    }
-  }
-  else 
-  {
-    isStimConnected = (stimFailCount <5);
-    if(isStimConnected)
-    {
-      reportDebug("STIM connected",stimFailCount);
-      // sendUDP(String("MMSG,GYRO 1 connected"));
-    }
-  }
-  if (gyroYok > 0)  gyroYok--;
-  else    gyroY = 0;
-  if (gyroXok > 0)  gyroXok--;
-  else    gyroX = 0;
   if (interupt > 0)interupt--;
   if (mStabMode == 0)
   {
@@ -628,62 +587,47 @@ void CGimbalController::UserUpdate()//
     outputSpeedH(h_user_speed);
     // vertical control value
     outputSpeedV(v_user_speed);
-    // Serial.println(v_user_speed);
-          //  if(abs(h_user_speed)>0.1)Serial.println(h_user_speed);
-           
-    //        Serial.print(' ');
-    //        Serial.print(v_control + v_control_i );
-    //        Serial.print(' ');
-    //        Serial.print(countGyroY);
-    //        Serial.print(' ');
-
-    // Serial.print(v_user_speed );
-    // Serial.print(' ');
-    // Serial.print(gyroX );
-    // Serial.print(' ');
-    // Serial.print(stim_data.z_rate );
-    // Serial.print(' ');
-    // Serial.print(stim_data.z_angle);
-    // Serial.print(' ');
-    // Serial.println(0 );
-
+  
   }
   else if (mStabMode >= 1)
   {
 
-    h_control = 0 - gyroY * param_h_p + (h_user_speed + stim_data.y_rate* param_h_d) ;
+    h_control = 0 - sens3.gyroValue * param_h_p + (h_user_speed + sens1.gyroH* param_h_d) ;
     // h_control*=1.5;
     userAzi += h_user_speed * CONTROL_TIME_STAMP / 12.0;
-    double h_control_i = (userAzi + stim_data.y_angle /3.0) * param_h_i* 60 ;
+    double h_control_i = (userAzi + sens1.angleH /3.0) * param_h_i* 60 ;
     outputSpeedH(h_control + h_control_i );
     //v control calculation    22
-//  Serial.print(' ');
-//  Serial.print(stim_data.z_rate);
-//  Serial.print(' ');
-//  Serial.println(stim_data.y_rate);
-float zrate = stim_data.z_rate+getZhistory(freq1)*0.7+getZhistory(freq2)*0.3;
+    //  Serial.print(' ');
+    //  Serial.print(stim_data.z_rate);
+    //  Serial.print(' ');
+    //  Serial.println(stim_data.y_rate);
+    float zrate = sens2.gyroValue;//+getZhistory(freq1)*0.7+getZhistory(freq2)*0.3;
     float v_control_d = (v_user_speed+zrate)*param_v_d ;
     // if(v_control_d>0.1)v_control_d=0.1;
     // if(v_control_d<-0.1)v_control_d=-0.1;
     userEle += (v_user_speed) * CONTROL_TIME_STAMP / 12.0;
-    float v_control_angle = (userEle + stim_data.z_angle /3.0)  * 60 ;
+    float v_control_angle = (userEle + sens1.angleV /3.0)  * 60 ;
     v_integrate += v_control_angle/60.0;
-    float outputv = 0 - gyroX * vopl +v_control_angle*param_v_p + v_integrate*param_v_i+ v_control_d ;
+    float outputv = 0 - sens2.gyroValue * vopl +v_control_angle*param_v_p + v_integrate*param_v_i+ v_control_d ;
+    Serial.print(sens2.gyroValue );
+    Serial.print(" " );
+    Serial.println(outputv );
     outputSpeedV(outputv);
 
-Serial.print(stim_data.z_rate );
-       Serial.print(',');
-     Serial.print(zrate );
-       Serial.print(',');
-       Serial.print(v_control_angle*param_v_p);
-       Serial.print(',');
-       Serial.print(v_integrate*param_v_i);
-       Serial.print(',');
-       Serial.print(v_control_d);
-       Serial.print(',');
-       Serial.print( outputv );
-       Serial.print(',');
-       Serial.println(stim_data.z_angle  );
+// Serial.print(stim_data.z_rate );
+//        Serial.print(',');
+//      Serial.print(zrate );
+//        Serial.print(',');
+//        Serial.print(v_control_angle*param_v_p);
+//        Serial.print(',');
+//        Serial.print(v_integrate*param_v_i);
+//        Serial.print(',');
+//        Serial.print(v_control_d);
+//        Serial.print(',');
+//        Serial.print( outputv );
+//        Serial.print(',');
+//        Serial.println(stim_data.z_angle  );
 
   }
   //    modbusLoop();
@@ -750,132 +694,23 @@ void CGimbalController::readSensorData()//200 microseconds
 {
   //      controlerReport();
   while (S_STIM.available() > 0) {
-    unsigned long timeMicros = micros();
-    unsigned char databyte = S_STIM.read();
-    if (readStim(databyte, (timeMicros - lastStimByteTime), &stim_data)) // one packet per millisencond
-    {
-      mStimMsgCount++;
-      mGyroCount1++;
-      addZhistory(stim_data.z_rate);
-      // Serial.println(stim_data.z_rate);
-    }
-    lastStimByteTime = timeMicros;
+    // unsigned long timeMicros = micros();
+    // unsigned char databyte = S_STIM.read();
+    // if (readStim(databyte, (timeMicros - lastStimByteTime), &stim_data)) // one packet per millisencond
+    // {
+    //   mStimMsgCount++;
+    //   mGyroCount1++;
+    //   addZhistory(stim_data.z_rate);
+    //   // Serial.println(stim_data.z_rate);
+    // }
+    // lastStimByteTime = timeMicros;
   }
 
   while (S_MT_V.available() > 0) {//FA FF 36 0F 80 40 0C 3B 8B BC 00 BB E2 4F 00 3B 4E 4A 00 AF
-    unsigned char databyte = S_MT_V.read();
-    if (databyte == 0xff)
-    {
-      if (lastbyteGyroV == 0xfa)
-      {
-        gyroByteIndexV = 0;
-        gyroMsgLenV = 0;
-      }
-    }
-    if (gyroByteIndexV < 50)
-    {
-      rawgyroV[gyroByteIndexV] = databyte;
-      if (gyroByteIndexV == 2)
-      {
-        gyroMsgLenV = databyte;
-        // Serial.print("Gyro Msglen:"  ;
-        // Serial.print(gyroMsgLen);
-        // Serial.print("\n"  ;
-      }
-      gyroByteIndexV++;
-    }
-    if (gyroMsgLenV == 20) //gyro 2 - rate of turn hr 500
-    {
-      if (gyroByteIndexV == (gyroMsgLenV + 4))
-      {
-        unsigned int cs = 0;
-        for ( int i = 0; i < gyroMsgLenV + 3; i++ )
-        {
-          cs += rawgyroV[i];
-        }
-        cs = 256 - (cs & 0xff);
-        if (databyte == cs) //check sum ok
-        {
-          float vs = bytesToFloat(rawgyroV[19], rawgyroV[20], rawgyroV[21], rawgyroV[22]);
-           
-          gyroX =kalmanGyroV.getFilteredValue(vs * 100.0);
-          mGyroCount2++;
-          if(abs(gyroX)<2){
-            sumGyroX += gyroX;
-            countGyroX++;
-          }
-          gyroXok = 20;
-          if (countGyroX >= 10000)
-          {
-            biasGyroX += 0.3 * (sumGyroX / countGyroX - biasGyroX);
-            countGyroX = 0;
-            sumGyroX = 0;
-            // reportDebug("biasGyroX: ", biasGyroX);
-          }
-          gyroX -= biasGyroX;
-        }
-
-      }
-    }
-    lastbyteGyroV = databyte;
+    sens2.input(S_MT_V.read());
   }
   while (S_MT_H.available() > 0) {//FA FF 36 0F 80 40 0C 3B 8B BC 00 BB E2 4F 00 3B 4E 4A 00 AF
-    unsigned char databyte = S_MT_H.read();
-    if (databyte == 0xff)
-    {
-      if (lastbyteGyroH == 0xfa)
-      {
-        gyroByteIndexH = 0;
-        gyroMsgLenH = 0;
-      }
-    }
-    if (gyroByteIndexH < 50)
-    {
-      rawgyroH[gyroByteIndexH] = databyte;
-      mGyroCount3++;
-      if (gyroByteIndexH == 2)
-      {
-        gyroMsgLenH = databyte;
-        // Serial.print("Gyro Msglen:"  ;
-        // Serial.print(gyroMsgLen);
-        // Serial.print("\n"  ;
-      }
-      gyroByteIndexH++;
-    }
-
-    if (gyroMsgLenH == 15) //con quay 3 packetcounter, acc 100, temp 1, rateofturn 500
-    {
-      if (gyroByteIndexH == (gyroMsgLenH + 4))
-      {
-        unsigned int cs = 0;
-        for ( int i = 0; i < gyroMsgLenH + 3; i++ )
-        {
-          cs += rawgyroH[i];
-        }
-        cs = 256 - (cs & 0xff);
-        if (databyte == cs) //check sum ok
-        {
-          float vs = bytesToFloat(rawgyroH[14], rawgyroH[15], rawgyroH[16], rawgyroH[17]);
-          gyroY = vs * 100.0;
-          if(abs(gyroY)<1){
-          sumGyroY += gyroY;
-          countGyroY++;
-          }
-          gyroYok = 20;
-          if (countGyroY >= 10000)
-          {
-            biasGyroY += 0.3 * (sumGyroY / countGyroY - biasGyroY);
-            countGyroY = 0;
-            sumGyroY = 0;
-            reportDebug("acy ", biasGyroY);
-
-          }
-          gyroY -= biasGyroY;
-        }
-
-      }
-    }
-    lastbyteGyroH = databyte;
+    sens3.input(S_MT_H.read());
   }
 
 }

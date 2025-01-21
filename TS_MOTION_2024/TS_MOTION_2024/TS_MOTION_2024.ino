@@ -61,8 +61,8 @@ void setup() {
   gimbal.initGimbal();
   S_STIM.begin(460800);
   Serial.begin(115200);
-  S_MT_H.begin(921600);
-  S_MT_V.begin(921600);
+  S_MT_H.begin(460800);
+  S_MT_V.begin(460800);
   delay(200);
   Serial.print("Controller start up");
   //0xFA 0xFF 0x18 0x01 BR CS
@@ -149,7 +149,8 @@ void processCommand(String command) {
     }
 
     else {
-      Serial.print("unknown packet");
+      Serial.print("unknown packet:");
+      Serial.println(command);
     }
     // Serial.print("set param packet");
   }
@@ -167,14 +168,15 @@ void processMessage(String msg) {
       String msg = gimbal.reportStat();
       sendUDP(msg);
     }
-    if ((tokens[1].equals("param")) && (tokens.size() == 2)) 
+    else if ((tokens[1].equals("param")) && (tokens.size() == 2)) 
     {
       // Serial.println(msg);
       // String msg = gimbal.reportParam();
       // sendUDP(msg);
     }
     else {
-      Serial.print("unknown packet");
+      Serial.print("unknown Msg:");
+      Serial.println(tokens[1]);
     }
     // Serial.print("set param packet");
   }
@@ -194,7 +196,7 @@ void readSerialdata() {
       udpsocket.read(packetBuffer, packetSize);
       packetBuffer[packetSize] = 0;
       String commandString(packetBuffer);
-      if (commandString.indexOf("$COM") >= 0) {
+      if (commandString.indexOf("COM") >= 0) {
         processCommand(commandString);
       } 
       else if (commandString.indexOf("CSS") >= 0)
@@ -327,7 +329,7 @@ bool processPelco() {
   {
     double pn = ((((unsigned char)pelco_input_buff[2]) << 8) + (unsigned char)pelco_input_buff[3]) / 65535.0 * 100;
     double sn = ((((unsigned char)pelco_input_buff[4]) << 8) + (unsigned char)pelco_input_buff[5]) / 65535.0 * 100;
-    gimbal.setKalmanZ(pn, sn);
+    // gimbal.setKalmanZ(pn, sn);
     reportDebug("Kalman filter set");
   } else if (pelco_input_buff[1] == 0x0C)  //ct set
   {

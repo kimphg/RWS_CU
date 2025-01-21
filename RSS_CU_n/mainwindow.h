@@ -289,11 +289,13 @@ private slots:
 //    void processMcuResponse();
 
     void requestSystemStat();
+    void on_pushButton_stab_clicked(bool checked);
+
 public:
     void setButtonStyle(QPushButton *button, const QString &image1Path, const QString &image2Path);
 
     void sendCommand(QString command);
-    void CheckStatusSocket(const QString& ipAddress, quint16 port, const QString& message);
+    void ControlSocket(const QString& ipAddress, quint16 port, const QString& message);
     void StartStatusRequest();
 //    void setupUdpListeners();
 private:

@@ -351,8 +351,8 @@ void CGimbalController::initGimbal()
   pinMode(PS2, OUTPUT);
   int period_pulse = 1000000;
   while (1){
-    if(period_pulse>1)period_pulse=period_pulse*59/60;
-  digitalWrite(PD1, HIGH);
+    if(period_pulse>95)period_pulse=period_pulse*9/10;
+  digitalWrite(PD1, LOW);
   // delay(20);
   digitalWrite(PS1, HIGH);
   delayMicroseconds(period_pulse);

@@ -225,7 +225,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 
-void MainWindow::CheckStatusSocket(const QString& ipAddress, quint16 port, const QString& message)
+void MainWindow::ControlSocket(const QString& ipAddress, quint16 port, const QString& message)
 {
     QUdpSocket udpSocket;
     QByteArray data = message.toUtf8();
@@ -2661,12 +2661,12 @@ void MainWindow::on_bt_system_diagnostic_clicked()
 }
 void MainWindow::requestSystemStat()
 {
-    CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,all");
+    ControlSocket(Actuator_ip, Actuator_port, "CSS,all");
 //        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,coil2");
 //        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act1");
 //        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act2");
 
-    CheckStatusSocket(Motion_ip, Motion_port, "CSS,all");
+    ControlSocket(Motion_ip, Motion_port, "CSS,all");
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,cmotor");
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro1");
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro2");
@@ -2675,8 +2675,9 @@ void MainWindow::requestSystemStat()
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,vlimit");
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,hlimit");
 
-    CheckStatusSocket(MCU_ip, MCU_port, "CSS,track");
-    CheckStatusSocket(MCU_ip, MCU_port, "CSS,cam");
+    ControlSocket(MCU_ip, MCU_port, "CSS,track");
+    ControlSocket(MCU_ip, MCU_port, "CSS,cam");
+
 }
 
 void MainWindow::StartStatusRequest()
@@ -2753,3 +2754,9 @@ void MainWindow::on_pushButton_autoRequestStatus_toggled(bool checked)
 //        // Xử lý dữ liệu nhận được từ MCU
 //    }
 //}
+
+void MainWindow::on_pushButton_stab_clicked(bool checked)
+{
+    if(checked)ControlSocket(Motion_ip, Motion_port, "COM,set,stab,1");
+    else ControlSocket(Motion_ip, Motion_port, "COM,set,stab,0");
+}
