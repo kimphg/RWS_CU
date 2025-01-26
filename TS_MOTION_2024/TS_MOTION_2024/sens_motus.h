@@ -8,7 +8,7 @@ float gyroV=0;
 float gyroH=0;
 float angleH=0;
 float angleV=0;
-    SensMotus::SensMotus()
+    SensMotus()
     {
 
     }

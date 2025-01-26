@@ -1666,7 +1666,7 @@
           <string notr="true">background-color: rgba(3,38,44,255);</string>
          </property>
          <property name="currentIndex">
-          <number>5</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="frame_video_stack_1">
           <layout class="QVBoxLayout" name="verticalLayout_27" stretch="5,1">
@@ -1843,23 +1843,10 @@
             <number>0</number>
            </property>
            <item>
-            <layout class="QGridLayout" name="gridLayout_12" columnstretch="2,1" columnminimumwidth="1,2">
+            <layout class="QGridLayout" name="gridLayout_12" columnstretch="2,0">
              <property name="horizontalSpacing">
               <number>9</number>
              </property>
-             <item row="0" column="0">
-              <widget class="video_window" name="video_stack_3">
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(83, 255, 178);</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="1">
               <widget class="QGroupBox" name="groupBox_2">
                <property name="font">
@@ -1875,7 +1862,7 @@
                <property name="title">
                 <string>Hiệu chỉnh bắn ban đầu</string>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_30" stretch="2,2,3">
+               <layout class="QVBoxLayout" name="verticalLayout_30" stretch="2,0,2">
                 <property name="leftMargin">
                  <number>3</number>
                 </property>
@@ -1932,6 +1919,49 @@
                  </widget>
                 </item>
                 <item>
+                 <widget class="QGroupBox" name="groupBox_19">
+                  <property name="font">
+                   <font>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="title">
+                   <string>Cấu hình mới</string>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_36">
+                   <item row="0" column="1">
+                    <widget class="QLabel" name="label_206">
+                     <property name="text">
+                      <string>0 mrad</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="label_207">
+                     <property name="text">
+                      <string>Hướng:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_208">
+                     <property name="text">
+                      <string>Tầm:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLabel" name="label_209">
+                     <property name="text">
+                      <string>0 mrad</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QGroupBox" name="groupBox_4">
                   <property name="font">
                    <font>
@@ -1943,17 +1973,10 @@
                    <string>Cấu hình mới</string>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_15">
-                   <item row="0" column="0">
-                    <widget class="QLabel" name="label_142">
-                     <property name="text">
-                      <string>Tầm:</string>
-                     </property>
-                    </widget>
-                   </item>
                    <item row="0" column="1">
-                    <widget class="QLabel" name="label_144">
+                    <widget class="QLineEdit" name="lineEdit_vopl">
                      <property name="text">
-                      <string>0 mrad</string>
+                      <string>0.5</string>
                      </property>
                     </widget>
                    </item>
@@ -1964,6 +1987,13 @@
                      </property>
                     </widget>
                    </item>
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="label_142">
+                     <property name="text">
+                      <string>VOPL:</string>
+                     </property>
+                    </widget>
+                   </item>
                    <item row="1" column="1">
                     <widget class="QLabel" name="label_145">
                      <property name="text">
@@ -1971,44 +2001,56 @@
                      </property>
                     </widget>
                    </item>
+                   <item row="2" column="0" colspan="2">
+                    <widget class="QPushButton" name="pushButton_pid_set">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(123, 154, 147);</string>
+                     </property>
+                     <property name="text">
+                      <string>Update</string>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </widget>
                 </item>
-                <item>
-                 <widget class="QWidget" name="widget_20" native="true">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(237, 255, 153);</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="video_window" name="video_stack_3">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(83, 255, 178);</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
               </widget>
              </item>
             </layout>
            </item>
            <item>
             <layout class="QGridLayout" name="gridLayout_13">
-             <item row="0" column="0">
-              <widget class="QPushButton" name="pushButton_elevation">
-               <property name="minimumSize">
-                <size>
-                 <width>100</width>
-                 <height>100</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">color: rgb(123, 154, 147);</string>
-               </property>
-               <property name="text">
-                <string>Tầm</string>
-               </property>
-              </widget>
-             </item>
              <item row="0" column="6">
               <widget class="QPushButton" name="pushButton_05_mrad_second">
                <property name="minimumSize">
@@ -2112,8 +2154,8 @@
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
-              <widget class="QPushButton" name="pushButton_azimuth">
+             <item row="0" column="0">
+              <widget class="QToolButton" name="toolButton_elevation">
                <property name="minimumSize">
                 <size>
                  <width>100</width>
@@ -2126,10 +2168,43 @@
                 </font>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: rgb(123, 154, 147);</string>
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>Tầm</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <property name="autoExclusive">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QToolButton" name="toolButton_azimuth">
+               <property name="minimumSize">
+                <size>
+                 <width>100</width>
+                 <height>100</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Hướng</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <property name="autoExclusive">
+                <bool>true</bool>
                </property>
               </widget>
              </item>

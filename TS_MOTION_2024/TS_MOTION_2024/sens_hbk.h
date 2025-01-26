@@ -1,4 +1,4 @@
-#include <cstdint>
+#include "Arduino.h"
 #ifndef sens_HBK_h
 #define sens_HBK_h
 #define MAX_HISTORY_SIZE 500
@@ -8,7 +8,6 @@ private:
     unsigned char lastdatabyte=0;
     unsigned char inputBuff[100];
     int inputID=0;
-    
     bool calibMode = false;
     int calibCount=0;
     float biasGyroX=0;
@@ -18,7 +17,8 @@ private:
     float gyroValueHistory[MAX_HISTORY_SIZE];
     int curHistoryindex=0;
 public:
-  int getfps(float period){
+    float rollAngle=0;
+    int getfps(float period){
     if((period<0.01))return 0;
     float fps = packetCounter/period;
     packetCounter=0;
@@ -98,7 +98,7 @@ public:
         else inputID=0;
         if ((inputID == 19)&&(msgLen==14)&&(inputBuff[2]==0x80))// packet len and type ok 
         {
-            unsigned int cs=fletcher_checksum(inputBuff,20);//calc checksum
+            unsigned int cs = fletcher_checksum(inputBuff,20);//calc checksum
             unsigned int packetcs = (inputBuff[18]<<8)|inputBuff[19];//compare checksum
             if (packetcs == cs)//checksum ok
             {
@@ -123,6 +123,20 @@ public:
                     }
                 }
                 gyroValue -= biasGyroX;
+
+            }
+        }
+        else if ((inputID == 21)&&(msgLen==0x10)&&(inputBuff[2]==0x82))
+        {
+            unsigned int cs = fletcher_checksum(inputBuff,22);//calc checksum
+            unsigned int packetcs = (inputBuff[20]<<8)|inputBuff[21];//compare checksum
+            if (packetcs == cs)//checksum ok
+            {
+              packetCounter++;
+                packetOK=true;
+                float vs = bytesToFloat(inputBuff[6], inputBuff[7], inputBuff[8], inputBuff[9]);
+                rollAngle = 57.2957795130*vs;
+                // Serial.println(rollAngle*100);
 
             }
         }

@@ -291,6 +291,20 @@ private slots:
     void requestSystemStat();
     void on_pushButton_stab_clicked(bool checked);
 
+    void on_pushButton_elevation_clicked();
+
+    void on_toolButton_azimuth_clicked();
+
+    void on_pushButton_minus_05_clicked();
+
+    void on_pushButton_minus_025_clicked();
+
+    void on_pushButton_025_mrad_second_clicked();
+
+    void on_pushButton_05_mrad_second_clicked();
+
+    void on_pushButton_pid_set_clicked();
+
 public:
     void setButtonStyle(QPushButton *button, const QString &image1Path, const QString &image2Path);
 
@@ -299,6 +313,7 @@ public:
     void StartStatusRequest();
 //    void setupUdpListeners();
 private:
+    int fineMoveMode=0;
     bool isEqualizeHis = false;
     bool nightMode = false;
     VideoThread *videoManager;
