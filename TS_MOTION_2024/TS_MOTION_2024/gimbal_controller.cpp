@@ -219,8 +219,8 @@ void CGimbalController::initGimbal()
   // Serial2.setRX(25);
   // Serial2.setTX(24);
       
-    imu.IMU_init();
-    imu.resetYaw(0);
+    sens1.IMU_init();
+    sens1.resetYaw(0);
   isSetupChanged = true;
   maxAccH = 0.1;
   maxAccV = 0.1;
@@ -421,8 +421,8 @@ void CGimbalController::UserUpdate()//
     // h_control = 0 - sens3.gyroValue * param_h_p + (h_user_speed + sens1.gyroH* param_h_d) ;
     // h_control*=1.5;
     userAzi += h_user_speed * CONTROL_TIME_STAMP / 12.0;
-    // double h_control_i = (userAzi + sens1.angleH /3.0) * param_h_i* 60 ;
-    outputSpeedH(h_control + h_control_i );
+    double h_control_i = 0;// (userAzi + sens1.angleH /3.0) * param_h_i* 60 ;
+    outputSpeedH(h_control + h_control_i);
     //v control calculation    22
     //  Serial.print(' ');
     //  Serial.print(stim_data.z_rate);

@@ -98,13 +98,11 @@ bool IMU_driver::updateData(uint8_t bytein) {
     if (buffIndex >= BUF_SIZE_IMU) buffIndex = 0;
 
 
-     Serial.print(bytein,HEX);
-     return false;
+    //  Serial.print(bytein,HEX);
+    //  return false;
     if (bytein == 0xFF)
       if (lastbyte == 0xFA) {
-        Serial.println("gyro update ");
-        Serial.flush();
-        return false;
+
         if (buffIndex > 17) {
           byte mid = databuf[1];
           if (mid == 0x36) {
@@ -115,18 +113,19 @@ bool IMU_driver::updateData(uint8_t bytein) {
             // Serial.print(" ");
             // Serial.println(cs_received);
             if (cs == cs_received) {
-              // Serial.print("ok");
+              // Serial.print("cs ok ");
               int iti = 3;
               while (iti < dataLen) {
 
                 int xdi = (databuf[iti] << 8) | databuf[iti + 1];
-                
+                // Serial.print(xdi);
                 unsigned char leni = databuf[iti + 2];
                 if (xdi == 8240) {  //MTDATA2 data ID of euler angles
-                Serial.println("Euler angle packet");
+                
                   roll = bytesToFloat(databuf[iti + 3], databuf[iti + 4], databuf[iti + 5], databuf[iti + 6]);
                   pitch = bytesToFloat(databuf[iti + 7], databuf[iti + 8], databuf[iti + 9], databuf[iti + 10]);
-                  yaw = -bytesToFloat(databuf[iti + 11], databuf[iti + 12], databuf[iti + 13], databuf[iti + 17]);
+                  yaw = bytesToFloat(databuf[iti + 11], databuf[iti + 12], databuf[iti + 13], databuf[iti + 17]);
+                  // Serial.println(roll);
                   // if (yawCalcMode == 0) {  //steady mode
                   //   yawShift = measurement.gyroyaw - measurement.yaw;
                   //   while (yawShift > 180.0) yawShift -= 360.0;
@@ -142,6 +141,7 @@ bool IMU_driver::updateData(uint8_t bytein) {
                   gyroX = bytesToFloat(databuf[iti + 3], databuf[iti + 4], databuf[iti + 5], databuf[iti + 6]);
                   gyroY = bytesToFloat(databuf[iti + 7], databuf[iti + 8], databuf[iti + 9], databuf[iti + 10]);
                   float newGyroZ = -bytesToFloat(databuf[iti + 11], databuf[iti + 12], databuf[iti + 13], databuf[iti + 17]);
+                  Serial.println(gyroX*100);
                   // if (abs(newGyroZ) < 0.1) {
                   //   if (yawCalcMode > 0)
                   //     yawCalcMode--;
@@ -169,7 +169,7 @@ bool IMU_driver::updateData(uint8_t bytein) {
 
                     // while (measurement.gyroyaw > 180.0) measurement.gyroyaw -= 360.0;
                     // while (measurement.gyroyaw < -180) measurement.gyroyaw += 360.0;
-                  }
+                  // }
                   // measurement.gyroZold = measurement.gyroZ;
                   // Serial.print(measurement.gyroZ);
                   // Serial.print(" ");
