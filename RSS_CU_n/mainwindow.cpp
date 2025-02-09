@@ -225,7 +225,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 
-void MainWindow::CheckStatusSocket(const QString& ipAddress, quint16 port, const QString& message)
+void MainWindow::ControlSocket(const QString& ipAddress, quint16 port, const QString& message)
 {
     QUdpSocket udpSocket;
     QByteArray data = message.toUtf8();
@@ -298,32 +298,32 @@ void MainWindow::Setup_button_stype()
                 "}"
                 );
     //------
-    ui->pushButton_elevation->setStyleSheet(
-                "QPushButton { "
-                "    color: rgb(123, 154, 147);"
-                "    border: 2px solid rgb(123, 154, 147);"
-                "}"
-                "QPushButton:hover { "
-                "    border: 1px solid rgb(0, 245, 210);"
-                "}"
-                "QPushButton:pressed { "
-                "    color: rgb(0, 245, 210);"
-                "    border: 2px solid rgb(0, 245, 210);"
-                "}"
-                );
-    ui->pushButton_azimuth->setStyleSheet(
-                "QPushButton { "
-                "    color: rgb(123, 154, 147);"
-                "    border: 2px solid rgb(123, 154, 147);"
-                "}"
-                "QPushButton:hover { "
-                "    border: 1px solid rgb(0, 245, 210);"
-                "}"
-                "QPushButton:pressed { "
-                "    color: rgb(0, 245, 210);"
-                "    border: 2px solid rgb(0, 245, 210);"
-                "}"
-                );
+//    ui->pushButton_elevation->setStyleSheet(
+//                "QPushButton { "
+//                "    color: rgb(123, 154, 147);"
+//                "    border: 2px solid rgb(123, 154, 147);"
+//                "}"
+//                "QPushButton:hover { "
+//                "    border: 1px solid rgb(0, 245, 210);"
+//                "}"
+//                "QPushButton:pressed { "
+//                "    color: rgb(0, 245, 210);"
+//                "    border: 2px solid rgb(0, 245, 210);"
+//                "}"
+//                );
+//    ui->pushButton_azimuth->setStyleSheet(
+//                "QPushButton { "
+//                "    color: rgb(123, 154, 147);"
+//                "    border: 2px solid rgb(123, 154, 147);"
+//                "}"
+//                "QPushButton:hover { "
+//                "    border: 1px solid rgb(0, 245, 210);"
+//                "}"
+//                "QPushButton:pressed { "
+//                "    color: rgb(0, 245, 210);"
+//                "    border: 2px solid rgb(0, 245, 210);"
+//                "}"
+//                );
     ui->pushButton_minus_05->setStyleSheet(
                 "QPushButton { "
                 "    color: rgb(123, 154, 147);"
@@ -823,6 +823,16 @@ void MainWindow::processKeyBoardEvent(int key)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_V)
+    {
+        //        QString program = "python3";
+        //        QStringList arguments;
+        //        arguments << "C:/Users/HuynhPhanNgocKhang/Documents/GitHub/RWS_CU/RSS_CU_n/dialogconfig_ui.py";  //đường dẫn tới file Python
+        //        pythonProcess->start(program, arguments);
+
+        m_Control_Center_Dialog = new Control_Center_Dialog(this);
+        m_Control_Center_Dialog->show();
+    }
+    if (event->key() == Qt::Key_Up)
     {
         //        QString program = "python3";
         //        QStringList arguments;
@@ -2661,12 +2671,12 @@ void MainWindow::on_bt_system_diagnostic_clicked()
 }
 void MainWindow::requestSystemStat()
 {
-    CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,all");
+    ControlSocket(Actuator_ip, Actuator_port, "CSS,all");
 //        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,coil2");
 //        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act1");
 //        CheckStatusSocket(Actuator_ip, Actuator_port, "CSS,act2");
 
-    CheckStatusSocket(Motion_ip, Motion_port, "CSS,all");
+    ControlSocket(Motion_ip, Motion_port, "CSS,all");
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,cmotor");
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro1");
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,gyro2");
@@ -2675,8 +2685,9 @@ void MainWindow::requestSystemStat()
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,vlimit");
 //        CheckStatusSocket(Motion_ip, Motion_port, "CSS,hlimit");
 
-    CheckStatusSocket(MCU_ip, MCU_port, "CSS,track");
-    CheckStatusSocket(MCU_ip, MCU_port, "CSS,cam");
+    ControlSocket(MCU_ip, MCU_port, "CSS,track");
+    ControlSocket(MCU_ip, MCU_port, "CSS,cam");
+
 }
 
 void MainWindow::StartStatusRequest()
@@ -2684,7 +2695,7 @@ void MainWindow::StartStatusRequest()
     RequestStatusTimer = new QTimer(this);
 
     connect(RequestStatusTimer, SIGNAL(timeout()), this, SLOT(requestSystemStat()));
-    RequestStatusTimer->start(2000);  // Start the timer with the specified interval
+    RequestStatusTimer->start(1000);  // Start the timer with the specified interval
 }
 
 void MainWindow::on_pushButton_autoRequestStatus_clicked() {
@@ -2753,3 +2764,44 @@ void MainWindow::on_pushButton_autoRequestStatus_toggled(bool checked)
 //        // Xử lý dữ liệu nhận được từ MCU
 //    }
 //}
+
+void MainWindow::on_pushButton_stab_clicked(bool checked)
+{
+    if(checked)ControlSocket(Motion_ip, Motion_port, "COM,set,stab,1");
+    else ControlSocket(Motion_ip, Motion_port, "COM,set,stab,0");
+}
+
+void MainWindow::on_pushButton_elevation_clicked()
+{
+    fineMoveMode=2;
+}
+
+void MainWindow::on_toolButton_azimuth_clicked()
+{
+    fineMoveMode=1;
+}
+
+void MainWindow::on_pushButton_minus_05_clicked()
+{
+    ControlSocket(Motion_ip, Motion_port, "COM,set,elev,-0.5");
+}
+
+void MainWindow::on_pushButton_minus_025_clicked()
+{
+    ControlSocket(Motion_ip, Motion_port, "COM,set,elev,-0.25");
+}
+
+void MainWindow::on_pushButton_025_mrad_second_clicked()
+{
+    ControlSocket(Motion_ip, Motion_port, "COM,set,elev,0.25");
+}
+
+void MainWindow::on_pushButton_05_mrad_second_clicked()
+{
+    ControlSocket(Motion_ip, Motion_port, "COM,set,elev,0.5");
+}
+
+void MainWindow::on_pushButton_pid_set_clicked()
+{
+    ControlSocket(Motion_ip, Motion_port, "COM,set,vopl,"+ui->lineEdit_vopl->text());
+}

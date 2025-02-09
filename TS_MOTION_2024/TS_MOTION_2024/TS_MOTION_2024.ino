@@ -1,17 +1,24 @@
 #include "common.h"
 #include "gimbal_controller.h"
 
-extern CGimbalController gimbal;
 //IntervalTimer  reportTimer;
 // int s1_count = 0;
 // int s2_count = 0;
 // int s3_count = 0;
-extern int com_mode;
+// extern int com_mode;
 int msg_count = 0;
 int generalState = 1;
 int buzz = 0;
 int idleCount = 0;
 
+void callbackMotorUpdate();
+void callbackUserUpdate();
+void callbackSensorUpdate();
+
+ IntervalTimer controlTimer;
+IntervalTimer motorTimer;
+
+IntervalTimer sensorTimer;
 void stateReport() {
   // gimbal.reportStat(idleCount / 1000);
   if (idleCount < 1000000)
@@ -49,22 +56,39 @@ unsigned int localPort = 4001;
 #define UDP_TX_PACKET_MAX_SIZE 100
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE + 1];  // buffer to hold incoming packet,
 
+// extern IPAddress ip(192, 168, 0, 7);
+// extern IPAddress ipRemote1(192, 168, 0, 77);
+// extern IPAddress ipRemote2(192, 168, 0, 192);
 
 
-
+CGimbalController gimbal;
+byte s6buff[5000];
 void setup() {
-  com_mode = 3;
+  // com_mode = 3;
 
   //    digitalWrite(20,HIGH);
   //    tone(20,2000,500);
+  
+  S_STIM.begin(921600);
+  Serial.begin(460800);
+  S_MT_H.begin(460800);
+  S_MT_V.begin(460800);
+  delay(200);
+  motorTimer.begin(callbackMotorUpdate, 1000000.0 / MOTOR_PULSE_CLOCK);
+  controlTimer.begin(callbackUserUpdate, 1000000.0 * CONTROL_TIME_STAMP);
+ 
+  sensorTimer.begin(callbackSensorUpdate, 300);
   buzz = 100;
   gimbal.initGimbal();
-  S_STIM.begin(460800);
-  Serial.begin(115200);
-  S_MT_H.begin(921600);
-  S_MT_V.begin(921600);
-  delay(200);
-  Serial.print("Controller start up");
+  // S_STIM.begin(921600);
+
+  Serial.println("Controller start up");
+   Serial.print("Motor timer:");
+  Serial.println(1000000.0 / MOTOR_PULSE_CLOCK);
+  
+  
+  Serial.print("Control timer:");
+  Serial.println(1000000.0 * CONTROL_TIME_STAMP);
   //0xFA 0xFF 0x18 0x01 BR CS
   //S_MT.write(0xFA);//FF1000F1
   // S_MT.write(0xFF);
@@ -73,17 +97,17 @@ void setup() {
   // S_MT.write(0xF1);
 
 
-  S_MT_H.write(0xFA);  //FF1000F1
-  S_MT_H.write(0xFF);
-  S_MT_H.write(0x10);
-  S_MT_H.write(0x00);
-  S_MT_H.write(0xF1);
+  // S_MT_H.write(0xFA);  //FF1000F1
+  // S_MT_H.write(0xFF);
+  // S_MT_H.write(0x10);
+  // S_MT_H.write(0x00);
+  // S_MT_H.write(0xF1);
 
-  S_MT_V.write(0xFA);  //FF1000F1
-  S_MT_V.write(0xFF);
-  S_MT_V.write(0x10);
-  S_MT_V.write(0x00);
-  S_MT_V.write(0xF1);
+  // S_MT_V.write(0xFA);  //FF1000F1
+  // S_MT_V.write(0xFF);
+  // S_MT_V.write(0x10);
+  // S_MT_V.write(0x00);
+  // S_MT_V.write(0xF1);
   // delay(20);
   // S_MT.write(0xFA);//FF1000F1
   // S_MT.write(0xFF);
@@ -93,24 +117,26 @@ void setup() {
   //    S_CONTROL.begin(38400);
   //	E_CONTROL.begin(19200);
   pinMode(13, OUTPUT);
-  reportDebug("Controller start up");
-  Serial.print("stim test msg");
-
   pinMode(20, OUTPUT);
 
-  Ethernet.begin(mac, ip);  //eth
-  if (Ethernet.hardwareStatus() == EthernetNoHardware) {
-    Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");
-    //    while (true) {
-    //      delay(1); // do nothing, no point running without Ethernet hardware
-    //    }
-  }
-  if (Ethernet.linkStatus() == LinkOFF) {
-    Serial.println("Ethernet cable is not connected.");
-  }
+  Serial.println("stim test msg");
 
-  // start UDP
-  udpsocket.begin(4001);
+  initEthernet();
+  Serial.println("Setup done");
+  
+}
+
+void callbackMotorUpdate()
+{
+  gimbal.motorUpdate();
+}
+void callbackUserUpdate()
+{
+  gimbal.UserUpdate();
+}
+void callbackSensorUpdate()
+{
+  gimbal.readSensorData();
 }
 int time_stamp_old;
 int times = 0;
@@ -126,7 +152,31 @@ void loop() {
   }
 
   idleCount++;
-  readSerialdata();
+  if((idleCount%10)==0)//reduce UDP checking frequency
+  {
+    int packetlen = UDPAvailable();
+    if(packetlen)
+    {
+        readUDP(packetBuffer,packetlen);
+        digitalWrite(13, HIGH);
+        
+        packetBuffer[packetlen] = 0;
+        String commandString(packetBuffer);
+        if (commandString.indexOf("COM") >= 0) {
+          processCommand(commandString);
+        } 
+        else if (commandString.indexOf("CSS") >= 0)
+        {
+          processMessage(commandString);
+          
+        }else {
+          // for (int i = 0; i < packetSize; i++) {
+          //   readPelco(packetBuffer[i]);
+          // }
+        }
+          
+    }
+  }
 }
 void processCommand(String command) {
   // Serial.print(command);
@@ -149,7 +199,8 @@ void processCommand(String command) {
     }
 
     else {
-      Serial.print("unknown packet");
+      Serial.print("unknown packet:");
+      Serial.println(command);
     }
     // Serial.print("set param packet");
   }
@@ -167,64 +218,20 @@ void processMessage(String msg) {
       String msg = gimbal.reportStat();
       sendUDP(msg);
     }
-    if ((tokens[1].equals("param")) && (tokens.size() == 2)) 
+    else if ((tokens[1].equals("param")) && (tokens.size() == 2)) 
     {
       // Serial.println(msg);
       // String msg = gimbal.reportParam();
       // sendUDP(msg);
     }
     else {
-      Serial.print("unknown packet");
+      Serial.print("unknown Msg:");
+      Serial.println(tokens[1]);
     }
     // Serial.print("set param packet");
   }
 }
-int freqreduce = 0;
-void readSerialdata() {
 
-  freqreduce++;
-  if (freqreduce > 5) {
-    freqreduce = 0;
-
-    int packetSize = udpsocket.parsePacket();
-    if (packetSize >= UDP_TX_PACKET_MAX_SIZE) packetSize = UDP_TX_PACKET_MAX_SIZE;
-    if (packetSize) {
-      // Serial.println("udp");
-      digitalWrite(13, HIGH);
-      udpsocket.read(packetBuffer, packetSize);
-      packetBuffer[packetSize] = 0;
-      String commandString(packetBuffer);
-      if (commandString.indexOf("$COM") >= 0) {
-        processCommand(commandString);
-      } 
-      else if (commandString.indexOf("CSS") >= 0)
-      {
-        processMessage(commandString);
-        
-      }else {
-        for (int i = 0; i < packetSize; i++) {
-          readPelco(packetBuffer[i]);
-        }
-      }
-    }
-    // if (EthReplyLen > 0) {
-    //   if (EthReplyLen > 100) EthReplyLen = 100;
-
-    //   udpsocket.beginPacket(ipRemote1, 4000);
-    //   udpsocket.write(EthReply, EthReplyLen);
-    //   udpsocket.endPacket();
-    //   udpsocket.beginPacket(ipRemote2, 4000);
-    //   udpsocket.write(EthReply, EthReplyLen);
-    //   udpsocket.endPacket();
-    //   EthReplyLen = 0;
-    // }
-  }
-
-
-
-  //  Serial.println("loop");
-  //    Serial1.println("loop");
-}
 
 int pelco_byte_count = 0;
 struct PelcoData {
@@ -327,7 +334,7 @@ bool processPelco() {
   {
     double pn = ((((unsigned char)pelco_input_buff[2]) << 8) + (unsigned char)pelco_input_buff[3]) / 65535.0 * 100;
     double sn = ((((unsigned char)pelco_input_buff[4]) << 8) + (unsigned char)pelco_input_buff[5]) / 65535.0 * 100;
-    gimbal.setKalmanZ(pn, sn);
+    // gimbal.setKalmanZ(pn, sn);
     reportDebug("Kalman filter set");
   } else if (pelco_input_buff[1] == 0x0C)  //ct set
   {
